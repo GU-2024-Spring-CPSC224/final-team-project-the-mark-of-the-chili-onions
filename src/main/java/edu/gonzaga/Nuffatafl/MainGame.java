@@ -10,7 +10,7 @@
  * 
  * Copyright: 2023
  */
-package edu.gonzaga;
+package edu.gonzaga.Nuffatafl;
 
 
 /** Main program class for launching your team's program. */
@@ -20,5 +20,9 @@ public class MainGame {
 
 
         // Your code here. Good luck!
+        Board board = new Board();
+        board.setupTablutBoard();
+
+        System.out.println(board);
     }
 }

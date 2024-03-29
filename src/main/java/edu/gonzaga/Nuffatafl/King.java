@@ -1,4 +1,4 @@
-package edu.gonzaga;
+package edu.gonzaga.Nuffatafl;
 
 public class King extends Piece {
     King() {

@@ -1,4 +1,4 @@
-package edu.gonzaga;
+package edu.gonzaga.Nuffatafl;
 
 public class Soldier extends Piece {
     Soldier(Team team) {

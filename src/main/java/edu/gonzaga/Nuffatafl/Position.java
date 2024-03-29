@@ -1,6 +1,4 @@
-package edu.gonzaga;
-
-import java.util.Objects;
+package edu.gonzaga.Nuffatafl;
 
 /**
  * @author Cash Hilstad

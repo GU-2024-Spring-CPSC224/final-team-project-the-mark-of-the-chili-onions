@@ -1,4 +1,4 @@
-package edu.gonzaga;
+package edu.gonzaga.Nuffatafl;
 
 public abstract class Piece {
     public enum Team {ATTACKER, DEFENDER, NONE}

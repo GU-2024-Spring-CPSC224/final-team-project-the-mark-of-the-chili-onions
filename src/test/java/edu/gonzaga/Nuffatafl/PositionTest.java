@@ -1,7 +1,6 @@
-package edu.gonzaga;
+package edu.gonzaga.Nuffatafl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import edu.gonzaga.Nuffatafl.Position;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
