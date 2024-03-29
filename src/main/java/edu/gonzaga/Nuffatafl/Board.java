@@ -17,6 +17,9 @@ public class Board {
         setupTablutBoard();
     }
 
+    /**
+     * Fills the board with NonePieces.
+     */
     private void fillWithEmpty() {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
@@ -26,6 +29,9 @@ public class Board {
         }
     }
 
+    /**
+     * Fills the board with a Tablut layout. Requires a board of size 9+.
+     */
     public void setupTablutBoard() {
         int[][] template = {
                 {0, 0, 0, 1, 1, 1, 0, 0, 0},
@@ -77,7 +83,7 @@ public class Board {
      * @param piece The piece to add.
      */
     public void setPiece(Position pos, Piece piece) {
-        tiles[pos.getX()][pos.getY()] = piece;
+        tiles[pos.getY()][pos.getX()] = piece;
     }
 
     /**
@@ -99,7 +105,23 @@ public class Board {
      * @return The piece at the position.
      */
     public Piece getPieceAtPosition(Position pos) {
-        return tiles[pos.getX()][pos.getY()];
+        return tiles[pos.getY()][pos.getX()];
+    }
+
+    /**
+     * Moves a piece from to if possible. Returns false if not possible.
+     * @param from The position to move from.
+     * @param to The position to move to.
+     * @param team The team of the attempted move.
+     * @return True on success, false on failure.
+     */
+    public boolean movePiece(Position from, Position to, Piece.Team team) {
+        if (canMoveWithTeam(from, to, team)) {
+            swapPieces(from, to);
+            return true;
+        }
+
+        return false;
     }
 
     /**

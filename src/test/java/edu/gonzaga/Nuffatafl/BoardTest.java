@@ -49,12 +49,46 @@ public class BoardTest {
     }
 
     @Test
+    void canMovePieceFromEdgeY() {
+        Board board = new Board(9);
+        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+
+        Position from = new Position(0, 8);
+        Position to = new Position(0, 0);
+
+        board.setPiece(from, soldier);
+
+        boolean expected = true;
+
+        boolean actual = board.canMove(from, to);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
     void canMovePieceToEdgeX() {
         Board board = new Board(9);
         Soldier soldier = new Soldier(Piece.Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(8, 0);
+
+        board.setPiece(from, soldier);
+
+        boolean expected = true;
+
+        boolean actual = board.canMove(from, to);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void canMovePieceFromEdgeX() {
+        Board board = new Board(9);
+        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+
+        Position from = new Position(8, 0);
+        Position to = new Position(0, 0);
 
         board.setPiece(from, soldier);
 
