@@ -37,7 +37,7 @@ public class PositionTest {
         Position a = new Position(1,1);
         Position b = new Position();
 
-        b.copy(a);
+        b.setEqualTo(a);
 
         Assertions.assertEquals(a, b);
     }

@@ -3,7 +3,9 @@ package edu.gonzaga.Nuffatafl;
 public class Board {
     private Piece[][] tiles;
 
-    private int SIZE;
+    private final int SIZE;
+
+    static final int DEFAULT_SIZE = 9;
 
     Board(int size) {
         tiles = new Piece[size][size];
@@ -13,7 +15,7 @@ public class Board {
     }
 
     Board() {
-        this(9);
+        this(DEFAULT_SIZE);
         setupTablutBoard();
     }
 
@@ -177,6 +179,7 @@ public class Board {
 
         for (int x = from + 1; x <= to; x++) {
             Piece pieceAtCoord = getPieceAtPosition(new Position(x, y));
+
             if (!pieceAtCoord.isEmpty()) {
                 return false;
             }
@@ -201,6 +204,7 @@ public class Board {
 
         for (int y = from + 1; y <= to; y++) {
             Piece pieceAtCoord = getPieceAtPosition(new Position(x, y));
+
             if (!pieceAtCoord.isEmpty()) {
                 return false;
             }

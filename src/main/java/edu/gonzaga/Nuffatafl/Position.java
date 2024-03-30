@@ -50,7 +50,7 @@ public class Position {
      * Copies the value of another Position.
      * @param pos The Position to copy from.
      */
-    public void copy(Position pos) {
+    public void setEqualTo(Position pos) {
         setX(pos.getX());
         setY(pos.getY());
     }
