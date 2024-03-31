@@ -7,8 +7,7 @@
  * @author Mark Reggiardo
  * @version v0.1.0 03/28/2024
  */
-
-package edu.gonzaga;
+package edu.gonzaga.Nuffatafl;
 
 import edu.gonzaga.viewNavigation.ViewController;
 

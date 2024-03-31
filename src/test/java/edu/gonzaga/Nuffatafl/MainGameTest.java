@@ -1,4 +1,4 @@
-package edu.gonzaga;
+package edu.gonzaga.Nuffatafl;
 
 import static org.junit.jupiter.api.Assertions.*;
 
