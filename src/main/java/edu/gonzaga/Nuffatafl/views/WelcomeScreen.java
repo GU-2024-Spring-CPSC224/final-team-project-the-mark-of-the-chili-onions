@@ -13,28 +13,54 @@ package edu.gonzaga.Nuffatafl.views;
 import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import java.awt.*;
 
 /** JPanel that contains the UI for the Welcome screen */
 public class WelcomeScreen extends JPanel {
     public WelcomeScreen() {
-        super();
+        super(new BorderLayout());
 
-        BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(layout);
 
-        JLabel label = new JLabel("Welcome Screen");
-        this.add(label);
+        this.add(topPanel(), BorderLayout.PAGE_START);
+        this.add(middlePanel(), BorderLayout.CENTER);
+    }
 
-        JButton showGameplayScreenButton = new JButton("Show Gameplay Screen");
-        showGameplayScreenButton.addActionListener(ScreenChange.toGameplayScreen);
-        this.add(showGameplayScreenButton);
+    private JPanel topPanel() {
+        JPanel topPanel = new JPanel(new FlowLayout());
+        topPanel.add(Box.createHorizontalGlue());
 
         JButton showRulesScreenButton = new JButton("Show Rules Screen");
         showRulesScreenButton.addActionListener(ScreenChange.toRulesScreen);
-        this.add(showRulesScreenButton);
+        topPanel.add(showRulesScreenButton);
 
         JButton showSettingsScreenButton = new JButton("Show Settings Screen");
         showSettingsScreenButton.addActionListener(ScreenChange.toSettingsScreen);
-        this.add(showSettingsScreenButton);
+        topPanel.add(showSettingsScreenButton);
+
+        return topPanel;
+    }
+
+    private JPanel middlePanel() {
+        JPanel middlePanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+
+        JLabel label = new JLabel("Welcome Screen");
+        middlePanel.add(label, gbc);
+
+        gbc.gridy++;
+        JButton showGameplayScreenButton = new JButton("Start Game (Show Gameplay screen)");
+        showGameplayScreenButton.addActionListener(ScreenChange.toGameplayScreen);
+        middlePanel.add(showGameplayScreenButton, gbc);
+
+
+
+        middlePanel.setBackground(Color.blue);
+
+        return middlePanel;
     }
 }
