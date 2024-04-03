@@ -1,4 +1,4 @@
-package edu.gonzaga.Nuffatafl;
+package edu.gonzaga.Nuffatafl.backend;
 
 public class NonePiece extends Piece {
     NonePiece() {
@@ -7,7 +7,7 @@ public class NonePiece extends Piece {
     }
 
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return true;
     }
 

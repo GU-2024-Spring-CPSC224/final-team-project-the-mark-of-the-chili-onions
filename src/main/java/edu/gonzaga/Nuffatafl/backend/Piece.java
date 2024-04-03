@@ -1,4 +1,4 @@
-package edu.gonzaga.Nuffatafl;
+package edu.gonzaga.Nuffatafl.backend;
 
 public abstract class Piece {
     public enum Team {ATTACKER, DEFENDER, NONE}
@@ -17,5 +17,5 @@ public abstract class Piece {
         return team;
     }
 
-    abstract boolean isEmpty();
+    public abstract boolean isEmpty();
 }

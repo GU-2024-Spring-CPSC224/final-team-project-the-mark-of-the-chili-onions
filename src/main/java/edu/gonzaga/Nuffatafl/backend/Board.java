@@ -1,4 +1,4 @@
-package edu.gonzaga.Nuffatafl;
+package edu.gonzaga.Nuffatafl.backend;
 
 public class Board {
     private Piece[][] tiles;
@@ -7,14 +7,14 @@ public class Board {
 
     static final int DEFAULT_SIZE = 9;
 
-    Board(int size) {
+    public Board(int size) {
         tiles = new Piece[size][size];
         SIZE = size;
 
         fillWithEmpty();
     }
 
-    Board() {
+    public Board() {
         this(DEFAULT_SIZE);
         setupTablutBoard();
     }

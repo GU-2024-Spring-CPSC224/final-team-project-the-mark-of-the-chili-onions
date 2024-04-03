@@ -8,7 +8,7 @@
  * @version v0.1.0 03/28/2024
  */
 
-package edu.gonzaga.viewNavigation;
+package edu.gonzaga.Nuffatafl.viewNavigation;
 
 /** Each UIActionType corresponds to a screen that should be displayed next */
 public enum UIActionType {

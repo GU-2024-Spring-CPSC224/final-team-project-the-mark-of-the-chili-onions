@@ -9,7 +9,7 @@
  */
 package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.viewNavigation.ViewController;
+import edu.gonzaga.Nuffatafl.viewNavigation.ViewController;
 
 /** Class that contains the main entry point for program */
 public class MainGame {
