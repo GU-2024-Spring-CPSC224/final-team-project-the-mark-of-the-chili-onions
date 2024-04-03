@@ -24,3 +24,6 @@ hs_err_pid*
 
 # Ignore maven java build output directory - it shouldn't be in the repo
 target/
+
+# Ignore intellij files
+.idea/
