@@ -8,9 +8,9 @@
  * @version v0.1.0 03/28/2024
  */
 
-package edu.gonzaga.views;
+package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.viewNavigation.ScreenChange;
+import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
 
 import javax.swing.*;
 

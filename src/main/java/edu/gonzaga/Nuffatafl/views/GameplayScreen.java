@@ -8,26 +8,26 @@
  * @version v0.1.0 03/28/2024
  */
 
-package edu.gonzaga.views;
+package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.viewNavigation.ScreenChange;
+import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
 
 import javax.swing.*;
 
-/** JPanel that contains the UI for the after game screen */
-public class AfterGameScreen extends JPanel {
-    public AfterGameScreen() {
+/** JPanel that contains the UI for the Gameplay screen */
+public class GameplayScreen extends JPanel {
+    public GameplayScreen() {
         super();
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
 
-        JLabel label = new JLabel("After Game Screen");
+        JLabel label = new JLabel("Gameplay Screen");
         this.add(label);
 
-        JButton showGameplayScreenButton = new JButton("Show Welcome Screen");
-        showGameplayScreenButton.addActionListener(ScreenChange.toWelcomeScreen);
-        this.add(showGameplayScreenButton);
+        JButton showWelcomeScreenButton = new JButton("Show After Game Screen");
+        showWelcomeScreenButton.addActionListener(ScreenChange.toAfterGameScreen);
+        this.add(showWelcomeScreenButton);
 
         JButton showRulesScreenButton = new JButton("Show Rules Screen");
         showRulesScreenButton.addActionListener(ScreenChange.toRulesScreen);

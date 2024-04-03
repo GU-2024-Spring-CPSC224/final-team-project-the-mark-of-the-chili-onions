@@ -1,13 +1,13 @@
-package edu.gonzaga.Nuffatafl;
+package edu.gonzaga.Nuffatafl.backend;
 
 public class Soldier extends Piece {
-    Soldier(Team team) {
+    public Soldier(Team team) {
         this.team = team;
         type = Type.SOLDIER;
     }
 
     @Override
-    boolean isEmpty() {
+    public boolean isEmpty() {
         return false;
     }
 
