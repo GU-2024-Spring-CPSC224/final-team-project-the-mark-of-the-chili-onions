@@ -30,7 +30,7 @@
                             <manifest>
                                 <addClasspath>true</addClasspath>
                                 <classpathPrefix>lib/</classpathPrefix>
-                                <mainClass>edu.gonzaga.MainGame</mainClass>
+                                <mainClass>edu.gonzaga.Nuffatafl.MainGame</mainClass>
                             </manifest>
                         </archive>
                     </configuration>
