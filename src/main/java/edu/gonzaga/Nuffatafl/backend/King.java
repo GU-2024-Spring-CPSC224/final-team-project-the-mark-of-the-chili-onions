@@ -1,7 +1,7 @@
 package edu.gonzaga.Nuffatafl.backend;
 
 public class King extends Piece {
-    King() {
+    public King() {
         team = Team.DEFENDER;
         type = Type.KING;
     }

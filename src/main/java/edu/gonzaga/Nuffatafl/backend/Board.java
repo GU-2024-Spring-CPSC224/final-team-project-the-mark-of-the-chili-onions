@@ -80,6 +80,15 @@ public class Board {
     }
 
     /**
+     * Checks if a position exists on the board.
+     * @param pos The position to check.
+     * @return True if the position exists.
+     */
+    public boolean isOnBoard(Position pos) {
+        return ((pos.getX() < SIZE) && (pos.getX() >= 0)) && ((pos.getY() < SIZE) && (pos.getY() >= 0));
+    }
+
+    /**
      * Add a piece to the board at a given position.
      * @param pos The position to add it to.
      * @param piece The piece to add.
@@ -120,6 +129,7 @@ public class Board {
     public boolean movePiece(Position from, Position to, Piece.Team team) {
         if (canMoveWithTeam(from, to, team)) {
             swapPieces(from, to);
+            handleCapture(to);
             return true;
         }
 
@@ -211,6 +221,65 @@ public class Board {
         }
 
         return true;
+    }
+
+    /**
+     * Checks to see if pieces should be captured, and if so, captures them.
+     * @param pos The position a piece has been moved to.
+     */
+    private void handleCapture(Position pos) {
+        /*
+        This will be yucky, but I feel that there's no true loop method for this.
+        Basic Plan:
+            Check if it's even a valid spot
+            If it is, check to see if there's an allied piece.
+            If there is, check to see if there's an opposing piece between.
+            If yes, delete.
+         */
+
+        if (!isOnBoard(pos)) {
+            return;
+        }
+
+        Piece self = getPieceAtPosition(pos);
+
+        //Up direction
+        if (isOnBoard(pos.add(new Position(0, 2)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(0, 2)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(0, 1)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(0, 1)), new NonePiece());
+            }
+        }
+
+        //Down direction
+        if (isOnBoard(pos.add(new Position(0, -2)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(0, -2)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(0, -1)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(0, -1)), new NonePiece());
+            }
+        }
+
+        //Right direction
+        if (isOnBoard(pos.add(new Position(2, 0)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(2, 0)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(1, 0)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(1, 0)), new NonePiece());
+            }
+        }
+
+        //Left direction
+        if (isOnBoard(pos.add(new Position(-2, 0)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(-2, 0)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(-1, 0)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(-1, 0)), new NonePiece());
+            }
+        }
+
+
     }
 
     @Override

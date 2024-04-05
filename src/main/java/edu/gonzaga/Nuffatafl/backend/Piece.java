@@ -13,6 +13,14 @@ public abstract class Piece {
         return type;
     }
 
+    public boolean sameTeam(Team team) {
+        if (team == Team.NONE) {
+            return false;
+        }
+
+        return team == this.team;
+    }
+
     public Team getTeam() {
         return team;
     }
