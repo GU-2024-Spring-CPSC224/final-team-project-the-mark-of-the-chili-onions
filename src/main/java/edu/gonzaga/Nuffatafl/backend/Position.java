@@ -56,6 +56,15 @@ public class Position {
     }
 
     /**
+     * Adds pos and the current position together.
+     * @param pos The position to add.
+     * @return A new position that is the sum.
+     */
+    public Position add(Position pos) {
+        return new Position(this.x + pos.getX(), this.y + pos.getY());
+    }
+
+    /**
      * @return String representation of the Position.
      */
     @Override

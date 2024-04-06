@@ -19,6 +19,8 @@ public class Board {
         setupTablutBoard();
     }
 
+    public int getSize() {return SIZE;}
+
     /**
      * Fills the board with NonePieces.
      */
@@ -66,10 +68,10 @@ public class Board {
                         setPiece(currentPos, new NonePiece());
                         break;
                     case 1:
-                        setPiece(currentPos, new Soldier(Piece.Team.ATTACKER));
+                        setPiece(currentPos, new Soldier(Team.ATTACKER));
                         break;
                     case 2:
-                        setPiece(currentPos, new Soldier(Piece.Team.DEFENDER));
+                        setPiece(currentPos, new Soldier(Team.DEFENDER));
                         break;
                     case 3:
                         setPiece(currentPos, new King());
@@ -77,6 +79,15 @@ public class Board {
                 }
             }
         }
+    }
+
+    /**
+     * Checks if a position exists on the board.
+     * @param pos The position to check.
+     * @return True if the position exists.
+     */
+    public boolean isOnBoard(Position pos) {
+        return ((pos.getX() < SIZE) && (pos.getX() >= 0)) && ((pos.getY() < SIZE) && (pos.getY() >= 0));
     }
 
     /**
@@ -117,9 +128,10 @@ public class Board {
      * @param team The team of the attempted move.
      * @return True on success, false on failure.
      */
-    public boolean movePiece(Position from, Position to, Piece.Team team) {
+    public boolean movePiece(Position from, Position to, Team team) {
         if (canMoveWithTeam(from, to, team)) {
             swapPieces(from, to);
+            handleCapture(to);
             return true;
         }
 
@@ -133,7 +145,7 @@ public class Board {
      * @param team The team of the attempted move.
      * @return True if movement is possible.
      */
-    public boolean canMoveWithTeam(Position from, Position to, Piece.Team team) {
+    public boolean canMoveWithTeam(Position from, Position to, Team team) {
         boolean isCorrectTeam = getPieceAtPosition(from).getTeam() == team;
         return (isCorrectTeam && canMove(from, to));
     }
@@ -211,6 +223,123 @@ public class Board {
         }
 
         return true;
+    }
+
+    /**
+     * Checks to see if pieces should be captured, and if so, captures them.
+     * @param pos The position a piece has been moved to.
+     */
+    private void handleCapture(Position pos) {
+        /*
+        This will be yucky, but I feel that there's no true loop method for this.
+        Basic Plan:
+            Check if it's even a valid spot
+            If it is, check to see if there's an allied piece.
+            If there is, check to see if there's an opposing piece between.
+            If yes, delete.
+         */
+
+        if (!isOnBoard(pos)) {
+            return;
+        }
+
+        Piece self = getPieceAtPosition(pos);
+
+        //Up direction
+        if (isOnBoard(pos.add(new Position(0, 2)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(0, 2)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(0, 1)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(0, 1)), new NonePiece());
+            }
+        }
+
+        //Down direction
+        if (isOnBoard(pos.add(new Position(0, -2)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(0, -2)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(0, -1)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(0, -1)), new NonePiece());
+            }
+        }
+
+        //Right direction
+        if (isOnBoard(pos.add(new Position(2, 0)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(2, 0)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(1, 0)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(1, 0)), new NonePiece());
+            }
+        }
+
+        //Left direction
+        if (isOnBoard(pos.add(new Position(-2, 0)))) {
+            Piece ally = getPieceAtPosition(pos.add(new Position(-2, 0)));
+            Piece enemy = getPieceAtPosition(pos.add(new Position(-1, 0)));
+            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(new Position(-1, 0)), new NonePiece());
+            }
+        }
+    }
+
+    /**
+     * Checks if the piece at the given position causes a win for the Defenders.
+     * @param pos The position to check.
+     * @return True if there is a win.
+     */
+    public boolean isPositionDefenderWin(Position pos) {
+        Piece pieceAtPos = getPieceAtPosition(pos);
+
+        if (pieceAtPos.getType() != Piece.Type.KING) {
+            return false;
+        }
+
+        if (
+                (pos.getX() == 0 || pos.getX() == SIZE - 1) || //If on x border or
+                (pos.getY() == 0 || pos.getY() == SIZE - 1) // If on y border
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks the whole board to see if the King is surrounded by Attackers.
+     * @return True if the Attackers have won.
+     */
+    public boolean doAttackersWin() {
+        // We must find the king... thus, we embark on a quest...
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                Position pos = new Position(x, y);
+
+                Piece pieceAtPos = getPieceAtPosition(pos);
+
+                if (pieceAtPos.getType() == Piece.Type.KING) { //Hurrah! We have found the king!
+                    Position up = pos.add(new Position(0, 1));
+                    Position down = pos.add(new Position(0, -1));
+                    Position left = pos.add(new Position(-1, 0));
+                    Position right = pos.add(new Position(1, 0));
+
+                    //If any of these are off the board, then the Attackers can't win.
+                    if(!isOnBoard(up) || !isOnBoard(down) || !isOnBoard(left) || !isOnBoard(right)) {
+                        return false;
+                    }
+
+                    //If all of these are Attackers, we're done!
+                    if(getPieceAtPosition(up).sameTeam(Team.ATTACKER) &&
+                            getPieceAtPosition(down).sameTeam(Team.ATTACKER) &&
+                            getPieceAtPosition(left).sameTeam(Team.ATTACKER) &&
+                            getPieceAtPosition(right).sameTeam(Team.ATTACKER)
+                    ) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
