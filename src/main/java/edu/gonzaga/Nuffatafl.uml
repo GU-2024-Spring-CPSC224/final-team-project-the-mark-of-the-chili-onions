@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>/home/ohess/Documents/final-team-project-the-mark-of-the-chili-onions/src/main/java/edu/gonzaga/Nuffatafl</OriginalElement>
+  <nodes>
+    <node x="738.1947194719472" y="-120.0">edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange</node>
+    <node x="553.0" y="-109.69781353135315">edu.gonzaga.Nuffatafl.backend.Piece</node>
+    <node x="316.5" y="-11.605198019802003">edu.gonzaga.Nuffatafl.backend.Soldier</node>
+    <node x="1057.1947194719473" y="-120.0">edu.gonzaga.Nuffatafl.viewNavigation.UIActionType</node>
+    <node x="879.1947194719473" y="133.184405940594">edu.gonzaga.Nuffatafl.views.WelcomeScreen</node>
+    <node x="879.1947194719473" y="208.184405940594">edu.gonzaga.Nuffatafl.views.RulesScreen</node>
+    <node x="-140.0" y="-120.0">edu.gonzaga.Nuffatafl.backend.Board</node>
+    <node x="879.0" y="283.184405940594">edu.gonzaga.Nuffatafl.views.SettingsScreen</node>
+    <node x="316.5" y="-120.0">edu.gonzaga.Nuffatafl.backend.NonePiece</node>
+    <node x="553.0" y="133.184405940594">edu.gonzaga.Nuffatafl.viewNavigation.ViewController</node>
+    <node x="879.0" y="358.184405940594">edu.gonzaga.Nuffatafl.views.AfterGameScreen</node>
+    <node x="879.0" y="433.184405940594">edu.gonzaga.Nuffatafl.views.GameplayScreen</node>
+    <node x="-31.5" y="380.24305555555554">edu.gonzaga.Nuffatafl.MainGame</node>
+    <node x="316.5" y="96.789603960396">edu.gonzaga.Nuffatafl.backend.King</node>
+    <node x="293.0" y="205.184405940594">edu.gonzaga.Nuffatafl.backend.Position</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="edu.gonzaga.Nuffatafl.backend.Soldier" target="edu.gonzaga.Nuffatafl.backend.Piece" relationship="GENERALIZATION">
+      <point x="80.5" y="1.9801980200284675E-4" />
+      <point x="505.0" y="31.895" />
+      <point x="505.0" y="-29.698" />
+      <point x="-80.5" y="-1.8646864685223363E-4" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.NonePiece" target="edu.gonzaga.Nuffatafl.backend.Piece" relationship="GENERALIZATION">
+      <point x="80.5" y="0.0" />
+      <point x="505.0" y="-76.5" />
+      <point x="505.0" y="-29.698" />
+      <point x="-80.5" y="-1.8646864685223363E-4" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.GameplayScreen" relationship="CREATE">
+      <point x="0.0" y="164.0" />
+      <point x="690.0" y="478.684405940594" />
+      <point x="968.5" y="478.684405940594" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.WelcomeScreen" relationship="CREATE">
+      <point x="137.0" y="-106.5" />
+      <point x="968.1947194719473" y="190.684405940594" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange" target="edu.gonzaga.Nuffatafl.viewNavigation.UIActionType" relationship="TO_ONE">
+      <point x="134.5" y="0.0" />
+      <point x="-115.5" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.Board" target="edu.gonzaga.Nuffatafl.backend.Piece" relationship="CREATE">
+      <point x="15.0" y="-188.0" />
+      <point x="65.5" y="-152.5" />
+      <point x="648.5" y="-152.5" />
+      <point x="15.0" y="-80.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.SettingsScreen" relationship="TO_ONE">
+      <point x="137.0" y="31.5" />
+      <point x="962.5" y="328.684405940594" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.King" target="edu.gonzaga.Nuffatafl.backend.Piece" relationship="GENERALIZATION">
+      <point x="80.5" y="3.9603960399858806E-4" />
+      <point x="505.0" y="140.29" />
+      <point x="505.0" y="-29.698" />
+      <point x="-80.5" y="-1.8646864685223363E-4" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.Board" target="edu.gonzaga.Nuffatafl.backend.King" relationship="CREATE">
+      <point x="190.5" y="72.289603960396" />
+      <point x="-80.5" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.Board" target="edu.gonzaga.Nuffatafl.backend.NonePiece" relationship="CREATE">
+      <point x="190.5" y="-144.5" />
+      <point x="-80.5" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.AfterGameScreen" relationship="TO_ONE">
+      <point x="137.0" y="75.0" />
+      <point x="-92.5" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.WelcomeScreen" relationship="TO_ONE">
+      <point x="137.0" y="-150.0" />
+      <point x="-89.0" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.GameplayScreen" relationship="TO_ONE">
+      <point x="137.0" y="150.0" />
+      <point x="-89.5" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.RulesScreen" relationship="TO_ONE">
+      <point x="137.0" y="-75.0" />
+      <point x="-72.0" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.Board" target="edu.gonzaga.Nuffatafl.backend.Soldier" relationship="CREATE">
+      <point x="190.5" y="-36.105198019802" />
+      <point x="-80.5" y="0.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.RulesScreen" relationship="CREATE">
+      <point x="137.0" y="-31.5" />
+      <point x="951.1947194719473" y="265.684405940594" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.Board" target="edu.gonzaga.Nuffatafl.backend.Position" relationship="CREATE">
+      <point x="190.5" y="180.5" />
+      <point x="-104.0" y="-84.68440594059399" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.AfterGameScreen" relationship="CREATE">
+      <point x="137.0" y="106.5" />
+      <point x="971.5" y="403.684405940594" />
+      <point x="0.0" y="14.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.backend.Board" target="edu.gonzaga.Nuffatafl.backend.Piece" relationship="TO_MANY">
+      <point x="0.0" y="-188.0" />
+      <point x="50.5" y="-167.5" />
+      <point x="663.5" y="-167.5" />
+      <point x="30.0" y="-80.0" />
+    </edge>
+    <edge source="edu.gonzaga.Nuffatafl.viewNavigation.ViewController" target="edu.gonzaga.Nuffatafl.views.SettingsScreen" relationship="CREATE">
+      <point x="137.0" y="0.0" />
+      <point x="-83.5" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic" zoom="0.9721020761245674" showDependencies="true" x="548.645383759733" y="188.54349276974415" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
