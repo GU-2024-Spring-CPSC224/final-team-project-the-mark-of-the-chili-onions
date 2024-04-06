@@ -19,6 +19,11 @@ public class MainGame {
      */
     public static void main(String[] args) {
         System.out.println("Program starting");
-        ViewController.main.startGame();
+
+        javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ViewController.main.startGame();
+            }
+        });
     }
 }
