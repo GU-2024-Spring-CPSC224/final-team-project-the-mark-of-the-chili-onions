@@ -2,6 +2,7 @@ package edu.gonzaga.Nuffatafl;
 
 import edu.gonzaga.Nuffatafl.backend.Board;
 import edu.gonzaga.Nuffatafl.backend.Piece;
+import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.backend.Position;
 import edu.gonzaga.Nuffatafl.backend.Soldier;
 import edu.gonzaga.Nuffatafl.backend.King;
@@ -116,7 +117,7 @@ public class BoardTest {
     @Test
     void canMovePieceToEdgeY() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(0, 8);
@@ -133,7 +134,7 @@ public class BoardTest {
     @Test
     void canMovePieceFromEdgeY() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 8);
         Position to = new Position(0, 0);
@@ -150,7 +151,7 @@ public class BoardTest {
     @Test
     void canMovePieceToEdgeX() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(8, 0);
@@ -167,7 +168,7 @@ public class BoardTest {
     @Test
     void canMovePieceFromEdgeX() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(8, 0);
         Position to = new Position(0, 0);
@@ -184,7 +185,7 @@ public class BoardTest {
     @Test
     void cannotMovePieceBeyondEdgeY() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(0, 9);
@@ -201,7 +202,7 @@ public class BoardTest {
     @Test
     void cannotMovePieceBeyondEdgeX() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(9, 0);
@@ -218,7 +219,7 @@ public class BoardTest {
     @Test
     void cannotMovePieceDiagonal() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(1, 1);
@@ -235,7 +236,7 @@ public class BoardTest {
     @Test
     void successfullySwappedPieces() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(1, 1);
@@ -254,7 +255,7 @@ public class BoardTest {
     @Test
     void canMovePieceOnTeam() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(0, 1);
@@ -263,7 +264,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.canMoveWithTeam(from, to, Piece.Team.ATTACKER);
+        boolean actual = board.canMoveWithTeam(from, to, Team.ATTACKER);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -271,7 +272,7 @@ public class BoardTest {
     @Test
     void cannotMovePieceOnOtherTeam() {
         Board board = new Board(9);
-        Soldier soldier = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier = new Soldier(Team.ATTACKER);
 
         Position from = new Position(0, 0);
         Position to = new Position(0, 1);
@@ -280,7 +281,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.canMoveWithTeam(from, to, Piece.Team.DEFENDER);
+        boolean actual = board.canMoveWithTeam(from, to, Team.DEFENDER);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -288,9 +289,9 @@ public class BoardTest {
     @Test
     void pieceIsCaptured() {
         Board board = new Board(3);
-        Soldier soldier1 = new Soldier(Piece.Team.ATTACKER);
-        Soldier soldier2 = new Soldier(Piece.Team.ATTACKER);
-        Soldier soldier3 = new Soldier(Piece.Team.DEFENDER);
+        Soldier soldier1 = new Soldier(Team.ATTACKER);
+        Soldier soldier2 = new Soldier(Team.ATTACKER);
+        Soldier soldier3 = new Soldier(Team.DEFENDER);
 
         Position soldier2Pos = new Position(0, 2);
         Position soldier3Pos = new Position(1, 2);
@@ -301,7 +302,7 @@ public class BoardTest {
         board.setPiece(soldier2Pos, soldier2);
         board.setPiece(soldier3Pos, soldier3);
 
-        boolean success = board.movePiece(from, to, Piece.Team.ATTACKER);
+        boolean success = board.movePiece(from, to, Team.ATTACKER);
 
         boolean expected = true;
 
@@ -314,8 +315,8 @@ public class BoardTest {
     @Test
     void pieceIsNotCaptured() {
         Board board = new Board(3);
-        Soldier soldier1 = new Soldier(Piece.Team.ATTACKER);
-        Soldier soldier2 = new Soldier(Piece.Team.ATTACKER);
+        Soldier soldier1 = new Soldier(Team.ATTACKER);
+        Soldier soldier2 = new Soldier(Team.ATTACKER);
         King soldier3 = new King();
 
         Position soldier2Pos = new Position(0, 2);
@@ -327,7 +328,7 @@ public class BoardTest {
         board.setPiece(soldier2Pos, soldier2);
         board.setPiece(soldier3Pos, soldier3);
 
-        boolean success = board.movePiece(from, to, Piece.Team.ATTACKER);
+        boolean success = board.movePiece(from, to, Team.ATTACKER);
 
         boolean expected = false;
 
@@ -399,7 +400,7 @@ public class BoardTest {
     @Test
     void defenderNotWinOnBottomWrongSide() {
         Board board = new Board(9);
-        Piece king = new Soldier(Piece.Team.ATTACKER);
+        Piece king = new Soldier(Team.ATTACKER);
         Position pos = new Position(4, 8);
 
         board.setPiece(pos, king);
@@ -446,7 +447,7 @@ public class BoardTest {
         Board board = new Board(3);
         Piece king = new King();
         Position pos = new Position(1, 1);
-        Piece.Team team = Piece.Team.DEFENDER;
+        Team team = Team.DEFENDER;
 
         Position soldierPos1 = new Position(0,1);
         Position soldierPos2 = new Position(2,1);
@@ -476,7 +477,7 @@ public class BoardTest {
         Board board = new Board(3);
         Piece king = new King();
         Position pos = new Position(1, 1);
-        Piece.Team team = Piece.Team.ATTACKER;
+        Team team = Team.ATTACKER;
 
         Position soldierPos1 = new Position(0,1);
         Position soldierPos2 = new Position(2,1);
@@ -506,7 +507,7 @@ public class BoardTest {
         Board board = new Board(3);
         Piece king = new King();
         Position pos = new Position(1, 1);
-        Piece.Team team = Piece.Team.ATTACKER;
+        Team team = Team.ATTACKER;
 
         Position soldierPos1 = new Position(0,1);
         Position soldierPos2 = new Position(2,1);

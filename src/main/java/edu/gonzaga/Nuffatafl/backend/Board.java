@@ -19,6 +19,8 @@ public class Board {
         setupTablutBoard();
     }
 
+    public int getSize() {return SIZE;}
+
     /**
      * Fills the board with NonePieces.
      */
@@ -66,10 +68,10 @@ public class Board {
                         setPiece(currentPos, new NonePiece());
                         break;
                     case 1:
-                        setPiece(currentPos, new Soldier(Piece.Team.ATTACKER));
+                        setPiece(currentPos, new Soldier(Team.ATTACKER));
                         break;
                     case 2:
-                        setPiece(currentPos, new Soldier(Piece.Team.DEFENDER));
+                        setPiece(currentPos, new Soldier(Team.DEFENDER));
                         break;
                     case 3:
                         setPiece(currentPos, new King());
@@ -126,7 +128,7 @@ public class Board {
      * @param team The team of the attempted move.
      * @return True on success, false on failure.
      */
-    public boolean movePiece(Position from, Position to, Piece.Team team) {
+    public boolean movePiece(Position from, Position to, Team team) {
         if (canMoveWithTeam(from, to, team)) {
             swapPieces(from, to);
             handleCapture(to);
@@ -143,7 +145,7 @@ public class Board {
      * @param team The team of the attempted move.
      * @return True if movement is possible.
      */
-    public boolean canMoveWithTeam(Position from, Position to, Piece.Team team) {
+    public boolean canMoveWithTeam(Position from, Position to, Team team) {
         boolean isCorrectTeam = getPieceAtPosition(from).getTeam() == team;
         return (isCorrectTeam && canMove(from, to));
     }
@@ -326,10 +328,10 @@ public class Board {
                     }
 
                     //If all of these are Attackers, we're done!
-                    if(getPieceAtPosition(up).sameTeam(Piece.Team.ATTACKER) &&
-                            getPieceAtPosition(down).sameTeam(Piece.Team.ATTACKER) &&
-                            getPieceAtPosition(left).sameTeam(Piece.Team.ATTACKER) &&
-                            getPieceAtPosition(right).sameTeam(Piece.Team.ATTACKER)
+                    if(getPieceAtPosition(up).sameTeam(Team.ATTACKER) &&
+                            getPieceAtPosition(down).sameTeam(Team.ATTACKER) &&
+                            getPieceAtPosition(left).sameTeam(Team.ATTACKER) &&
+                            getPieceAtPosition(right).sameTeam(Team.ATTACKER)
                     ) {
                         return true;
                     }
