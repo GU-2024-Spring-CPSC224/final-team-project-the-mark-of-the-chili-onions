@@ -336,4 +336,198 @@ public class BoardTest {
         Assertions.assertEquals(actual, expected);
     }
 
+    @Test
+    void defenderWinOnLeft() {
+        Board board = new Board(9);
+        Piece king = new King();
+        Position pos = new Position(0, 4);
+
+        board.setPiece(pos, king);
+
+        boolean expected = true;
+
+        boolean actual = board.isPositionDefenderWin(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void defenderWinOnRight() {
+        Board board = new Board(9);
+        Piece king = new King();
+        Position pos = new Position(8, 4);
+
+        board.setPiece(pos, king);
+
+        boolean expected = true;
+
+        boolean actual = board.isPositionDefenderWin(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void defenderWinOnTop() {
+        Board board = new Board(9);
+        Piece king = new King();
+        Position pos = new Position(4, 0);
+
+        board.setPiece(pos, king);
+
+        boolean expected = true;
+
+        boolean actual = board.isPositionDefenderWin(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void defenderWinOnBottom() {
+        Board board = new Board(9);
+        Piece king = new King();
+        Position pos = new Position(4, 8);
+
+        board.setPiece(pos, king);
+
+        boolean expected = true;
+
+        boolean actual = board.isPositionDefenderWin(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void defenderNotWinOnBottomWrongSide() {
+        Board board = new Board(9);
+        Piece king = new Soldier(Piece.Team.ATTACKER);
+        Position pos = new Position(4, 8);
+
+        board.setPiece(pos, king);
+
+        boolean expected = false;
+
+        boolean actual = board.isPositionDefenderWin(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void defenderNotWinWrongSpot() {
+        Board board = new Board(9);
+        Piece king = new King();
+        Position pos = new Position(4, 4);
+
+        board.setPiece(pos, king);
+
+        boolean expected = false;
+
+        boolean actual = board.isPositionDefenderWin(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void attackersDontWinSoloKing() {
+        Board board = new Board(3);
+        Piece king = new King();
+        Position pos = new Position(1, 1);
+
+        board.setPiece(pos, king);
+
+        boolean expected = false;
+
+        boolean actual = board.doAttackersWin();
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void attackersDontWinKingSurroundedByDefender() {
+        Board board = new Board(3);
+        Piece king = new King();
+        Position pos = new Position(1, 1);
+        Piece.Team team = Piece.Team.DEFENDER;
+
+        Position soldierPos1 = new Position(0,1);
+        Position soldierPos2 = new Position(2,1);
+        Position soldierPos3 = new Position(1,0);
+        Position soldierPos4 = new Position(1,2);
+
+        Soldier soldier1 = new Soldier(team);
+        Soldier soldier2 = new Soldier(team);
+        Soldier soldier3 = new Soldier(team);
+        Soldier soldier4 = new Soldier(team);
+
+        board.setPiece(pos, king);
+        board.setPiece(soldierPos1, soldier1);
+        board.setPiece(soldierPos2, soldier2);
+        board.setPiece(soldierPos3, soldier3);
+        board.setPiece(soldierPos4, soldier4);
+
+        boolean expected = false;
+
+        boolean actual = board.doAttackersWin();
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void attackersWin() {
+        Board board = new Board(3);
+        Piece king = new King();
+        Position pos = new Position(1, 1);
+        Piece.Team team = Piece.Team.ATTACKER;
+
+        Position soldierPos1 = new Position(0,1);
+        Position soldierPos2 = new Position(2,1);
+        Position soldierPos3 = new Position(1,0);
+        Position soldierPos4 = new Position(1,2);
+
+        Soldier soldier1 = new Soldier(team);
+        Soldier soldier2 = new Soldier(team);
+        Soldier soldier3 = new Soldier(team);
+        Soldier soldier4 = new Soldier(team);
+
+        board.setPiece(pos, king);
+        board.setPiece(soldierPos1, soldier1);
+        board.setPiece(soldierPos2, soldier2);
+        board.setPiece(soldierPos3, soldier3);
+        board.setPiece(soldierPos4, soldier4);
+
+        boolean expected = true;
+
+        boolean actual = board.doAttackersWin();
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void attackersDontWinMissingSoldier() {
+        Board board = new Board(3);
+        Piece king = new King();
+        Position pos = new Position(1, 1);
+        Piece.Team team = Piece.Team.ATTACKER;
+
+        Position soldierPos1 = new Position(0,1);
+        Position soldierPos2 = new Position(2,1);
+        Position soldierPos3 = new Position(1,0);
+        Position soldierPos4 = new Position(1,2);
+
+        Soldier soldier1 = new Soldier(team);
+        Soldier soldier2 = new Soldier(team);
+        Soldier soldier3 = new Soldier(team);
+        Soldier soldier4 = new Soldier(team);
+
+        board.setPiece(pos, king);
+        board.setPiece(soldierPos1, soldier1);
+        board.setPiece(soldierPos2, soldier2);
+        board.setPiece(soldierPos3, soldier3);
+
+        boolean expected = false;
+
+        boolean actual = board.doAttackersWin();
+
+        Assertions.assertEquals(actual, expected);
+    }
+
 }

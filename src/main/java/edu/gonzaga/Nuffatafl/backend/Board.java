@@ -278,8 +278,66 @@ public class Board {
                 setPiece(pos.add(new Position(-1, 0)), new NonePiece());
             }
         }
+    }
 
+    /**
+     * Checks if the piece at the given position causes a win for the Defenders.
+     * @param pos The position to check.
+     * @return True if there is a win.
+     */
+    public boolean isPositionDefenderWin(Position pos) {
+        Piece pieceAtPos = getPieceAtPosition(pos);
 
+        if (pieceAtPos.getType() != Piece.Type.KING) {
+            return false;
+        }
+
+        if (
+                (pos.getX() == 0 || pos.getX() == SIZE - 1) || //If on x border or
+                (pos.getY() == 0 || pos.getY() == SIZE - 1) // If on y border
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Checks the whole board to see if the King is surrounded by Attackers.
+     * @return True if the Attackers have won.
+     */
+    public boolean doAttackersWin() {
+        // We must find the king... thus, we embark on a quest...
+        for (int y = 0; y < SIZE; y++) {
+            for (int x = 0; x < SIZE; x++) {
+                Position pos = new Position(x, y);
+
+                Piece pieceAtPos = getPieceAtPosition(pos);
+
+                if (pieceAtPos.getType() == Piece.Type.KING) { //Hurrah! We have found the king!
+                    Position up = pos.add(new Position(0, 1));
+                    Position down = pos.add(new Position(0, -1));
+                    Position left = pos.add(new Position(-1, 0));
+                    Position right = pos.add(new Position(1, 0));
+
+                    //If any of these are off the board, then the Attackers can't win.
+                    if(!isOnBoard(up) || !isOnBoard(down) || !isOnBoard(left) || !isOnBoard(right)) {
+                        return false;
+                    }
+
+                    //If all of these are Attackers, we're done!
+                    if(getPieceAtPosition(up).sameTeam(Piece.Team.ATTACKER) &&
+                            getPieceAtPosition(down).sameTeam(Piece.Team.ATTACKER) &&
+                            getPieceAtPosition(left).sameTeam(Piece.Team.ATTACKER) &&
+                            getPieceAtPosition(right).sameTeam(Piece.Team.ATTACKER)
+                    ) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 
     @Override
