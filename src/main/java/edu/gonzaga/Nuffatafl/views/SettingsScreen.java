@@ -19,7 +19,6 @@ import java.awt.*;
 public class SettingsScreen extends JPanel {
     public SettingsScreen() {
         super();
-
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
 

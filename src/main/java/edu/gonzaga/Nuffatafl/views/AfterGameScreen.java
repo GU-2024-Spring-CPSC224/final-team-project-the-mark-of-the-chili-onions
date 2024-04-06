@@ -10,13 +10,10 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ImageLoading;
 import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the after game screen */
 public class AfterGameScreen extends JPanel {

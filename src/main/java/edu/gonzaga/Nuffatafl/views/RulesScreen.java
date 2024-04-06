@@ -30,8 +30,16 @@ public class RulesScreen extends JPanel {
         goToPreviousViewButton.addActionListener(ScreenChange.toPreviousScreen);
         topPanel.add(goToPreviousViewButton);
 
-        this.add(topPanel, BorderLayout.NORTH);
+        this.add(topPanel, BorderLayout.PAGE_START);
 
+        this.add(middlePanel(), BorderLayout.CENTER);
+    }
+
+    /**
+     * Middle Panel with all the rules text
+     * @return JPanel middle panel
+     */
+    private JPanel middlePanel() {
         JPanel middlePanel = new JPanel();
 
         JTextArea textArea = new JTextArea();
@@ -76,7 +84,6 @@ public class RulesScreen extends JPanel {
                 "\n" +
                 "  *  A player cannot make a legal move. This player loses the game.");
         middlePanel.add(textArea);
-
-        this.add(middlePanel, BorderLayout.CENTER);
+        return middlePanel;
     }
 }

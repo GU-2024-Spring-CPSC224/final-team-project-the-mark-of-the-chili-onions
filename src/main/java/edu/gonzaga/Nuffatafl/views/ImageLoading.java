@@ -1,8 +1,9 @@
-package edu.gonzaga.Nuffatafl.viewNavigation;
+package edu.gonzaga.Nuffatafl.views;
 
 import javax.swing.*;
 import java.awt.*;
 
+/** Class for loading and scaling images */
 public class ImageLoading {
     /**
      * Function for loading and scaling a function from a given path
