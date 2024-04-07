@@ -18,28 +18,33 @@ import java.awt.*;
 /** JPanel that contains the UI for the Rules screen */
 public class RulesScreen extends JPanel {
     public RulesScreen() {
-        super();
+        super(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        //gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 0, 5, 0);
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
+        // Rules Screen
         JLabel label = new JLabel("Rules Screen");
-        topPanel.add(label);
+        this.add(label, gbc);
+        gbc.gridy++;
 
-
+        // Go back
         JButton goToPreviousViewButton = new JButton("Hide Rules Screen");
         goToPreviousViewButton.addActionListener(ScreenChange.toPreviousScreen);
-        topPanel.add(goToPreviousViewButton);
+        this.add(goToPreviousViewButton, gbc);
+        gbc.gridy++;
 
-        this.add(topPanel, BorderLayout.PAGE_START);
-
-        this.add(middlePanel(), BorderLayout.CENTER);
+        // Rules Text
+        this.add(rulesTextPalen(), gbc);
     }
 
     /**
      * Middle Panel with all the rules text
      * @return JPanel middle panel
      */
-    private JPanel middlePanel() {
+    private JPanel rulesTextPalen() {
         JPanel middlePanel = new JPanel();
 
         JTextArea textArea = new JTextArea();
