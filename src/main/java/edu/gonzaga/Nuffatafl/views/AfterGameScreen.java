@@ -10,14 +10,19 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the after game screen */
 public class AfterGameScreen extends JPanel {
-    public AfterGameScreen() {
+    private final StateController stateController;
+
+    public AfterGameScreen(StateController stateController) {
         super();
+        this.stateController = stateController;
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
@@ -25,16 +30,20 @@ public class AfterGameScreen extends JPanel {
         JLabel label = new JLabel("After Game Screen");
         this.add(label);
 
-        JButton showGameplayScreenButton = new JButton("Show Welcome Screen");
-        showGameplayScreenButton.addActionListener(ScreenChange.toWelcomeScreen);
+        JButton showGameplayScreenButton = new JButton("Start New Game");
+        showGameplayScreenButton.addActionListener(event -> stateController.showWelcomeScreen());
         this.add(showGameplayScreenButton);
 
-        JButton showRulesScreenButton = new JButton("Show Rules Screen");
-        showRulesScreenButton.addActionListener(ScreenChange.toRulesScreen);
+        JButton showRulesScreenButton = new JButton("Rules");
+        showRulesScreenButton.addActionListener(event -> stateController.showRules());
         this.add(showRulesScreenButton);
 
-        JButton showSettingsScreenButton = new JButton("Show Settings Screen");
-        showSettingsScreenButton.addActionListener(ScreenChange.toSettingsScreen);
+        JButton showSettingsScreenButton = new JButton("Settings");
+        showSettingsScreenButton.addActionListener(event -> stateController.showSettings());
         this.add(showSettingsScreenButton);
+
+        JButton exitProgramButton = new JButton("Quit Program");
+        exitProgramButton.addActionListener(event -> stateController.endProgram());
+        this.add(exitProgramButton);
     }
 }

@@ -9,7 +9,9 @@
  */
 package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ViewController;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+
+import javax.swing.plaf.nimbus.State;
 
 /** Class that contains the main entry point for program */
 public class MainGame {
@@ -20,10 +22,9 @@ public class MainGame {
     public static void main(String[] args) {
         System.out.println("Program starting");
 
-        javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ViewController.main.startGame();
-            }
-        });
+        javax.swing.SwingUtilities.invokeLater(() -> {
+           StateController stateController = new StateController();
+           stateController.showWelcomeScreen();
+       });
     }
 }

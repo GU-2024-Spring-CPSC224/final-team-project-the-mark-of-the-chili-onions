@@ -10,14 +10,17 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
 
 /** JPanel that contains the UI for the Welcome screen */
 public class WelcomeScreen extends JPanel {
-    public WelcomeScreen() {
+    private final StateController stateController;
+
+    public WelcomeScreen(StateController stateController) {
         super();
+        this.stateController = stateController;
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
@@ -25,16 +28,16 @@ public class WelcomeScreen extends JPanel {
         JLabel label = new JLabel("Welcome Screen");
         this.add(label);
 
-        JButton showGameplayScreenButton = new JButton("Show Gameplay Screen");
-        showGameplayScreenButton.addActionListener(ScreenChange.toGameplayScreen);
+        JButton showGameplayScreenButton = new JButton("Start Game");
+        showGameplayScreenButton.addActionListener(event -> stateController.startGame());
         this.add(showGameplayScreenButton);
 
-        JButton showRulesScreenButton = new JButton("Show Rules Screen");
-        showRulesScreenButton.addActionListener(ScreenChange.toRulesScreen);
+        JButton showRulesScreenButton = new JButton("Rules");
+        showRulesScreenButton.addActionListener(event -> stateController.showRules());
         this.add(showRulesScreenButton);
 
-        JButton showSettingsScreenButton = new JButton("Show Settings Screen");
-        showSettingsScreenButton.addActionListener(ScreenChange.toSettingsScreen);
+        JButton showSettingsScreenButton = new JButton("Settings");
+        showSettingsScreenButton.addActionListener(event -> stateController.showSettings());
         this.add(showSettingsScreenButton);
     }
 }

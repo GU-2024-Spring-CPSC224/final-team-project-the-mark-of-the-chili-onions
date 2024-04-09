@@ -10,23 +10,32 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the Settings screen */
 public class SettingsScreen extends JPanel {
-    public SettingsScreen() {
+    private final StateController stateController;
+
+    public SettingsScreen(StateController stateController) {
         super();
+        this.stateController = stateController;
 
         BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);
 
-        JLabel label = new JLabel("Settings Screen");
+        JLabel label = new JLabel("Settings");
         this.add(label);
 
-        JButton goToPreviousViewButton = new JButton("Hide Settings Screen");
-        goToPreviousViewButton.addActionListener(ScreenChange.toPreviousScreen);
+        JButton goToPreviousViewButton = new JButton("Back");
+        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousState());
         this.add(goToPreviousViewButton);
+
+        JButton exitProgramButton = new JButton("Quit Program");
+        exitProgramButton.addActionListener(event -> stateController.endProgram());
+        this.add(exitProgramButton);
     }
 }
