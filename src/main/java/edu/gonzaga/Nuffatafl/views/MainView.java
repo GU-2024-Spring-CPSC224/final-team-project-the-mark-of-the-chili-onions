@@ -22,9 +22,11 @@ public class MainView extends JFrame {
      * Creates a 1000 x 1000 window titled "Nuffatafl" and makes it visible,
      * initializes sub-views and property change listening for StateController
      */
-    public MainView(StateController stateController) {
+    public MainView() {
         super();
-        this.stateController = stateController;
+        this.stateController = new StateController();
+        this.stateController.onScreenChange(event -> handleScreenChange(event));
+
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(1000, 1000);
         this.setTitle("Nuffatafl");
@@ -35,10 +37,14 @@ public class MainView extends JFrame {
         this.afterGameScreen = new AfterGameScreen(this.stateController);
         this.rulesScreen = new RulesScreen(this.stateController);
         this.settingsScreen = new SettingsScreen(this.stateController);
-
-        this.stateController.onScreenChange(event -> handleScreenChange(event));
     }
 
+    /** Shows the welcome screen */
+    public void showGUI() {
+        this.stateController.showWelcomeScreen();
+    }
+
+    /** Controls the state of which screen should be shown */
     private final StateController stateController;
 
     /** Subclassed JPanel that displays UI content for the welcome screen */

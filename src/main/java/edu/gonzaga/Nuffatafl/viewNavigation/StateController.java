@@ -11,7 +11,6 @@
 package edu.gonzaga.Nuffatafl.viewNavigation;
 
 import edu.gonzaga.Nuffatafl.backend.GameManager;
-import edu.gonzaga.Nuffatafl.views.MainView;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -26,7 +25,6 @@ public class StateController {
         this.screen = Screen.none;
         this.previousScreen = Screen.none;
         this.screenChangeManager = new PropertyChangeSupport(this.screen);
-        this.mainView = new MainView(this);
         this.gameManager = new GameManager();
     }
 
@@ -38,9 +36,6 @@ public class StateController {
 
     /** Previous screen that was displayed, used to go back to previous screen */
     private Screen previousScreen;
-
-    /** MainView for the program UI, to keep everything together */
-    private final MainView mainView;
 
     /** Handles updating observers when new value change is published for screen */
     private final PropertyChangeSupport screenChangeManager;
