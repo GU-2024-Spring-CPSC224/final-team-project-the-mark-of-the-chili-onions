@@ -11,8 +11,6 @@ package edu.gonzaga.Nuffatafl;
 
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
-import javax.swing.plaf.nimbus.State;
-
 /** Class that contains the main entry point for program */
 public class MainGame {
     /**

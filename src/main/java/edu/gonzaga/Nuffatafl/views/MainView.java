@@ -14,6 +14,7 @@ import edu.gonzaga.Nuffatafl.viewNavigation.ProgramState;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
+import java.beans.PropertyChangeEvent;
 
 /** The main view for the program UI */
 public class MainView extends JFrame {
@@ -32,22 +33,38 @@ public class MainView extends JFrame {
         this.rulesScreen = new RulesScreen(this.stateController);
         this.settingsScreen = new SettingsScreen(this.stateController);
 
-        this.stateController.addPropertyChangeListener(event -> {
-            ProgramState state = (ProgramState) event.getNewValue();
-            System.out.println("STATE: " + state);
-            showViewForState(state);
-        });
+        this.stateController.onScreenChange(event -> handleScreenChange(event));
     }
 
-    public void showViewForState(ProgramState state) {
-        System.out.println("SHOW STATE: " + state);
-        switch (state) {
-            case welcome    -> this.add(this.welcomeScreen);
-            case gameplay   -> this.add(this.gameplayScreen);
-            case afterGame  -> this.add(this.afterGameScreen);
-            case rules      -> this.add(this.rulesScreen);
-            case settings   -> this.add(this.settingsScreen);
+    private void handleScreenChange(PropertyChangeEvent event) {
+        ProgramState newState = (ProgramState) event.getNewValue();
+        JPanel newScreen = screenForState(newState);
+        showScreen(newScreen);
+
+        ProgramState oldState = (ProgramState) event.getOldValue();
+        if (oldState != null && oldState != ProgramState.none) {
+            JPanel oldScreen = screenForState(oldState);
+            hideScreen(oldScreen);
         }
+    }
+
+    private JPanel screenForState(ProgramState state) {
+        return switch (state) {
+            case gameplay -> this.gameplayScreen;
+            case afterGame -> this.afterGameScreen;
+            case rules -> this.rulesScreen;
+            case settings -> this.settingsScreen;
+            default -> this.welcomeScreen;
+        };
+    }
+
+    private void showScreen(JPanel screen) {
+        this.add(screen);
+        screen.setVisible(true);
+    }
+
+    private void hideScreen(JPanel screen) {
+        screen.setVisible(false);
     }
 
     private final StateController stateController;
