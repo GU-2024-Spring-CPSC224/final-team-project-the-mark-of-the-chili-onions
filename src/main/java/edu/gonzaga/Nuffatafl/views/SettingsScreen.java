@@ -13,8 +13,6 @@ package edu.gonzaga.Nuffatafl.views;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the Settings screen */
 public class SettingsScreen extends JPanel {
@@ -31,7 +29,7 @@ public class SettingsScreen extends JPanel {
         this.add(label);
 
         JButton goToPreviousViewButton = new JButton("Back");
-        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousState());
+        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousScreen());
         this.add(goToPreviousViewButton);
 
         JButton exitProgramButton = new JButton("Quit Program");

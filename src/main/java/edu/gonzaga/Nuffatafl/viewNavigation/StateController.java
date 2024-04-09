@@ -5,7 +5,7 @@
  * No sources to cite.
  *
  * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @version v0.1.0 04/06/2024
  */
 
 package edu.gonzaga.Nuffatafl.viewNavigation;
@@ -15,74 +15,100 @@ import edu.gonzaga.Nuffatafl.views.MainView;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
+/**
+ * Manages the state of the overall program (which view is displayed),
+ * Contains a MainView and GameManager to keep all relevant objects in one place
+ */
 public class StateController {
+    /** Initializes with screen state of none, creates MainView and PropertyManager, sets up property change support */
     public StateController() {
         super();
-        this.state = ProgramState.none;
-        this.prevState = ProgramState.none;
-        this.screenChangeManager = new PropertyChangeSupport(this.state);
+        this.screen = Screen.none;
+        this.previousScreen = Screen.none;
+        this.screenChangeManager = new PropertyChangeSupport(this.screen);
         this.mainView = new MainView(this);
         this.gameManager = new GameManager();
     }
 
+    /** The GameManager that handles game logic, included here to keep everything together */
     public GameManager gameManager;
 
-    private ProgramState state;
-    private ProgramState prevState;
+    /** Current screen the program's UI should show */
+    private Screen screen;
+
+    /** Previous screen that was displayed, used to go back to previous screen */
+    private Screen previousScreen;
+
+    /** MainView for the program UI, to keep everything together */
     private final MainView mainView;
+
+    /** Handles updating observers when new value change is published for screen */
     private final PropertyChangeSupport screenChangeManager;
 
+    /** Changes program state to cause UI to show welcome screen */
     public void showWelcomeScreen() {
-        this.changeState(ProgramState.welcome);
+        this.changeState(Screen.welcome);
     }
 
+    /** Changes program state to cause UI to show gameplay screen */
     public void startGame() {
-        this.changeState(ProgramState.gameplay);
+        this.changeState(Screen.gameplay);
     }
 
+    /** Changes program state to cause UI to show afterGame screen */
     public void endGame() {
-        this.changeState(ProgramState.afterGame);
+        this.changeState(Screen.afterGame);
     }
 
+    /** Changes program state to cause UI to show rules screen */
     public void showRules() {
-        this.changeState(ProgramState.rules);
+        this.changeState(Screen.rules);
     }
 
+    /** Changes program state to cause UI to show settings screen */
     public void showSettings() {
-        this.changeState(ProgramState.settings);
+        this.changeState(Screen.settings);
     }
 
-    public void goToPreviousState() {
-        System.out.println("GO TO PREV: " + this.prevState + ", " + this.state);
-        if (this.prevState != null) {
-            System.out.println("PREV NOT NULL");
-            this.changeState(this.prevState);
+    /** Changes program state to cause UI to show previous screen */
+    public void goToPreviousScreen() {
+        if (this.previousScreen != null) {
+            this.changeState(this.previousScreen);
         } else {
-            System.out.println("PREV NULL!");
-            this.changeState(ProgramState.welcome);
+            this.changeState(Screen.welcome);
         }
     }
 
+    /** Exits program (unnecessary but good to have if we want to add things to do on exit later) */
     public void endProgram() {
         System.exit(0);
     }
 
+    /**
+     * Adds an observer to be notified when the current screen is changed
+     * @param listener Code to execute when current screen changes
+     */
     public void onScreenChange(PropertyChangeListener listener) {
         this.screenChangeManager.addPropertyChangeListener(listener);
     }
 
-    public ProgramState getState() {
-        return this.state;
+    /** Gets the Screen representing the current screen that should be displayed */
+    public Screen getCurrentScreen() {
+        return this.screen;
     }
 
-    public ProgramState getPrevState() {
-        return this.prevState;
+    /** Gets the Screen representing the screen that was previously displayed */
+    public Screen getPreviousScreen() {
+        return this.previousScreen;
     }
 
-    private void changeState(ProgramState newState) {
-        this.prevState = this.state;
-        this.state = newState;
-        System.out.println("CHANGE STATE: NEW: " + this.state + ", OLD: " + this.prevState);
-        this.screenChangeManager.firePropertyChange("state", this.prevState, this.state);
+    /**
+     * Changes the currently displayed screen and publishes the change to observers
+     * @param newScreen the new screen to display
+     */
+    private void changeState(Screen newScreen) {
+        this.previousScreen = this.screen;
+        this.screen = newScreen;
+        this.screenChangeManager.firePropertyChange("screen", this.previousScreen, this.screen);
     }
 }

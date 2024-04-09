@@ -13,8 +13,6 @@ package edu.gonzaga.Nuffatafl.views;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the Rules screen */
 public class RulesScreen extends JPanel {
@@ -31,7 +29,7 @@ public class RulesScreen extends JPanel {
         this.add(label);
 
         JButton goToPreviousViewButton = new JButton("Back");
-        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousState());
+        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousScreen());
         this.add(goToPreviousViewButton);
     }
 }

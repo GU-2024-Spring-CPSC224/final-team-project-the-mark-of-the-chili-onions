@@ -11,7 +11,6 @@
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
-
 import javax.swing.*;
 
 /** JPanel that contains the UI for the Welcome screen */

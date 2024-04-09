@@ -13,8 +13,6 @@ package edu.gonzaga.Nuffatafl.views;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the Gameplay screen */
 public class GameplayScreen extends JPanel {

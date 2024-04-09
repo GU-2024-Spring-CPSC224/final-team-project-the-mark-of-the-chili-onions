@@ -15,7 +15,7 @@ import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 public class MainGame {
     /**
      * Main entry point for program
-     * Starts a new game on the singletoon ViewController.main
+     * Creates a StateController and shows the WelcomeScreen for the game
      */
     public static void main(String[] args) {
         System.out.println("Program starting");
