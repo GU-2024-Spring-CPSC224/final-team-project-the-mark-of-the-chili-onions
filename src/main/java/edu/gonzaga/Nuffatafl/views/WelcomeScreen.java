@@ -10,17 +10,21 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
-
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the Welcome screen */
 public class WelcomeScreen extends JPanel {
-    public WelcomeScreen() {
+
+    private final StateController stateController;
+
+    public WelcomeScreen(StateController stateController) {
         super(new BorderLayout());
+        this.stateController = stateController;
 
         this.add(topPanel(), BorderLayout.PAGE_START);
         this.add(middlePanel(), BorderLayout.CENTER);
@@ -35,13 +39,13 @@ public class WelcomeScreen extends JPanel {
 
         // Rules screen
         JButton showRulesScreenButton = new JButton("Rules");
-        showRulesScreenButton.addActionListener(ScreenChange.toRulesScreen);
+        showRulesScreenButton.addActionListener(event -> stateController.showRules());
         topPanel.add(showRulesScreenButton);
 
         // Settings Screen
         JButton showSettingsScreenButton = new JButton("Settings");
         showSettingsScreenButton.setIcon(ImageLoading.getImage("./src/main/resources/settings.png", 20, 20));
-        showSettingsScreenButton.addActionListener(ScreenChange.toSettingsScreen);
+        showSettingsScreenButton.addActionListener(event -> stateController.showSettings());
         topPanel.add(showSettingsScreenButton);
 
         return topPanel;
@@ -105,7 +109,7 @@ public class WelcomeScreen extends JPanel {
         // Go to gameplay screen
         gbc.gridy++;
         JButton showGameplayScreenButton = new JButton("Start Game (Show Gameplay screen)");
-        showGameplayScreenButton.addActionListener(ScreenChange.toGameplayScreen);
+        showGameplayScreenButton.addActionListener(event -> stateController.startGame());
         showGameplayScreenButton.addActionListener(new ActionListener() {
 
             @Override
@@ -117,6 +121,4 @@ public class WelcomeScreen extends JPanel {
         middlePanel.add(showGameplayScreenButton, gbc);
 
 
-        return middlePanel;
-    }
-}
+        return middlePanel;event -> 

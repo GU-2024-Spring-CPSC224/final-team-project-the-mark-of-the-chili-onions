@@ -23,6 +23,18 @@ public class PositionTest {
     }
 
     @Test
+    void addingPositionsWorks() {
+        Position a = new Position(1,1);
+        Position b = new Position(1,1);
+
+        Position expected = new Position(2, 2);
+
+        Position actual = a.add(b);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
     void stringRepresentationWorks() {
         Position a = new Position(10,7);
         String expected = "(10,7)";

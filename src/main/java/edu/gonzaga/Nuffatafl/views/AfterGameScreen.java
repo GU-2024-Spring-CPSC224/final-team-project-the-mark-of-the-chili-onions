@@ -10,15 +10,19 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
 import java.awt.*;
 
 /** JPanel that contains the UI for the after game screen */
 public class AfterGameScreen extends JPanel {
-    public AfterGameScreen() {
+
+    private final StateController stateController;
+
+    public AfterGameScreen(StateController stateController) {
         super(new BorderLayout());
+        this.stateController = stateController;
 
         this.add(topPanel(), BorderLayout.PAGE_START);
         this.add(middlePanel(), BorderLayout.CENTER);
@@ -32,13 +36,13 @@ public class AfterGameScreen extends JPanel {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
         JButton showRulesScreenButton = new JButton("Rules");
-        showRulesScreenButton.addActionListener(ScreenChange.toRulesScreen);
+        showRulesScreenButton.addActionListener(event -> stateController.showRules());
         topPanel.add(showRulesScreenButton);
 
         JButton showSettingsScreenButton = new JButton("Settings");
         showSettingsScreenButton.setIcon(ImageLoading.getImage("./src/main/resources/settings.png", 20, 20));
 
-        showSettingsScreenButton.addActionListener(ScreenChange.toSettingsScreen);
+        showSettingsScreenButton.addActionListener(event -> stateController.showSettings());
         topPanel.add(showSettingsScreenButton);
 
         return topPanel;
@@ -61,7 +65,7 @@ public class AfterGameScreen extends JPanel {
 
         gbc.gridy++;
         JButton showGameplayScreenButton = new JButton("Show Welcome Screen");
-        showGameplayScreenButton.addActionListener(ScreenChange.toWelcomeScreen);
+        showGameplayScreenButton.addActionListener(event -> stateController.showWelcomeScreen());
         middlePanel.add(showGameplayScreenButton, gbc);
 
         gbc.gridy++;
@@ -69,6 +73,10 @@ public class AfterGameScreen extends JPanel {
         middlePanel.add(afterGameStats, gbc);
 
 
+
+        JButton exitProgramButton = new JButton("Quit Program");
+        exitProgramButton.addActionListener(event -> stateController.endProgram());
+        this.add(exitProgramButton);
         return middlePanel;
     }
 }

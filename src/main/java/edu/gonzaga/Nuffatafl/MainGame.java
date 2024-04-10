@@ -9,16 +9,20 @@
  */
 package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ViewController;
+import edu.gonzaga.Nuffatafl.views.MainView;
 
 /** Class that contains the main entry point for program */
 public class MainGame {
     /**
      * Main entry point for program
-     * Starts a new game on the singletoon ViewController.main
+     * Creates a StateController and shows the WelcomeScreen for the game
      */
     public static void main(String[] args) {
         System.out.println("Program starting");
-        ViewController.main.startGame();
+
+        javax.swing.SwingUtilities.invokeLater(() -> {
+            MainView mainView = new MainView();
+            mainView.showGUI();
+       });
     }
 }

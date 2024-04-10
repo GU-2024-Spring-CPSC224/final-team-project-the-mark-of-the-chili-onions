@@ -10,15 +10,18 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
 import java.awt.*;
 
 /** JPanel that contains the UI for the Rules screen */
 public class RulesScreen extends JPanel {
-    public RulesScreen() {
+    private final StateController stateController;
+
+    public RulesScreen(StateController stateController) {
         super(new GridBagLayout());
+        this.stateController = stateController;
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -32,7 +35,7 @@ public class RulesScreen extends JPanel {
 
         // Go back
         JButton goToPreviousViewButton = new JButton("Hide Rules Screen");
-        goToPreviousViewButton.addActionListener(ScreenChange.toPreviousScreen);
+        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousScreen());
         this.add(goToPreviousViewButton, gbc);
         gbc.gridy++;
 
@@ -90,5 +93,6 @@ public class RulesScreen extends JPanel {
                 "  *  A player cannot make a legal move. This player loses the game.");
         middlePanel.add(textArea);
         return middlePanel;
+
     }
 }

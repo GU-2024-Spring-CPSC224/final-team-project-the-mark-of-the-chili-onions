@@ -10,8 +10,8 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.viewNavigation.ScreenChange;
-import edu.gonzaga.Nuffatafl.viewNavigation.ViewController;
+
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,8 +20,12 @@ import java.awt.event.ActionListener;
 
 /** JPanel that contains the UI for the Settings screen */
 public class SettingsScreen extends JPanel {
-    public SettingsScreen() {
+    private final StateController stateController;
+
+    public SettingsScreen(StateController stateController) {
         super(new GridBagLayout());
+        this.stateController = stateController;
+
         /*BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(layout);*/
         GridBagConstraints gbc = new GridBagConstraints();
@@ -37,7 +41,7 @@ public class SettingsScreen extends JPanel {
 
         // Go back from settings screen
         JButton goToPreviousViewButton = new JButton("Hide Settings Screen");
-        goToPreviousViewButton.addActionListener(ScreenChange.toPreviousScreen);
+        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousScreen());
         this.add(goToPreviousViewButton, gbc);
         gbc.gridy++;
 
@@ -76,8 +80,12 @@ public class SettingsScreen extends JPanel {
 
         // Start new game
         JButton startNewGame = new JButton("Start New Game");
-        startNewGame.addActionListener(ScreenChange.toWelcomeScreen);
+        startNewGame.addActionListener(event -> stateController.showWelcomeScreen());
         this.add(startNewGame, gbc);
         gbc.gridy++;
+
+        JButton exitProgramButton = new JButton("Quit Program");
+        exitProgramButton.addActionListener(event -> stateController.endProgram());
+        this.add(exitProgramButton);
     }
 }

@@ -1,7 +1,6 @@
 package edu.gonzaga.Nuffatafl.backend;
 
 public abstract class Piece {
-    public enum Team {ATTACKER, DEFENDER, NONE}
 
     public enum Type {KING, SOLDIER, NONE}
 
@@ -11,6 +10,14 @@ public abstract class Piece {
 
     public Type getType() {
         return type;
+    }
+
+    public boolean sameTeam(Team team) {
+        if (team == Team.NONE) {
+            return false;
+        }
+
+        return team == this.team;
     }
 
     public Team getTeam() {
