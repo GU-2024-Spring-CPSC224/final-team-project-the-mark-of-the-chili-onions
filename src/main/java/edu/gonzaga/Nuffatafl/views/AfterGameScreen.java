@@ -73,10 +73,10 @@ public class AfterGameScreen extends JPanel {
         middlePanel.add(afterGameStats, gbc);
 
 
-
+        gbc.gridy++;
         JButton exitProgramButton = new JButton("Quit Program");
         exitProgramButton.addActionListener(event -> stateController.endProgram());
-        this.add(exitProgramButton);
+        middlePanel.add(exitProgramButton, gbc);
         return middlePanel;
     }
 }

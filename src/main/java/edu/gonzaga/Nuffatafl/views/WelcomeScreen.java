@@ -32,6 +32,7 @@ public class WelcomeScreen extends JPanel {
 
     /**
      * Set up the top panel of the welcome screen
+     *
      * @return JPanel top panel
      */
     private JPanel topPanel() {
@@ -53,6 +54,7 @@ public class WelcomeScreen extends JPanel {
 
     /**
      * Set up the middle panel of the welcome screen
+     *
      * @return JPanel middle panel
      */
     private JPanel middlePanel() {
@@ -121,4 +123,6 @@ public class WelcomeScreen extends JPanel {
         middlePanel.add(showGameplayScreenButton, gbc);
 
 
-        return middlePanel;event -> 
+        return middlePanel;
+    }
+}
