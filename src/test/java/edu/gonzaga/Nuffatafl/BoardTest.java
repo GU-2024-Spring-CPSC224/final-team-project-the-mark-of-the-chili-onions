@@ -1,11 +1,6 @@
 package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.Nuffatafl.backend.Board;
-import edu.gonzaga.Nuffatafl.backend.Piece;
-import edu.gonzaga.Nuffatafl.backend.Team;
-import edu.gonzaga.Nuffatafl.backend.Position;
-import edu.gonzaga.Nuffatafl.backend.Soldier;
-import edu.gonzaga.Nuffatafl.backend.King;
+import edu.gonzaga.Nuffatafl.backend.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

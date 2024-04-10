@@ -1,16 +1,34 @@
 package edu.gonzaga.Nuffatafl.backend;
+
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class GameManager {
     private Board board;
     private Team currentTeam;
 
+    /** Tracks which team has won the game, necessary for PropertyChangeSupport to notify UI of victory */
+    private Team winner = Team.NONE;
+
+    /** Handles updating observers when the board changes (i.e. when a piece is moved) */
+    private PropertyChangeSupport boardChangeManager;
+
+    /** Handles updating observers when the current team changes */
+    private PropertyChangeSupport currentTeamChangeManager;
+
+    /** Handles updating observers when a team wins the game */
+    private PropertyChangeSupport winnerChangeManager;
+
     public GameManager(int size) {
         board = new Board(size);
         currentTeam = Team.ATTACKER;
+        this.setupChangeManagers();
     }
 
     public GameManager() {
         board = new Board();
         currentTeam = Team.DEFENDER;
+        this.setupChangeManagers();
     }
 
     /**
@@ -29,17 +47,19 @@ public class GameManager {
      * @return The success of the move.
      */
     public boolean movePiece(Position from, Position to) {
+        //Saves the old board for the PropertyChangeEvent oldValue
+        Board oldBoard = this.board;
+
         boolean result = board.movePiece(from, to, currentTeam);
         switchCurrentTeam();
 
-        if (board.isPositionDefenderWin(to)) {
-            defenderWin();
-        }
+        if (board.isPositionDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
+        if (board.doAttackersWin()) { this.handleWin(Team.ATTACKER); }
 
-        if (board.doAttackersWin()) {
-            attackerWin();
-        }
-
+        //Publishes that the board was changed to observers of the board
+        //TODO: Update for each different type of board change (move and capture) s
+        // separately instead of just indicating the board changed if more granularity is desired
+        this.boardChangeManager.firePropertyChange("board", oldBoard, result);
         return result;
     }
 
@@ -47,22 +67,57 @@ public class GameManager {
      * Flips the current team.
      */
     private void switchCurrentTeam() {
+        Team oldTeam = this.currentTeam;
+
         if (currentTeam == Team.DEFENDER) {
             currentTeam = Team.ATTACKER;
         } else {
             currentTeam = Team.DEFENDER;
         }
+
+        //Publishes that the current team was changed to observers of currentTeam
+        this.currentTeamChangeManager.firePropertyChange("currentTeam", oldTeam, this.currentTeam);
     }
 
-    public void attackerWin() {
-        //Do stuff here!
-    }
+    public void handleWin(Team team) {
+        this.winner = team;
 
-    public void defenderWin() {
-        //Do stuff here!
+        //Publishes that a team won the game to observers of winner
+        this.winnerChangeManager.firePropertyChange("winner", Team.NONE, team);
     }
 
     public Board getBoard() {return board;}
 
     public Team getCurrentTeam() {return currentTeam;}
+
+    /**
+     * Adds an observer to be notified when the board is changed
+     * @param listener Code to execute when board changes
+     */
+    public void onBoardChange(PropertyChangeListener listener) {
+        this.boardChangeManager.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Adds an observer to be notified when the current team is changed
+     * @param listener Code to execute when current team changes
+     */
+    public void onTeamSwitch(PropertyChangeListener listener) {
+        this.currentTeamChangeManager.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Adds an observer to be notified when a team wins the game
+     * @param listener Code to execute when a team wins the game
+     */
+    public void onVictory(PropertyChangeListener listener) {
+        this.winnerChangeManager.addPropertyChangeListener(listener);
+    }
+
+    /** Sets up PropertyChangeSupport objects for the board, currentTeam, and winner */
+    private void setupChangeManagers() {
+        this.boardChangeManager = new PropertyChangeSupport(this.board);
+        this.currentTeamChangeManager = new PropertyChangeSupport(this.currentTeam);
+        this.winnerChangeManager = new PropertyChangeSupport(this.winner);
+    }
 }
