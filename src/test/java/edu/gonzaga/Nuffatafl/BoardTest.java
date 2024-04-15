@@ -32,6 +32,32 @@ public class BoardTest {
     }
 
     @Test
+    void positionIsOnCenter() {
+        Board board = new Board(9);
+
+        Position pos = new Position(4, 4);
+
+        boolean expected = true;
+
+        boolean actual = board.isPositionCenter(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void positionIsNotOnCenter() {
+        Board board = new Board(9);
+
+        Position pos = new Position(3, 4);
+
+        boolean expected = false;
+
+        boolean actual = board.isPositionCenter(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
     void positionIsOnBoardMin() {
         Board board = new Board(9);
 
@@ -39,7 +65,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.isOnBoard(pos);
+        boolean actual = board.isPositionOnBoard(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -52,7 +78,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.isOnBoard(pos);
+        boolean actual = board.isPositionOnBoard(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -65,7 +91,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.isOnBoard(pos);
+        boolean actual = board.isPositionOnBoard(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -78,7 +104,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.isOnBoard(pos);
+        boolean actual = board.isPositionOnBoard(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -91,7 +117,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.isOnBoard(pos);
+        boolean actual = board.isPositionOnBoard(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -104,7 +130,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.isOnBoard(pos);
+        boolean actual = board.isPositionOnBoard(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -229,6 +255,23 @@ public class BoardTest {
     }
 
     @Test
+    void cannotMovePieceToCenter() {
+        Board board = new Board(9);
+        Soldier soldier = new Soldier(Team.ATTACKER);
+
+        Position from = new Position(4, 0);
+        Position to = new Position(4, 4);
+
+        board.setPiece(from, soldier);
+
+        boolean expected = false;
+
+        boolean actual = board.canMove(from, to);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
     void successfullySwappedPieces() {
         Board board = new Board(9);
         Soldier soldier = new Soldier(Team.ATTACKER);
@@ -342,7 +385,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.isPositionDefenderWin(pos);
+        boolean actual = board.isDefenderWin(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -357,7 +400,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.isPositionDefenderWin(pos);
+        boolean actual = board.isDefenderWin(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -372,7 +415,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.isPositionDefenderWin(pos);
+        boolean actual = board.isDefenderWin(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -387,7 +430,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.isPositionDefenderWin(pos);
+        boolean actual = board.isDefenderWin(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -402,7 +445,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.isPositionDefenderWin(pos);
+        boolean actual = board.isDefenderWin(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -417,7 +460,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.isPositionDefenderWin(pos);
+        boolean actual = board.isDefenderWin(pos);
 
         Assertions.assertEquals(actual, expected);
     }
@@ -432,7 +475,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.doAttackersWin();
+        boolean actual = board.isAttackerWin();
 
         Assertions.assertEquals(actual, expected);
     }
@@ -462,7 +505,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.doAttackersWin();
+        boolean actual = board.isAttackerWin();
 
         Assertions.assertEquals(actual, expected);
     }
@@ -492,7 +535,7 @@ public class BoardTest {
 
         boolean expected = true;
 
-        boolean actual = board.doAttackersWin();
+        boolean actual = board.isAttackerWin();
 
         Assertions.assertEquals(actual, expected);
     }
@@ -521,7 +564,7 @@ public class BoardTest {
 
         boolean expected = false;
 
-        boolean actual = board.doAttackersWin();
+        boolean actual = board.isAttackerWin();
 
         Assertions.assertEquals(actual, expected);
     }
