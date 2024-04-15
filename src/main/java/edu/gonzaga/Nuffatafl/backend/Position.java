@@ -1,5 +1,7 @@
 package edu.gonzaga.Nuffatafl.backend;
 
+import edu.gonzaga.Nuffatafl.views.PieceImages;
+
 /**
  * @author Cash Hilstad
  * A class that represents a two-dimensional position.
@@ -65,6 +67,16 @@ public class Position {
     }
 
     /**
+     * Adds pos and the current position together.
+     * @param x The x offset to add.
+     * @param y The y offset to add.
+     * @return A new position that is the sum.
+     */
+    public Position add(int x, int y) {
+        return new Position(this.x + x, this.y + y);
+    }
+
+    /**
      * @return String representation of the Position.
      */
     @Override
@@ -94,4 +106,10 @@ public class Position {
 
         return x == position.x && y == position.y;
     }
+
+    public boolean isNone() {
+        return equals(Position.none);
+    }
+
+    public static Position none = new Position(-1, -1);
 }

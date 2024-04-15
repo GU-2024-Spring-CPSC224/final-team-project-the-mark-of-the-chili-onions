@@ -23,4 +23,30 @@ public class ImageLoading {
         image = image.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }
+
+    public static String resourcesPath = "./src/main/resources/";
+
+    public static ImageIcon settingsIcon(int width, int height) {
+        return getImage(resourcesPath + "settings.png", width, height);
+    }
+
+    public static ImageIcon darkPiece(int size) {
+        return getImage(resourcesPath + "taflPieceDark.png", size, size);
+    }
+
+    public static ImageIcon lightPiece(int size) {
+        return getImage(resourcesPath + "taflPieceLight.png", size, size);
+    }
+
+    public static ImageIcon kingPiece(int size) {
+        return getImage(resourcesPath + "taflPieceKing.png", size, size);
+    }
+
+    public static ImageIcon xTile(int size) {
+        return getImage(resourcesPath + "xTile.png", size, size);
+    }
+
+    public static ImageIcon clear(int size) {
+        return getImage(resourcesPath + "clearImage.png", size, size);
+    }
 }
