@@ -259,38 +259,38 @@ public class Board {
         Piece self = getPieceAtPosition(pos);
 
         //Up direction
-        if (isPositionOnBoard(pos.add(new Position(0, 2)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(0, 2)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(0, 1)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(0, 1)), new NonePiece());
+        if (isPositionOnBoard(pos.add(0, 2))) {
+            Piece ally = getPieceAtPosition(pos.add(0, 2));
+            Piece enemy = getPieceAtPosition(pos.add(0, 1));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(0, 2))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(0, 1), new NonePiece());
             }
         }
 
         //Down direction
-        if (isPositionOnBoard(pos.add(new Position(0, -2)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(0, -2)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(0, -1)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(0, -1)), new NonePiece());
+        if (isPositionOnBoard(pos.add(0, -2))) {
+            Piece ally = getPieceAtPosition(pos.add(0, -2));
+            Piece enemy = getPieceAtPosition(pos.add(0, -1));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(0, -2))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(0, -1), new NonePiece());
             }
         }
 
         //Right direction
-        if (isPositionOnBoard(pos.add(new Position(2, 0)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(2, 0)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(1, 0)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(1, 0)), new NonePiece());
+        if (isPositionOnBoard(pos.add(2, 0))) {
+            Piece ally = getPieceAtPosition(pos.add(2, 0));
+            Piece enemy = getPieceAtPosition(pos.add(1, 0));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(2, 0))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(1, 0), new NonePiece());
             }
         }
 
         //Left direction
-        if (isPositionOnBoard(pos.add(new Position(-2, 0)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(-2, 0)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(-1, 0)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(-1, 0)), new NonePiece());
+        if (isPositionOnBoard(pos.add(-2, 0))) {
+            Piece ally = getPieceAtPosition(pos.add(-2, 0));
+            Piece enemy = getPieceAtPosition(pos.add(-1, 0));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(-2, 0))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(-1, 0), new NonePiece());
             }
         }
     }
@@ -341,10 +341,11 @@ public class Board {
                     }
 
                     //If all of these are Attackers, we're done!
-                    if(getPieceAtPosition(up).sameTeam(Team.ATTACKER) &&
-                            getPieceAtPosition(down).sameTeam(Team.ATTACKER) &&
-                            getPieceAtPosition(left).sameTeam(Team.ATTACKER) &&
-                            getPieceAtPosition(right).sameTeam(Team.ATTACKER)
+                    if(
+                            isPositionCenterOrSameSide(up, Team.ATTACKER) &&
+                            isPositionCenterOrSameSide(down, Team.ATTACKER) &&
+                            isPositionCenterOrSameSide(left, Team.ATTACKER) &&
+                            isPositionCenterOrSameSide(right, Team.ATTACKER)
                     ) {
                         return true;
                     }
@@ -353,6 +354,16 @@ public class Board {
         }
 
         return false;
+    }
+
+    /**
+     * Helper function for isAttackerWin.
+     * @param pos Position to check.
+     * @param team Team to check.
+     * @return True if piece at pos is same team or pos is center.
+     */
+    public boolean isPositionCenterOrSameSide(Position pos, Team team) {
+        return getPieceAtPosition(pos).sameTeam(team) || isPositionCenter(pos);
     }
 
     @Override

@@ -349,6 +349,28 @@ public class BoardTest {
         Assertions.assertEquals(actual, expected);
     }
 
+    @Test
+    void pieceIsCapturedWithCenter() {
+        Board board = new Board(5);
+        Soldier soldier1 = new Soldier(Team.ATTACKER);
+        Soldier soldier2 = new Soldier(Team.DEFENDER);
+
+        Position soldier2Pos = new Position(1, 2);
+        Position from = new Position(0, 0);
+        Position to = new Position(0, 2);
+
+        board.setPiece(from, soldier1);
+        board.setPiece(soldier2Pos, soldier2);
+
+        boolean success = board.movePiece(from, to, Team.ATTACKER);
+
+        boolean expected = true;
+
+        boolean actual = board.getPieceAtPosition(soldier2Pos).isEmpty();
+
+        Assertions.assertEquals(actual, expected);
+    }
+
 
     @Test
     void pieceIsNotCaptured() {
@@ -550,12 +572,10 @@ public class BoardTest {
         Position soldierPos1 = new Position(0,1);
         Position soldierPos2 = new Position(2,1);
         Position soldierPos3 = new Position(1,0);
-        Position soldierPos4 = new Position(1,2);
 
         Soldier soldier1 = new Soldier(team);
         Soldier soldier2 = new Soldier(team);
         Soldier soldier3 = new Soldier(team);
-        Soldier soldier4 = new Soldier(team);
 
         board.setPiece(pos, king);
         board.setPiece(soldierPos1, soldier1);
@@ -563,6 +583,33 @@ public class BoardTest {
         board.setPiece(soldierPos3, soldier3);
 
         boolean expected = false;
+
+        boolean actual = board.isAttackerWin();
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void attackersWinWithCenter() {
+        Board board = new Board(5);
+        Piece king = new King();
+        Position pos = new Position(2, 1);
+        Team team = Team.ATTACKER;
+
+        Position soldierPos1 = new Position(2,0);
+        Position soldierPos2 = new Position(3,1);
+        Position soldierPos3 = new Position(1,1);
+
+        Soldier soldier1 = new Soldier(team);
+        Soldier soldier2 = new Soldier(team);
+        Soldier soldier3 = new Soldier(team);
+
+        board.setPiece(pos, king);
+        board.setPiece(soldierPos1, soldier1);
+        board.setPiece(soldierPos2, soldier2);
+        board.setPiece(soldierPos3, soldier3);
+
+        boolean expected = true;
 
         boolean actual = board.isAttackerWin();
 
