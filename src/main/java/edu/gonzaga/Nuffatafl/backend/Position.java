@@ -1,7 +1,5 @@
 package edu.gonzaga.Nuffatafl.backend;
 
-import edu.gonzaga.Nuffatafl.views.PieceImages;
-
 /**
  * @author Cash Hilstad
  * A class that represents a two-dimensional position.
@@ -107,9 +105,11 @@ public class Position {
         return x == position.x && y == position.y;
     }
 
+    /** Checks if this piece is equal to the none piece */
     public boolean isNone() {
         return equals(Position.none);
     }
 
+    /** A piece with x and y = -1 to use in place of null for PropertyChangeSupport */
     public static Position none = new Position(-1, -1);
 }

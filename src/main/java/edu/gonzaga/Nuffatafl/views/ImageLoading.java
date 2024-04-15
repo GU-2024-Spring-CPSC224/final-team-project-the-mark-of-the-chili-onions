@@ -24,10 +24,15 @@ public class ImageLoading {
         return new ImageIcon(image);
     }
 
+    /** Keep track of the resource path */
     public static String resourcesPath = "./src/main/resources/";
 
-    public static ImageIcon settingsIcon(int width, int height) {
-        return getImage(resourcesPath + "settings.png", width, height);
+    public static ImageIcon settingsIcon(int size) {
+        return getImage(resourcesPath + "settings.png", size, size);
+    }
+
+    public static ImageIcon rulesIcon(int size) {
+        return getImage(resourcesPath + "rules.png", size, size);
     }
 
     public static ImageIcon darkPiece(int size) {
@@ -47,6 +52,6 @@ public class ImageLoading {
     }
 
     public static ImageIcon clear(int size) {
-        return getImage(resourcesPath + "clearImage.png", size, size);
+        return getImage(resourcesPath + "clear.png", size, size);
     }
 }

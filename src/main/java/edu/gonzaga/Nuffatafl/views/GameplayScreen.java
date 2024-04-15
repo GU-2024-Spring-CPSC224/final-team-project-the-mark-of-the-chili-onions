@@ -28,12 +28,12 @@ public class GameplayScreen extends JPanel {
     private JPanel bottomPanel;
     private JPanel capturedPiecesView;
     private JPanel turnHistoryView;
-    private JLabel titleLabel;
     private JLabel currentTeamLabel;
 
     public GameplayScreen(StateController stateController) {
         super();
 
+        // Set up the board view the first time this screen is shown
         this.stateController = stateController;
         this.stateController.onScreenChange(event -> {
             if (event.getNewValue() == Screen.gameplay && boardView == null) {
@@ -41,10 +41,12 @@ public class GameplayScreen extends JPanel {
             }
         });
 
+        // Set up callbakcs for when team is switched or game is won
         game = stateController.gameManager;
         game.onTeamSwitch(event -> handleTeamSwitch(event));
         game.onVictory(event -> handleVictory(event));
 
+        // Set up the UI
         setupLayout();
         setupTopPanel();
         setupBottomPanel();
@@ -64,23 +66,21 @@ public class GameplayScreen extends JPanel {
         topPanel.setSize(topPanel.getWidth(), 50);
         add(topPanel, BorderLayout.NORTH);
 
-        // Window Title
-        titleLabel = new JLabel("Gameplay Screen: ");
-        topPanel.add(titleLabel);
-
         // Current Team
         currentTeamLabel = new JLabel();
         setCurrentTeamText();
         topPanel.add(currentTeamLabel);
 
         // Rules button
-        JButton showRulesScreenButton = new JButton("Rules");
-        showRulesScreenButton.addActionListener(event -> stateController.showRules());
-        topPanel.add(showRulesScreenButton);
+        JButton rulesButton = new JButton();
+        rulesButton.setIcon(ImageLoading.rulesIcon(20));
+        rulesButton.setText("Rules");
+        rulesButton.addActionListener(event -> stateController.showRules());
+        topPanel.add(rulesButton);
 
         // Settings button
         JButton settingsButton = new JButton();
-        settingsButton.setIcon(ImageLoading.settingsIcon(20, 20));
+        settingsButton.setIcon(ImageLoading.settingsIcon(20));
         settingsButton.setText("Settings");
         settingsButton.addActionListener(event -> stateController.showSettings());
         topPanel.add(settingsButton);
@@ -93,9 +93,12 @@ public class GameplayScreen extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
 
         // End game button
-        JButton showWelcomeScreenButton = new JButton("End Game");
-        showWelcomeScreenButton.addActionListener(event -> stateController.endGame());
-        bottomPanel.add(showWelcomeScreenButton);
+        JButton endGameButton = new JButton("End Game");
+        endGameButton.setLayout(new FlowLayout(FlowLayout.LEFT));
+        endGameButton.addActionListener(event -> stateController.endGame());
+        bottomPanel.add(endGameButton, FlowLayout.LEFT);
+
+        bottomPanel.add(new JPanel());
 
         // Deselect pieces button
         JButton deselectPiecesButton = new JButton("Deselect Pieces");
@@ -132,8 +135,8 @@ public class GameplayScreen extends JPanel {
     }
 
     private void handleVictory(PropertyChangeEvent event) {
-        titleLabel.setText("Winner: " + (Team) event.getNewValue());
-        currentTeamLabel.setText("");
+        currentTeamLabel.setText("Winner: " + (Team) event.getNewValue());
+        boardView.deselectPieces();
     }
 
     private void setCurrentTeamText() {
