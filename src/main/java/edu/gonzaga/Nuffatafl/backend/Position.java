@@ -66,6 +66,7 @@ public class Position {
 
     /**
      * Adds pos and the current position together.
+
      * @param x The x offset to add.
      * @param y The y offset to add.
      * @return A new position that is the sum.

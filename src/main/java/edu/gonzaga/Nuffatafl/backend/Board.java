@@ -86,8 +86,17 @@ public class Board {
      * @param pos The position to check.
      * @return True if the position exists.
      */
-    public boolean isOnBoard(Position pos) {
+    public boolean isPositionOnBoard(Position pos) {
         return ((pos.getX() < SIZE) && (pos.getX() >= 0)) && ((pos.getY() < SIZE) && (pos.getY() >= 0));
+    }
+
+    /**
+     * Checks if a position is at center. Only intended for odd-spaced boards.
+     * @param pos The position to check.
+     * @return True if the position is at the center.
+     */
+    public boolean isPositionCenter(Position pos) {
+        return new Position(SIZE/2, SIZE/2).equals(pos);
     }
 
     /**
@@ -131,7 +140,7 @@ public class Board {
     public boolean movePiece(Position from, Position to, Team team) {
         if (canMoveWithTeam(from, to, team)) {
             swapPieces(from, to);
-            handleCapture(to);
+            checkForAndHandleCapture(to);
             return true;
         }
 
@@ -158,6 +167,10 @@ public class Board {
      */
     public boolean canMove(Position from, Position to) {
         if (to.getX() >= SIZE || to.getY() >= SIZE) {
+            return false;
+        }
+
+        if (isPositionCenter(to)) {
             return false;
         }
 
@@ -229,7 +242,7 @@ public class Board {
      * Checks to see if pieces should be captured, and if so, captures them.
      * @param pos The position a piece has been moved to.
      */
-    private void handleCapture(Position pos) {
+    private void checkForAndHandleCapture(Position pos) {
         /*
         This will be yucky, but I feel that there's no true loop method for this.
         Basic Plan:
@@ -239,45 +252,45 @@ public class Board {
             If yes, delete.
          */
 
-        if (!isOnBoard(pos)) {
+        if (!isPositionOnBoard(pos)) {
             return;
         }
 
         Piece self = getPieceAtPosition(pos);
 
         //Up direction
-        if (isOnBoard(pos.add(new Position(0, 2)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(0, 2)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(0, 1)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(0, 1)), new NonePiece());
+        if (isPositionOnBoard(pos.add(0, 2))) {
+            Piece ally = getPieceAtPosition(pos.add(0, 2));
+            Piece enemy = getPieceAtPosition(pos.add(0, 1));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(0, 2))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(0, 1), new NonePiece());
             }
         }
 
         //Down direction
-        if (isOnBoard(pos.add(new Position(0, -2)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(0, -2)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(0, -1)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(0, -1)), new NonePiece());
+        if (isPositionOnBoard(pos.add(0, -2))) {
+            Piece ally = getPieceAtPosition(pos.add(0, -2));
+            Piece enemy = getPieceAtPosition(pos.add(0, -1));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(0, -2))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(0, -1), new NonePiece());
             }
         }
 
         //Right direction
-        if (isOnBoard(pos.add(new Position(2, 0)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(2, 0)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(1, 0)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(1, 0)), new NonePiece());
+        if (isPositionOnBoard(pos.add(2, 0))) {
+            Piece ally = getPieceAtPosition(pos.add(2, 0));
+            Piece enemy = getPieceAtPosition(pos.add(1, 0));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(2, 0))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(1, 0), new NonePiece());
             }
         }
 
         //Left direction
-        if (isOnBoard(pos.add(new Position(-2, 0)))) {
-            Piece ally = getPieceAtPosition(pos.add(new Position(-2, 0)));
-            Piece enemy = getPieceAtPosition(pos.add(new Position(-1, 0)));
-            if (ally.sameTeam(self.getTeam()) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(new Position(-1, 0)), new NonePiece());
+        if (isPositionOnBoard(pos.add(-2, 0))) {
+            Piece ally = getPieceAtPosition(pos.add(-2, 0));
+            Piece enemy = getPieceAtPosition(pos.add(-1, 0));
+            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(-2, 0))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
+                setPiece(pos.add(-1, 0), new NonePiece());
             }
         }
     }
@@ -287,7 +300,7 @@ public class Board {
      * @param pos The position to check.
      * @return True if there is a win.
      */
-    public boolean isPositionDefenderWin(Position pos) {
+    public boolean isDefenderWin(Position pos) {
         Piece pieceAtPos = getPieceAtPosition(pos);
 
         if (pieceAtPos.getType() != Piece.Type.KING) {
@@ -308,7 +321,7 @@ public class Board {
      * Checks the whole board to see if the King is surrounded by Attackers.
      * @return True if the Attackers have won.
      */
-    public boolean doAttackersWin() {
+    public boolean isAttackerWin() {
         // We must find the king... thus, we embark on a quest...
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
@@ -323,15 +336,16 @@ public class Board {
                     Position right = pos.add(new Position(1, 0));
 
                     //If any of these are off the board, then the Attackers can't win.
-                    if(!isOnBoard(up) || !isOnBoard(down) || !isOnBoard(left) || !isOnBoard(right)) {
+                    if(!isPositionOnBoard(up) || !isPositionOnBoard(down) || !isPositionOnBoard(left) || !isPositionOnBoard(right)) {
                         return false;
                     }
 
                     //If all of these are Attackers, we're done!
-                    if(getPieceAtPosition(up).sameTeam(Team.ATTACKER) &&
-                            getPieceAtPosition(down).sameTeam(Team.ATTACKER) &&
-                            getPieceAtPosition(left).sameTeam(Team.ATTACKER) &&
-                            getPieceAtPosition(right).sameTeam(Team.ATTACKER)
+                    if(
+                            isPositionCenterOrSameSide(up, Team.ATTACKER) &&
+                            isPositionCenterOrSameSide(down, Team.ATTACKER) &&
+                            isPositionCenterOrSameSide(left, Team.ATTACKER) &&
+                            isPositionCenterOrSameSide(right, Team.ATTACKER)
                     ) {
                         return true;
                     }
@@ -340,6 +354,16 @@ public class Board {
         }
 
         return false;
+    }
+
+    /**
+     * Helper function for isAttackerWin.
+     * @param pos Position to check.
+     * @param team Team to check.
+     * @return True if piece at pos is same team or pos is center.
+     */
+    public boolean isPositionCenterOrSameSide(Position pos, Team team) {
+        return getPieceAtPosition(pos).sameTeam(team) || isPositionCenter(pos);
     }
 
     @Override

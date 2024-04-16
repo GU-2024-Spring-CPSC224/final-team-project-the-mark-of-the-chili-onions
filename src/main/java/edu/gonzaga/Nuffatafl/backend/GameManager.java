@@ -19,15 +19,17 @@ public class GameManager {
     /** Handles updating observers when a team wins the game */
     private PropertyChangeSupport winnerChangeManager;
 
+    private static final Team DEFAULT_STARTING_TEAM = Team.ATTACKER;
+
     public GameManager(int size) {
         board = new Board(size);
-        currentTeam = Team.ATTACKER;
+        currentTeam = DEFAULT_STARTING_TEAM;
         this.setupChangeManagers();
     }
 
     public GameManager() {
         board = new Board();
-        currentTeam = Team.DEFENDER;
+        currentTeam = DEFAULT_STARTING_TEAM;
         this.setupChangeManagers();
     }
 
@@ -53,8 +55,8 @@ public class GameManager {
         boolean result = board.movePiece(from, to, currentTeam);
         switchCurrentTeam();
 
-        if (board.isPositionDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
-        if (board.doAttackersWin()) { this.handleWin(Team.ATTACKER); }
+        if (board.isDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
+        if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
 
         //Publishes that the board was changed to observers of the board
         //TODO: Update for each different type of board change (move and capture) s
