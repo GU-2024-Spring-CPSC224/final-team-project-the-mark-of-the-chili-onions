@@ -88,6 +88,10 @@ public class GameManager {
         this.winnerChangeManager.firePropertyChange("winner", Team.NONE, team);
     }
 
+    public Team getWinner() {
+        return winner;
+    }
+
     public Board getBoard() {return board;}
 
     public Team getCurrentTeam() {return currentTeam;}

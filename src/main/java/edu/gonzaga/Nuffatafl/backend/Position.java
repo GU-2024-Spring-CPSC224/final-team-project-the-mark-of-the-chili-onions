@@ -66,7 +66,9 @@ public class Position {
 
     /**
      * Adds pos and the current position together.
-     * @param x, y The coordinates to add.
+
+     * @param x The x offset to add.
+     * @param y The y offset to add.
      * @return A new position that is the sum.
      */
     public Position add(int x, int y) {
@@ -103,4 +105,12 @@ public class Position {
 
         return x == position.x && y == position.y;
     }
+
+    /** Checks if this piece is equal to the none piece */
+    public boolean isNone() {
+        return equals(Position.none);
+    }
+
+    /** A piece with x and y = -1 to use in place of null for PropertyChangeSupport */
+    public static Position none = new Position(-1, -1);
 }
