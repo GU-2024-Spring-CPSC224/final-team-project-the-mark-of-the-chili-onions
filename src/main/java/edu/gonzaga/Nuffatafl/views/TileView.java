@@ -11,16 +11,17 @@
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.*;
-import edu.gonzaga.Nuffatafl.viewHelpers.ClickHandler;
+import edu.gonzaga.Nuffatafl.viewHelpers.EventCallback;
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 
 /** View for a single tile on the gameboard */
-public class TileView extends JPanel {
+public class TileView extends JPanel implements MouseListener {
     private GameManager game;
     private Position position;
     private PieceImages pieceImages;
@@ -32,10 +33,10 @@ public class TileView extends JPanel {
     private JLabel xLabel;
 
     /** Called when a click occurs on this tile */
-    private ClickHandler<Position> clickHandler;
+    private EventCallback<Position> clickHandler;
 
     /** Called when this tile is double clicked */
-    private ClickHandler<Position> doubleClickHandler;
+    private EventCallback<Position> doubleClickHandler;
 
     public TileView(GameManager gameManager, Position position, PieceImages pieceImages) {
         super();
@@ -48,7 +49,9 @@ public class TileView extends JPanel {
 
         setupLayout();
         setupCheckerColoring();
-        setupButtonAndXLabel();
+        setupButtonAndXLabel();  
+        
+        addMouseListener(this);
     }
 
     /** Gets resied images and updates the piece and x image */
@@ -58,21 +61,21 @@ public class TileView extends JPanel {
     }
 
     /** Sets the action to be performed when this tile is clicked */
-    public void onClick(ClickHandler<Position> clickHandler) {
+    public void onClick(EventCallback<Position> clickHandler) {
         this.clickHandler = clickHandler;
     }
 
     /** Sets the action to be performed when this tile is double clicked */
-    public void onDoubleClick(ClickHandler<Position> clickHandler) {
+    public void onDoubleClick(EventCallback<Position> clickHandler) {
         doubleClickHandler = clickHandler;
     }
 
     /** Updates the background color when the boardVIew's source or destination positions are changed */
     public void updateSelected(Position source, Position destination) {
         if (position.equals(source)) {
-            setBackground(new Color(160, 225, 255));
+            Theme.setBackgroundFor(this, ThemeComponent.accent);
         } else if (position.equals(destination)) {
-            setBackground(new Color(255, 250, 160));
+            Theme.setBackgroundFor(this, ThemeComponent.accent2);
         } else {
             setupCheckerColoring();
         }
@@ -85,9 +88,9 @@ public class TileView extends JPanel {
     /** Colors the background of the square according to its corresponding color on a checkerboard */
     private void setupCheckerColoring() {
         if (position.getX() % 2 == position.getY() % 2) {
-            setBackground(new Color(210, 210, 210));
+            Theme.setBackgroundFor(this, ThemeComponent.checkerOn);
         } else {
-            setBackground(Color.white);
+            Theme.setBackgroundFor(this, ThemeComponent.chekcerOff);
         }
     }
 
@@ -99,14 +102,14 @@ public class TileView extends JPanel {
         button.setOpaque(false);
         button.setBorderPainted(false);
         button.setSize(getSize());
-        button.addMouseListener(mouseListener);
+        button.addMouseListener(this);
         button.setFocusPainted(false);
 
         updatePieceImage();
 
         add(button);
         add(xLabel);
-
+        xLabel.addMouseListener(this);
     }
 
     /** Updates the image for the piece and x from the current image assets */
@@ -128,22 +131,19 @@ public class TileView extends JPanel {
             updatePieceImage();
         }
     }
-
-    /** Handles clicks and double clicks on this view */
-    private final MouseListener mouseListener = new MouseListener() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            if (e.getClickCount() == 1) {
-                clickHandler.onClick(position);
-            } else {
-                doubleClickHandler.onClick(position);
-            }
+    
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (e.getClickCount() == 1) {
+            clickHandler.action(position);
+        } else {
+            doubleClickHandler.action(position);
         }
+    }
 
-        // Unused
-        @Override public void mousePressed(MouseEvent e) {}
-        @Override public void mouseReleased(MouseEvent e) {}
-        @Override public void mouseEntered(MouseEvent e) {}
-        @Override public void mouseExited(MouseEvent e) {}
-    };
+    // Unused
+    @Override public void mousePressed(MouseEvent e) {}
+    @Override public void mouseReleased(MouseEvent e) {}
+    @Override public void mouseEntered(MouseEvent e) {}
+    @Override public void mouseExited(MouseEvent e) {}
 }

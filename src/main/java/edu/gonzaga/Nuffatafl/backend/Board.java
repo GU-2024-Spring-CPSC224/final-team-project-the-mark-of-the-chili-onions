@@ -166,22 +166,19 @@ public class Board {
      * @return True if movement is possible.
      */
     public boolean canMove(Position from, Position to) {
-        if (to.getX() >= SIZE || to.getY() >= SIZE) {
-            return false;
-        }
-
-        if (isPositionCenter(to)) {
+        if (!isPositionOnBoard(to) || isPositionCenter(to)) {
             return false;
         }
 
         if (from.getX() == to.getX() ^ from.getY() == to.getY()) { //XOR; only one coordinate should change
-
             if (from.getX() != to.getX()) {
-                return isThereCollisionAlongX(from.getX(), to.getX(), from.getY());
+                boolean output = xPathIsValid(from.getX(), to.getX(), from.getY());
+                return output;
             }
 
             if (from.getY() != to.getY()) {
-                return isThereCollisionAlongY(from.getY(), to.getY(), from.getX());
+                boolean output = yPathIsValid(from.getY(), to.getY(), from.getX());
+                return output;
             }
         }
 
@@ -194,17 +191,19 @@ public class Board {
      * @param y The y coordinate to work within.
      * @return True if there is nothing to collide with between from and to along y.
      */
-    private boolean isThereCollisionAlongX(int from, int to, int y) {
+    private boolean xPathIsValid(int from, int to, int y) {
+        int start, end;
+        
         if (from > to) {
-            int temp = to;
-            to = from;
-            from = to;
-            to = temp;
+            start = to;
+            end = from - 1;
+        } else {
+            start = from + 1;
+            end = to;
         }
-
-        for (int x = from + 1; x <= to; x++) {
+        
+        for (int x = start; x <= end; x++) {
             Piece pieceAtCoord = getPieceAtPosition(new Position(x, y));
-
             if (!pieceAtCoord.isEmpty()) {
                 return false;
             }
@@ -219,15 +218,18 @@ public class Board {
      * @param x The x coordinate to work within.
      * @return True if there is nothing to collide with between from and to along x.
      */
-    private boolean isThereCollisionAlongY(int from, int to, int x) {
-        if (from > to) {
-            int temp = to;
-            to = from;
-            from = to;
-            to = temp;
-        }
+    private boolean yPathIsValid(int from, int to, int x) {
+        int start, end;
 
-        for (int y = from + 1; y <= to; y++) {
+        if (from > to) {
+            start = to;
+            end = from - 1;
+        } else {
+            start = from + 1;
+            end = to;
+        }
+        
+        for (int y = start; y <= end; y++) {
             Piece pieceAtCoord = getPieceAtPosition(new Position(x, y));
 
             if (!pieceAtCoord.isEmpty()) {
@@ -237,7 +239,41 @@ public class Board {
 
         return true;
     }
+    
+    private boolean isPositionCenterAndEmpty(Position position) {
+        if (isPositionOnBoard(position)) {
+            return isPositionCenter(position) && getPieceAtPosition(position).team != Team.NONE;
+        } else {
+            return false;
+        }
+    }
+    
+    private void checkForAndHandleCaptureInDirection(Position movedPosition, int x, int y) {
+        System.out.println("checkForAndHandleCaptureInDirection: " + movedPosition + ", Direction: " + x + ", " + y);
+        if (x != 0 && y != 0) {
+            return;
+        }
 
+        Position oneOver = movedPosition.add(x, y);
+        Position twoOver = movedPosition.add(2 * x, 2 * y);
+
+        if (!isPositionOnBoard(movedPosition) || !isPositionOnBoard(oneOver) || !isPositionOnBoard(twoOver)) {
+            return;
+        }
+        
+        Piece movedPiece = getPieceAtPosition(movedPosition);
+        Piece oneOverPiece = getPieceAtPosition(oneOver);
+        Piece twoOverPiece = getPieceAtPosition(twoOver);
+
+        if (!movedPiece.isEnemyOf(oneOverPiece)) {
+            return;
+        }
+        
+        if (movedPiece.isAllyOf(twoOverPiece) || isPositionCenterAndEmpty(twoOver)) {
+            setPiece(oneOver, new NonePiece());
+        }
+    }
+    
     /**
      * Checks to see if pieces should be captured, and if so, captures them.
      * @param pos The position a piece has been moved to.
@@ -255,9 +291,15 @@ public class Board {
         if (!isPositionOnBoard(pos)) {
             return;
         }
-
-        Piece self = getPieceAtPosition(pos);
-
+        
+        checkForAndHandleCaptureInDirection(pos, -1, 0);
+        checkForAndHandleCaptureInDirection(pos, 1, 0);
+        checkForAndHandleCaptureInDirection(pos, 0, -1);
+        checkForAndHandleCaptureInDirection(pos, 0, 1);
+        
+        /* 
+        Piece self = getPieceAtPosition(pos);        
+        
         //Up direction
         if (isPositionOnBoard(pos.add(0, 2))) {
             Piece ally = getPieceAtPosition(pos.add(0, 2));
@@ -293,6 +335,7 @@ public class Board {
                 setPiece(pos.add(-1, 0), new NonePiece());
             }
         }
+        */
     }
 
     /**

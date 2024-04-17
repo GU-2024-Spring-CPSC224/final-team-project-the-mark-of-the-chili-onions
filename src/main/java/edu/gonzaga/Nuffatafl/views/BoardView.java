@@ -13,6 +13,8 @@ package edu.gonzaga.Nuffatafl.views;
 import edu.gonzaga.Nuffatafl.backend.GameManager;
 import edu.gonzaga.Nuffatafl.backend.Position;
 import edu.gonzaga.Nuffatafl.backend.Team;
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.KeyCode;
 
 import javax.swing.*;
@@ -58,6 +60,8 @@ public class BoardView extends JPanel {
 
         // Handle relevant key presses
         setKeyBindings();
+        
+        Theme.setBackgroundFor(this, ThemeComponent.background);
     }
 
     /** Moves piece from sourcePosition to destinationPosition if that is a valid move */
@@ -105,9 +109,17 @@ public class BoardView extends JPanel {
                 tileView.onDoubleClick(position -> handleDoubleClick(position));
 
                 // Inform tileView when piece images or source or destination pieces change
-                pieceImagesChange.addPropertyChangeListener(event -> tileView.resizeImage((PieceImages) event.getNewValue()));
-                sourcePositionChangeSupport.addPropertyChangeListener(event -> tileView.updateSelected(sourcePosition, destinationPosition));
-                destinationPositionChangeSupport.addPropertyChangeListener(event -> tileView.updateSelected(sourcePosition, destinationPosition));
+                pieceImagesChange.addPropertyChangeListener(event -> {
+                    tileView.resizeImage((PieceImages) event.getNewValue());
+                });
+                
+                sourcePositionChangeSupport.addPropertyChangeListener(event -> {
+                    tileView.updateSelected(sourcePosition, destinationPosition);
+                });
+                
+                destinationPositionChangeSupport.addPropertyChangeListener(event -> {
+                    tileView.updateSelected(sourcePosition, destinationPosition);
+                });
 
                 // Add the tile view and keep track of it
                 tileViews.add(tileView);
@@ -198,24 +210,24 @@ public class BoardView extends JPanel {
             }
 
             if (sourcePosition.isNone() || !game.canAttemptMove(sourcePosition)) { return; }
-
-            Position newPosition = Position.none;
-            Position initialPosition = sourcePosition;
-            if (!destinationPosition.isNone()) { initialPosition = destinationPosition; }
-
+            
+            Position newDestinationPosition = destinationPosition;
+            if (newDestinationPosition.isNone()) { 
+                newDestinationPosition = sourcePosition; }
+            
             switch (keyCode) {
-                case up -> newPosition = initialPosition.add(0, -1);
-                case down -> newPosition = initialPosition.add(0, 1);
-                case left -> newPosition = initialPosition.add(-1, 0);
-                case right -> newPosition = initialPosition.add(1, 0);
+                case up -> newDestinationPosition = newDestinationPosition.add(0, -1);
+                case down -> newDestinationPosition = newDestinationPosition.add(0, 1);
+                case left -> newDestinationPosition = newDestinationPosition.add(-1, 0);
+                case right -> newDestinationPosition = newDestinationPosition.add(1, 0);
                 default -> { return; }
             }
 
-            if (sourcePosition.equals(newPosition)) {
+            if (sourcePosition.equals(newDestinationPosition)) {
                 setDestinationPosition(Position.none);
-            } else if (game.getBoard().canMove(sourcePosition, newPosition)) {
-                setDestinationPosition(newPosition);
-            }
+            } else if (game.getBoard().canMove(sourcePosition, newDestinationPosition)) {
+                setDestinationPosition(newDestinationPosition);
+            }            
         }
     }
 

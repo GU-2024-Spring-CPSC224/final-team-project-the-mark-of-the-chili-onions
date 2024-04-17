@@ -19,6 +19,14 @@ public abstract class Piece {
 
         return team == this.team;
     }
+    
+    public boolean isAllyOf(Piece other) {
+        return sameTeam(other.team);
+    }
+    
+    public boolean isEnemyOf(Piece other) {
+        return team != Team.NONE && other.team != Team.NONE && team != other.team; 
+    }
 
     public Team getTeam() {
         return team;
