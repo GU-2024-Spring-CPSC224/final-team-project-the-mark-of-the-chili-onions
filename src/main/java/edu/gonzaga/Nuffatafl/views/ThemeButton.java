@@ -49,6 +49,7 @@ public class ThemeButton extends JPanel {
         button = new JButton();
         button.setOpaque(false);
         button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
         if (text != null) { button.setText(text); }
         if (icon != null) { button.setIcon(icon); }
         button.addActionListener(event -> {

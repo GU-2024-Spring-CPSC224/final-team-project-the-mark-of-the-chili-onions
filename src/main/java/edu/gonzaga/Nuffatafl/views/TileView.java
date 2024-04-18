@@ -88,6 +88,7 @@ public class TileView extends JPanel {
         button.setBorderPainted(false);
         button.setFocusPainted(false);
         button.setSize(getSize());
+        button.setContentAreaFilled(false);
         
         xLabel = new JLabel();
         add(button);
