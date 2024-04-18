@@ -20,7 +20,7 @@ public class MainGame {
     public static void main(String[] args) {
         System.out.println("Program starting");
 
-        javax.swing.SwingUtilities.invokeLater(() -> {
+        javax.swing.SwingUtilities.invokeLater(() -> {            
             MainView mainView = new MainView();
             mainView.showGUI();
        });

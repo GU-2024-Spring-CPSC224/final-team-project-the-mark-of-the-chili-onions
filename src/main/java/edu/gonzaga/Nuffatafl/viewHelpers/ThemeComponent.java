@@ -1,5 +1,6 @@
 package edu.gonzaga.Nuffatafl.viewHelpers;
 
+/** Specifies the different colors a theme has to implement */
 public enum ThemeComponent {
     background,
     background2,

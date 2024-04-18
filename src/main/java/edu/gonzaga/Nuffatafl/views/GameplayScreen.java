@@ -10,12 +10,9 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.backend.GameManager;
-import edu.gonzaga.Nuffatafl.backend.Team;
-import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
-import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
-import edu.gonzaga.Nuffatafl.viewNavigation.Screen;
-import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+import edu.gonzaga.Nuffatafl.backend.*;
+import edu.gonzaga.Nuffatafl.viewHelpers.*;
+import edu.gonzaga.Nuffatafl.viewNavigation.*;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -34,8 +31,6 @@ public class GameplayScreen extends JPanel {
     public GameplayScreen(StateController stateController) {
         super();
         
-        Theme.loadSavedThemePreference();
-
         // Set up the board view the first time this screen is shown
         this.stateController = stateController;
         this.stateController.onScreenChange(event -> {

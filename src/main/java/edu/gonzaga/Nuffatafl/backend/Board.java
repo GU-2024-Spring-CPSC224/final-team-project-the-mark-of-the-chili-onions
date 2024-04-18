@@ -240,6 +240,11 @@ public class Board {
         return true;
     }
     
+    /**
+     * Checks if the position is both at the center of the board and empty
+     * @param position The position to check
+     * @return True if the position is empty and at the center of the board
+     */
     private boolean isPositionCenterAndEmpty(Position position) {
         if (isPositionOnBoard(position)) {
             return isPositionCenter(position) && getPieceAtPosition(position).isEmpty();
@@ -248,6 +253,12 @@ public class Board {
         }
     }
     
+    /**
+     * Checks for and handles a capture in the up, down, left, or right direction
+     * @param movedPosition The position to check from
+     * @param x 1 for right, -1 for left,  0 for up, 0 for down
+     * @param y 0 for right,  0 for left, -1 for up, 1 for down
+     */
     private void checkForAndHandleCaptureInDirection(Position movedPosition, int x, int y) {
         if (x != 0 && y != 0) { return; }
 

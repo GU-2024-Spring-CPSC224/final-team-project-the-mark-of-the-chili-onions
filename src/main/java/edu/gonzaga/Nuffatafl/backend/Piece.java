@@ -20,10 +20,12 @@ public abstract class Piece {
         return team == this.team;
     }
     
+    /** Returns true if the given piece is the same team as this piece */
     public boolean isAllyOf(Piece other) {
         return sameTeam(other.team);
     }
     
+    /** Returns true if the given piece is the opposite team of this piece */
     public boolean isEnemyOf(Piece other) {
         return team != Team.NONE && other.team != Team.NONE && team != other.team; 
     }
