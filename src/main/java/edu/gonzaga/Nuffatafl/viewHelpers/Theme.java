@@ -11,7 +11,10 @@ public class Theme {
     
     /** The lamda expression that returns the right color for each ThemeComponent in this theme */
     private ThemeColorKey colorKey;
-    
+
+    /** The available themes to choose from */
+    public static ArrayList<Theme> themes = new ArrayList<Theme>();
+
     /** 
      * Creates a theme with a name and a lamda expression that returns the right color for each ThemeComponent.
      * Adds the theme to Theme.themes
@@ -21,20 +24,18 @@ public class Theme {
         this.colorKey = colorKey;
         Theme.themes.add(this);
     }
-    
+
     /** Returns the name of the theme to display to the user */
     public String getName() {
         return name;
     }
-    
+
     /** Returns the color this theme specifies for the input ThemeComponent */
     public Color colorForKey(ThemeComponent themeKey) {
         return colorKey.colorForKey(themeKey);
     }
-    
-    /** The available themes to choose from */
-    public static ArrayList<Theme> themes = new ArrayList<Theme>();
-        
+
+
     /** Default theme (light) */
     public static Theme defaultTheme = new Theme("Default", themeKey -> {
         return switch (themeKey) {
@@ -48,7 +49,7 @@ public class Theme {
             case text2          -> new Color(61, 68, 69);
         };
     });
-    
+
     /** Midnight theme (dark) */
     public static Theme midnight = new Theme("Midnight", themeKey -> {
         return switch (themeKey) {
@@ -85,17 +86,20 @@ public class Theme {
     
     /** Set the current theme to be a new theme */
     public static void setTheme(Theme theme) {
-        if (theme != null) { 
-            current = theme; 
-        
-            backgroundColorObservers.forEach(observer -> {
-                observer.jComponent.setBackground(current.colorForKey(observer.themeComponent));
-            });
-
-            foregroundColorObservers.forEach(observer -> {
-                observer.jComponent.setForeground(current.colorForKey(observer.themeComponent));
-            });
+        if (theme == null) {
+            System.out.println("Warning: Cannot set theme to a null value");
+            return;
         }
+
+        current = theme;
+
+        backgroundColorObservers.forEach(observer -> {
+            observer.jComponent.setBackground(current.colorForKey(observer.themeComponent));
+        });
+
+        foregroundColorObservers.forEach(observer -> {
+            observer.jComponent.setForeground(current.colorForKey(observer.themeComponent));
+        });
     }
 
     /**

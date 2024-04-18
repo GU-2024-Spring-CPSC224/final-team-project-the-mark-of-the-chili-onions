@@ -41,7 +41,7 @@ public class TileView extends JPanel {
 
         setupLayout();
         setupCheckerColoring();
-        setupButtonAndXLabel();          
+        setupButtonAndXLabel();
     }
 
     /** Gets resied images and updates the piece and x image */

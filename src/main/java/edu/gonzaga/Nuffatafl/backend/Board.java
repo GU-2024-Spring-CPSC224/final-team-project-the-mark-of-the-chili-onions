@@ -297,7 +297,8 @@ public class Board {
         if (!isPositionOnBoard(pos)) {
             return;
         }
-        
+        // param 1 is x direction: 1 for right, -1 for left,  0 for up, 0 for down
+        // param 2 is y direction:  0 for right,  0 for left, -1 for up, 1 for down
         checkForAndHandleCaptureInDirection(pos, -1, 0);
         checkForAndHandleCaptureInDirection(pos, 1, 0);
         checkForAndHandleCaptureInDirection(pos, 0, -1);
