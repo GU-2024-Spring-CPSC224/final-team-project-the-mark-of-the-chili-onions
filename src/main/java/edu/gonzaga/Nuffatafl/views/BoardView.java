@@ -106,7 +106,6 @@ public class BoardView extends JPanel {
 
                 // Handle when user clicks or double-clicks on tile
                 tileView.onClick(position -> handleClick(position));
-                tileView.onDoubleClick(position -> handleDoubleClick(position));
 
                 // Inform tileView when piece images or source or destination pieces change
                 pieceImagesChange.addPropertyChangeListener(event -> {
@@ -130,7 +129,6 @@ public class BoardView extends JPanel {
 
     /** Sets the sourcePosition if input position is valid and game is not over, updates observers */
     private void setSourcePosition(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
         Position old = sourcePosition;
         sourcePosition = position;
         sourcePositionChangeSupport.firePropertyChange("primarySelection", old, position);
@@ -138,7 +136,6 @@ public class BoardView extends JPanel {
 
     /** Sets the destinationPosition if input position is valid and game is not over, updates observers */
     private void setDestinationPosition(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
         Position old = destinationPosition;
         destinationPosition = position;
         destinationPositionChangeSupport.firePropertyChange("secondarySelection", old, position);
@@ -146,22 +143,27 @@ public class BoardView extends JPanel {
 
     /** handles when a user clicks on one of the tileViews */
     private void handleClick(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
-        // Set as source position if there is no source position and input is valid piece on same team
-        // Otherwise set as destination position if input corresponds to a valid space the player can move to
-        if (sourcePosition.isNone()) {
-            if (game.canAttemptMove(position)) { setSourcePosition(position); }
-        } else if (game.getBoard().canMove(sourcePosition, position)) {
-            setDestinationPosition(position);
-        }
-    }
-
-    /** handles when a user double clicks on one of the tileViews */
-    private void handleDoubleClick(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
-        // Attempt to move the piece at the sourcePosition to the input position if that is a valid move
-        if (!sourcePosition.isNone() && !destinationPosition.isNone() && !sourcePosition.equals(position)) {
-            attemptMove();
+        // If the game is over, do nothing
+        // If no sourcePosition, set sourcePosition to position
+        // If sourcePosition == position, deselect it
+        // If there is a sourcePosition but no destinationPosition, set the destinationPosition to position
+        // If destinationPosition == position, deselect it
+                
+        if (!game.getWinner().equals(Team.NONE)) { 
+            return; 
+        } else if (sourcePosition.isNone()) {
+            if (game.canAttemptMove(position)) { 
+                setSourcePosition(position);
+            }
+        } else if (position.equals(sourcePosition)) {
+            setSourcePosition(Position.none);
+            setDestinationPosition(Position.none);
+        } else if (destinationPosition.isNone()) {
+            if (game.getBoard().canMove(sourcePosition, position)) {
+                setDestinationPosition(position);
+            }
+        } else if (position.equals(destinationPosition)) {
+            setDestinationPosition(Position.none);
         }
     }
 

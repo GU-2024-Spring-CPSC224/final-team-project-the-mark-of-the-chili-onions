@@ -249,10 +249,7 @@ public class Board {
     }
     
     private void checkForAndHandleCaptureInDirection(Position movedPosition, int x, int y) {
-        System.out.println("checkForAndHandleCaptureInDirection: " + movedPosition + ", Direction: " + x + ", " + y);
-        if (x != 0 && y != 0) {
-            return;
-        }
+        if (x != 0 && y != 0) { return; }
 
         Position oneOver = movedPosition.add(x, y);
         Position twoOver = movedPosition.add(2 * x, 2 * y);
@@ -265,9 +262,7 @@ public class Board {
         Piece oneOverPiece = getPieceAtPosition(oneOver);
         Piece twoOverPiece = getPieceAtPosition(twoOver);
 
-        if (!movedPiece.isEnemyOf(oneOverPiece)) {
-            return;
-        }
+        if (!movedPiece.isEnemyOf(oneOverPiece) || oneOverPiece.getType().equals(Piece.Type.KING)) { return; }
         
         if (movedPiece.isAllyOf(twoOverPiece) || isPositionCenterAndEmpty(twoOver)) {
             setPiece(oneOver, new NonePiece());

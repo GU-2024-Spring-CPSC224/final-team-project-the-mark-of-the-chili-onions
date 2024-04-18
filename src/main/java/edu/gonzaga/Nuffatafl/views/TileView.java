@@ -21,7 +21,7 @@ import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 
 /** View for a single tile on the gameboard */
-public class TileView extends JPanel implements MouseListener {
+public class TileView extends JPanel {
     private GameManager game;
     private Position position;
     private PieceImages pieceImages;
@@ -33,10 +33,7 @@ public class TileView extends JPanel implements MouseListener {
     private JLabel xLabel;
 
     /** Called when a click occurs on this tile */
-    private EventCallback<Position> clickHandler;
-
-    /** Called when this tile is double clicked */
-    private EventCallback<Position> doubleClickHandler;
+    private EventCallback<Position> onClick;
 
     public TileView(GameManager gameManager, Position position, PieceImages pieceImages) {
         super();
@@ -49,9 +46,7 @@ public class TileView extends JPanel implements MouseListener {
 
         setupLayout();
         setupCheckerColoring();
-        setupButtonAndXLabel();  
-        
-        addMouseListener(this);
+        setupButtonAndXLabel();          
     }
 
     /** Gets resied images and updates the piece and x image */
@@ -62,12 +57,9 @@ public class TileView extends JPanel implements MouseListener {
 
     /** Sets the action to be performed when this tile is clicked */
     public void onClick(EventCallback<Position> clickHandler) {
-        this.clickHandler = clickHandler;
-    }
-
-    /** Sets the action to be performed when this tile is double clicked */
-    public void onDoubleClick(EventCallback<Position> clickHandler) {
-        doubleClickHandler = clickHandler;
+        this.button.addActionListener(event -> {
+            clickHandler.action(position);
+        });
     }
 
     /** Updates the background color when the boardVIew's source or destination positions are changed */
@@ -96,20 +88,17 @@ public class TileView extends JPanel implements MouseListener {
 
     /** Sets up the piece image and the x for corner pieces */
     private void setupButtonAndXLabel() {
-        xLabel = new JLabel();
-
         button = new JButton();
         button.setOpaque(false);
         button.setBorderPainted(false);
-        button.setSize(getSize());
-        button.addMouseListener(this);
         button.setFocusPainted(false);
-
-        updatePieceImage();
-
+        button.setSize(getSize());
+        
+        xLabel = new JLabel();
         add(button);
         add(xLabel);
-        xLabel.addMouseListener(this);
+
+        updatePieceImage();
     }
 
     /** Updates the image for the piece and x from the current image assets */
@@ -131,19 +120,4 @@ public class TileView extends JPanel implements MouseListener {
             updatePieceImage();
         }
     }
-    
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        if (e.getClickCount() == 1) {
-            clickHandler.action(position);
-        } else {
-            doubleClickHandler.action(position);
-        }
-    }
-
-    // Unused
-    @Override public void mousePressed(MouseEvent e) {}
-    @Override public void mouseReleased(MouseEvent e) {}
-    @Override public void mouseEntered(MouseEvent e) {}
-    @Override public void mouseExited(MouseEvent e) {}
 }
