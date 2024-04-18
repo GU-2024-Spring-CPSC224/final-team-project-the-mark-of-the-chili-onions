@@ -16,7 +16,6 @@ import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.KeyCode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -62,6 +61,14 @@ public class BoardView extends JPanel {
         setKeyBindings();
         
         Theme.setBackgroundFor(this, ThemeComponent.background);
+    }
+    
+    public Position getSourcePosition() {
+        return sourcePosition;
+    }
+    
+    public Position getDestinationPosition() {
+        return destinationPosition;
     }
 
     /** Moves piece from sourcePosition to destinationPosition if that is a valid move */
@@ -128,28 +135,28 @@ public class BoardView extends JPanel {
     }
 
     /** Sets the sourcePosition if input position is valid and game is not over, updates observers */
-    private void setSourcePosition(Position position) {
+    public void setSourcePosition(Position position) {
         Position old = sourcePosition;
         sourcePosition = position;
         sourcePositionChangeSupport.firePropertyChange("primarySelection", old, position);
     }
 
     /** Sets the destinationPosition if input position is valid and game is not over, updates observers */
-    private void setDestinationPosition(Position position) {
+    public void setDestinationPosition(Position position) {
         Position old = destinationPosition;
         destinationPosition = position;
         destinationPositionChangeSupport.firePropertyChange("secondarySelection", old, position);
     }
 
     /** handles when a user clicks on one of the tileViews */
-    private void handleClick(Position position) {
+    public void handleClick(Position position) {
         // If the game is over, do nothing
         // If no sourcePosition, set sourcePosition to position
         // If sourcePosition == position, deselect it
         // If there is a sourcePosition but no destinationPosition, set the destinationPosition to position
         // If destinationPosition == position, deselect it
                 
-        if (!game.getWinner().equals(Team.NONE)) { 
+        if (!game.getWinner().equals(Team.NONE) || !game.getBoard().isPositionOnBoard(position)) { 
             return; 
         } else if (sourcePosition.isNone()) {
             if (game.canAttemptMove(position)) { 
