@@ -13,8 +13,9 @@ package edu.gonzaga.Nuffatafl.views;
 import edu.gonzaga.Nuffatafl.backend.GameManager;
 import edu.gonzaga.Nuffatafl.backend.Position;
 import edu.gonzaga.Nuffatafl.backend.Team;
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.KeyCode;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -58,6 +59,16 @@ public class BoardView extends JPanel {
 
         // Handle relevant key presses
         setKeyBindings();
+        
+        Theme.setBackgroundFor(this, ThemeComponent.background);
+    }
+    
+    public Position getSourcePosition() {
+        return sourcePosition;
+    }
+    
+    public Position getDestinationPosition() {
+        return destinationPosition;
     }
 
     /** Moves piece from sourcePosition to destinationPosition if that is a valid move */
@@ -102,12 +113,19 @@ public class BoardView extends JPanel {
 
                 // Handle when user clicks or double-clicks on tile
                 tileView.onClick(position -> handleClick(position));
-                tileView.onDoubleClick(position -> handleDoubleClick(position));
 
                 // Inform tileView when piece images or source or destination pieces change
-                pieceImagesChange.addPropertyChangeListener(event -> tileView.resizeImage((PieceImages) event.getNewValue()));
-                sourcePositionChangeSupport.addPropertyChangeListener(event -> tileView.updateSelected(sourcePosition, destinationPosition));
-                destinationPositionChangeSupport.addPropertyChangeListener(event -> tileView.updateSelected(sourcePosition, destinationPosition));
+                pieceImagesChange.addPropertyChangeListener(event -> {
+                    tileView.resizeImage((PieceImages) event.getNewValue());
+                });
+                
+                sourcePositionChangeSupport.addPropertyChangeListener(event -> {
+                    tileView.updateSelected(sourcePosition, destinationPosition);
+                });
+                
+                destinationPositionChangeSupport.addPropertyChangeListener(event -> {
+                    tileView.updateSelected(sourcePosition, destinationPosition);
+                });
 
                 // Add the tile view and keep track of it
                 tileViews.add(tileView);
@@ -117,39 +135,42 @@ public class BoardView extends JPanel {
     }
 
     /** Sets the sourcePosition if input position is valid and game is not over, updates observers */
-    private void setSourcePosition(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
+    public void setSourcePosition(Position position) {
         Position old = sourcePosition;
         sourcePosition = position;
         sourcePositionChangeSupport.firePropertyChange("primarySelection", old, position);
     }
 
     /** Sets the destinationPosition if input position is valid and game is not over, updates observers */
-    private void setDestinationPosition(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
+    public void setDestinationPosition(Position position) {
         Position old = destinationPosition;
         destinationPosition = position;
         destinationPositionChangeSupport.firePropertyChange("secondarySelection", old, position);
     }
 
     /** handles when a user clicks on one of the tileViews */
-    private void handleClick(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
-        // Set as source position if there is no source position and input is valid piece on same team
-        // Otherwise set as destination position if input corresponds to a valid space the player can move to
-        if (sourcePosition.isNone()) {
-            if (game.canAttemptMove(position)) { setSourcePosition(position); }
-        } else if (game.getBoard().canMove(sourcePosition, position)) {
-            setDestinationPosition(position);
-        }
-    }
-
-    /** handles when a user double clicks on one of the tileViews */
-    private void handleDoubleClick(Position position) {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
-        // Attempt to move the piece at the sourcePosition to the input position if that is a valid move
-        if (!sourcePosition.isNone() && !destinationPosition.isNone() && !sourcePosition.equals(position)) {
-            attemptMove();
+    public void handleClick(Position position) {
+        // If the game is over, do nothing
+        // If no sourcePosition, set sourcePosition to position
+        // If sourcePosition == position, deselect it
+        // If there is a sourcePosition but no destinationPosition, set the destinationPosition to position
+        // If destinationPosition == position, deselect it
+                
+        if (!game.getWinner().equals(Team.NONE) || !game.getBoard().isPositionOnBoard(position)) { 
+            return; 
+        } else if (sourcePosition.isNone()) {
+            if (game.canAttemptMove(position)) { 
+                setSourcePosition(position);
+            }
+        } else if (position.equals(sourcePosition)) {
+            setSourcePosition(Position.none);
+            setDestinationPosition(Position.none);
+        } else if (destinationPosition.isNone()) {
+            if (game.getBoard().canMove(sourcePosition, position)) {
+                setDestinationPosition(position);
+            }
+        } else if (position.equals(destinationPosition)) {
+            setDestinationPosition(Position.none);
         }
     }
 
@@ -198,24 +219,24 @@ public class BoardView extends JPanel {
             }
 
             if (sourcePosition.isNone() || !game.canAttemptMove(sourcePosition)) { return; }
-
-            Position newPosition = Position.none;
-            Position initialPosition = sourcePosition;
-            if (!destinationPosition.isNone()) { initialPosition = destinationPosition; }
-
+            
+            Position newDestinationPosition = destinationPosition;
+            if (newDestinationPosition.isNone()) { 
+                newDestinationPosition = sourcePosition; }
+            
             switch (keyCode) {
-                case up -> newPosition = initialPosition.add(0, -1);
-                case down -> newPosition = initialPosition.add(0, 1);
-                case left -> newPosition = initialPosition.add(-1, 0);
-                case right -> newPosition = initialPosition.add(1, 0);
+                case up -> newDestinationPosition = newDestinationPosition.add(0, -1);
+                case down -> newDestinationPosition = newDestinationPosition.add(0, 1);
+                case left -> newDestinationPosition = newDestinationPosition.add(-1, 0);
+                case right -> newDestinationPosition = newDestinationPosition.add(1, 0);
                 default -> { return; }
             }
 
-            if (sourcePosition.equals(newPosition)) {
+            if (sourcePosition.equals(newDestinationPosition)) {
                 setDestinationPosition(Position.none);
-            } else if (game.getBoard().canMove(sourcePosition, newPosition)) {
-                setDestinationPosition(newPosition);
-            }
+            } else if (game.getBoard().canMove(sourcePosition, newDestinationPosition)) {
+                setDestinationPosition(newDestinationPosition);
+            }            
         }
     }
 

@@ -40,9 +40,9 @@ public class PieceImages {
             Team team = piece.getTeam();
 
             if (team == Team.ATTACKER) {
-                return lightPiece;
-            } else if (team == Team.DEFENDER) {
                 return darkPiece;
+            } else if (team == Team.DEFENDER) {
+                return lightPiece;
             }
         }
 

@@ -59,8 +59,6 @@ public class GameManager {
         if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
 
         //Publishes that the board was changed to observers of the board
-        //TODO: Update for each different type of board change (move and capture) s
-        // separately instead of just indicating the board changed if more granularity is desired
         this.boardChangeManager.firePropertyChange("board", oldBoard, result);
         return result;
     }

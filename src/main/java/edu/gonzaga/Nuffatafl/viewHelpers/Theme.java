@@ -1,0 +1,136 @@
+package edu.gonzaga.Nuffatafl.viewHelpers;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import javax.swing.JComponent;
+
+/** Keeps track of colors in a theme and handles theme changes for you so colors will update when the theme is changed */
+public class Theme {
+    /** Name of the theme to display to the user */
+    private String name;
+    
+    /** The lamda expression that returns the right color for each ThemeComponent in this theme */
+    private ThemeColorKey colorKey;
+
+    /** The available themes to choose from */
+    public static ArrayList<Theme> themes = new ArrayList<Theme>();
+
+    /** 
+     * Creates a theme with a name and a lamda expression that returns the right color for each ThemeComponent.
+     * Adds the theme to Theme.themes
+     */
+    public Theme(String name, ThemeColorKey colorKey) {
+        this.name = name;
+        this.colorKey = colorKey;
+        Theme.themes.add(this);
+    }
+
+    /** Returns the name of the theme to display to the user */
+    public String getName() {
+        return name;
+    }
+
+    /** Returns the color this theme specifies for the input ThemeComponent */
+    public Color colorForKey(ThemeComponent themeKey) {
+        return colorKey.colorForKey(themeKey);
+    }
+
+
+    /** Default theme (light) */
+    public static Theme defaultTheme = new Theme("Default", themeKey -> {
+        return switch (themeKey) {
+            case accent         -> new Color(104, 204, 227);
+            case accent2        -> new Color(255, 240, 145);
+            case background     -> Color.white;
+            case background2    -> new Color(240, 240, 240);
+            case chekcerOff     -> Color.white;
+            case checkerOn      -> new Color(220, 220, 220);
+            case text           -> Color.black;
+            case text2          -> new Color(61, 68, 69);
+        };
+    });
+
+    /** Midnight theme (dark) */
+    public static Theme midnight = new Theme("Midnight", themeKey -> {
+        return switch (themeKey) {
+            case accent -> new Color(214, 154, 191);
+            case accent2 -> new Color(108, 171, 128);
+            case background -> new Color(29, 33, 41);
+            case background2 -> new Color(45, 55, 69);
+            case chekcerOff -> new Color(29, 33, 41);
+            case checkerOn -> new Color(17, 22, 33);
+            case text -> Color.white;
+            case text2 -> new Color(196, 209, 204);
+        };
+    });
+        
+    /** Gets a theme from its name */
+    public static Theme from(String name) {
+        for (Theme theme : themes) {
+            if (theme.name == name) {
+                return theme;
+            }
+        }
+
+        return Theme.defaultTheme;
+    }
+    
+    /** Keeps track of the current theme and notifies observers when it changes */
+    private static Theme current = defaultTheme;
+    
+    /** Observers to change the background color of when the theme changes */
+    private static ArrayList<ThemeObserver> backgroundColorObservers = new ArrayList<ThemeObserver>();
+    
+    /** Observers to change the foreground color of when the theme changes */
+    private static ArrayList<ThemeObserver> foregroundColorObservers = new ArrayList<ThemeObserver>();
+    
+    /** Set the current theme to be a new theme */
+    public static void setTheme(Theme theme) {
+        if (theme == null) {
+            System.out.println("Warning: Cannot set theme to a null value");
+            return;
+        }
+
+        current = theme;
+
+        backgroundColorObservers.forEach(observer -> {
+            observer.jComponent.setBackground(current.colorForKey(observer.themeComponent));
+        });
+
+        foregroundColorObservers.forEach(observer -> {
+            observer.jComponent.setForeground(current.colorForKey(observer.themeComponent));
+        });
+    }
+
+    /**
+     * Sets the background color for a JComponent and updates it when the theme changes
+     * @param component The JComponent (JPanel, JButton, etc.) to set and change the background color of
+     * @param themeKey Specifies which color to set for each theme (background, text, etc.)
+     */
+    public static void setBackgroundFor(JComponent component, ThemeComponent themeKey) {
+        // Set the background color
+        component.setBackground(current.colorForKey(themeKey));
+        // Remove any previous observer for the same JComponent
+        backgroundColorObservers.removeIf(observer -> observer.jComponent == component);
+        // Set up a new observer
+        backgroundColorObservers.add(new ThemeObserver(component, themeKey));
+    }
+    
+    /**
+     * Sets the foreground color for a JComponent and updates it when the theme
+     * changes
+     * 
+     * @param component The JComponent (JPanel, JButton, etc.) to set and change the
+     *                  foreground color of
+     * @param themeKey  Specifies which color to set for each theme (foreground,
+     *                  text, etc.)
+     */
+    public static void setForegroundFor(JComponent component, ThemeComponent themeKey) {
+        // Set the foreground color
+        component.setForeground(current.colorForKey(themeKey));
+        // Remove any previous observer for the same JComponent
+        foregroundColorObservers.removeIf(observer -> observer.jComponent == component);
+        // Set up a new observer
+        foregroundColorObservers.add(new ThemeObserver(component, themeKey));
+    }
+}

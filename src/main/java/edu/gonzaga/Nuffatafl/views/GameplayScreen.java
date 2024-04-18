@@ -10,11 +10,9 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.backend.GameManager;
-import edu.gonzaga.Nuffatafl.backend.Team;
-import edu.gonzaga.Nuffatafl.viewNavigation.Screen;
-import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
-
+import edu.gonzaga.Nuffatafl.backend.*;
+import edu.gonzaga.Nuffatafl.viewHelpers.*;
+import edu.gonzaga.Nuffatafl.viewNavigation.*;
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -32,7 +30,7 @@ public class GameplayScreen extends JPanel {
 
     public GameplayScreen(StateController stateController) {
         super();
-
+        
         // Set up the board view the first time this screen is shown
         this.stateController = stateController;
         this.stateController.onScreenChange(event -> {
@@ -51,7 +49,9 @@ public class GameplayScreen extends JPanel {
         setupTopPanel();
         setupBottomPanel();
         setupCapturedPeicesView();
-        setupTurnHistoryView();
+        setupTurnHistoryView();  
+         
+        Theme.setBackgroundFor(this, ThemeComponent.background);     
     }
     
     private void setupLayout() {
@@ -68,22 +68,23 @@ public class GameplayScreen extends JPanel {
 
         // Current Team
         currentTeamLabel = new JLabel();
+        Theme.setForegroundFor(currentTeamLabel, ThemeComponent.text);
         setCurrentTeamText();
         topPanel.add(currentTeamLabel);
 
         // Rules button
-        JButton rulesButton = new JButton();
-        rulesButton.setIcon(ImageLoading.rulesIcon(20));
-        rulesButton.setText("Rules");
-        rulesButton.addActionListener(event -> stateController.showRules());
+        ThemeButton rulesButton = new ThemeButton("Rules", ImageLoading.rulesIcon(20), label -> {
+            stateController.showRules();
+        });
         topPanel.add(rulesButton);
 
         // Settings button
-        JButton settingsButton = new JButton();
-        settingsButton.setIcon(ImageLoading.settingsIcon(20));
-        settingsButton.setText("Settings");
-        settingsButton.addActionListener(event -> stateController.showSettings());
-        topPanel.add(settingsButton);
+        ThemeButton settingsButton = new ThemeButton("Settings", ImageLoading.settingsIcon(20), label -> {
+            stateController.showSettings();
+        });
+        topPanel.add(settingsButton);   
+        
+        Theme.setBackgroundFor(topPanel, ThemeComponent.background);
     }
     
     private void setupBottomPanel() {
@@ -93,41 +94,58 @@ public class GameplayScreen extends JPanel {
         add(bottomPanel, BorderLayout.SOUTH);
 
         // End game button
-        JButton endGameButton = new JButton("End Game");
-        endGameButton.setLayout(new FlowLayout(FlowLayout.LEFT));
-        endGameButton.addActionListener(event -> stateController.endGame());
-        bottomPanel.add(endGameButton, FlowLayout.LEFT);
-
-        bottomPanel.add(new JPanel());
+        bottomPanel.add(
+            new ThemeButton("End Game", label -> {
+                stateController.endGame();
+            }), 
+            FlowLayout.LEFT
+        );
 
         // Deselect pieces button
-        JButton deselectPiecesButton = new JButton("Deselect Pieces");
-        deselectPiecesButton.addActionListener(event -> {
-            boardView.deselectPieces();
-        });
-        bottomPanel.add(deselectPiecesButton);
+        bottomPanel.add(
+            new ThemeButton("Deselect Pieces", label -> {
+                boardView.deselectPieces();
+            })
+        );
 
         // End game button
-        JButton movePieceButton = new JButton("Move Piece");
-        movePieceButton.addActionListener(event -> {
-            boardView.attemptMove();
-        });
-        bottomPanel.add(movePieceButton);
+        bottomPanel.add(
+            new ThemeButton("Move Piece", label -> {
+                boardView.attemptMove();
+            })
+        );
+        
+        Theme.setBackgroundFor(bottomPanel, ThemeComponent.background);
     }
 
     private void setupBoardView() {
         boardView = new BoardView(game);
         add(boardView, BorderLayout.CENTER);
+        
+        Theme.setBackgroundFor(boardView, ThemeComponent.background);
     }
 
     private void setupCapturedPeicesView() {
         capturedPiecesView = new JPanel();
+        capturedPiecesView.setLayout(new BoxLayout(capturedPiecesView, BoxLayout.Y_AXIS));
         add(capturedPiecesView, BorderLayout.WEST);
+        
+        for (Theme theme : Theme.themes) {
+            capturedPiecesView.add(
+                new ThemeButton(theme.getName(), label -> {
+                    Theme.setTheme(Theme.from(label.getText()));
+                })
+            );
+        }
+        
+        Theme.setBackgroundFor(capturedPiecesView, ThemeComponent.background);
     }
 
     private void setupTurnHistoryView() {
         turnHistoryView = new JPanel();
         add(turnHistoryView, BorderLayout.EAST);
+        
+        Theme.setBackgroundFor(turnHistoryView, ThemeComponent.background);
     }
 
     private void handleTeamSwitch(PropertyChangeEvent event) {
