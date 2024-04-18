@@ -367,8 +367,8 @@ public class BoardTest {
         boolean expected = true;
 
         boolean actual = board.getPieceAtPosition(soldier2Pos).isEmpty();
-
-        Assertions.assertEquals(actual, expected);
+        
+        Assertions.assertEquals(expected, actual);
     }
 
 

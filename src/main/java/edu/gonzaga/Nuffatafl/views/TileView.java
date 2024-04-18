@@ -16,8 +16,6 @@ import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
 import javax.swing.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.beans.PropertyChangeEvent;
 
 /** View for a single tile on the gameboard */
@@ -31,9 +29,6 @@ public class TileView extends JPanel {
 
     /** Displays an x if on a corner tile */
     private JLabel xLabel;
-
-    /** Called when a click occurs on this tile */
-    private EventCallback<Position> onClick;
 
     public TileView(GameManager gameManager, Position position, PieceImages pieceImages) {
         super();

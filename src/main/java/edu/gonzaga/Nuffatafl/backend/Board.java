@@ -242,7 +242,7 @@ public class Board {
     
     private boolean isPositionCenterAndEmpty(Position position) {
         if (isPositionOnBoard(position)) {
-            return isPositionCenter(position) && getPieceAtPosition(position).team != Team.NONE;
+            return isPositionCenter(position) && getPieceAtPosition(position).isEmpty();
         } else {
             return false;
         }
