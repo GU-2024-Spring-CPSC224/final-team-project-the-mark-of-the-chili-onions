@@ -168,6 +168,7 @@ public class BoardView extends JPanel {
         } else if (destinationPosition.isNone()) {
             if (game.getBoard().canMove(sourcePosition, position)) {
                 setDestinationPosition(position);
+                attemptMove(); //I think this was all that is needed for on-click movement
             }
         } else if (position.equals(destinationPosition)) {
             setDestinationPosition(Position.none);
