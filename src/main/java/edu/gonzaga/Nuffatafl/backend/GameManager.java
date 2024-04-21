@@ -8,6 +8,11 @@ public class GameManager {
     private Board board;
     private Team currentTeam;
 
+    private Player attackerPlayer;
+    private Player defenderPlayer;
+
+    private ArrayList<Turn> turnHitory = new ArrayList<Turn>();
+
     /** Tracks which team has won the game, necessary for PropertyChangeSupport to notify UI of victory */
     private Team winner = Team.NONE;
 
@@ -19,6 +24,8 @@ public class GameManager {
 
     /** Handles updating observers when a team wins the game */
     private PropertyChangeSupport winnerChangeManager;
+
+    private PropertyChangeSupport turnHistoryChangeManager;
 
     private static final Team DEFAULT_STARTING_TEAM = Team.ATTACKER;
 
@@ -67,7 +74,7 @@ public class GameManager {
      *  Attempts to move a piece and returns if successful or not.
      * @param from Position to move from.
      * @param to Position to move to.
-     * @return The success of the move.
+     * @return The number of pieces captured, -1 if move was invalid.
      */
     public Integer movePiece(Position from, Position to) {
         //Saves the old board for the PropertyChangeEvent oldValue
@@ -75,16 +82,30 @@ public class GameManager {
 
         Integer result = board.movePiece(from, to, currentTeam);
 
-        if (result != -1) { //don't switch if failed move
-            switchCurrentTeam();
-        }
+        if (result < 0) { return -1; }
+        storeTurn(currentTeam, from, to, result);
+        switchCurrentTeam();
 
         if (board.isDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
         if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
 
         //Publishes that the board was changed to observers of the board
-        this.boardChangeManager.firePropertyChange("board", oldBoard, result);
+        this.boardChangeManager.firePropertyChange("board", oldBoard, getBoard());
         return result;
+    }
+
+    private boolean storeTurn(Team team, Position from, Position to, Integer captureCount) {
+        Player player = switch (team) {
+            case ATTACKER -> attackerPlayer;
+            case DEFENDER -> defenderPlayer;
+            default -> null;
+        };
+
+        if (player == null) { return false; }
+
+        Turn turn = new Turn(player, from, to, captureCount);
+        turnHitory.add(0, turn);
+        return false;
     }
 
     /**
@@ -139,13 +160,38 @@ public class GameManager {
      * @param listener Code to execute when a team wins the game
      */
     public void onVictory(PropertyChangeListener listener) {
-        this.winnerChangeManager.addPropertyChangeListener(listener);
+        winnerChangeManager.addPropertyChangeListener(listener);
+    }
+
+    public void setAttackerPlayer(Player player) {
+        attackerPlayer = player;
+    }
+
+    public Player getAttackerPlayer() {
+        return attackerPlayer;
+    }
+
+    public void setDefenderPlayer(Player player) {
+        defenderPlayer = player;
+    }
+
+    public Player getDefenderPlayer() {
+        return defenderPlayer;
+    }
+
+    public ArrayList<Turn> getTurnHistory() {
+        return turnHitory;
+    }
+
+    public void onTurnHistoryChange(PropertyChangeListener listener) {
+        turnHistoryChangeManager.addPropertyChangeListener(listener);
     }
 
     /** Sets up PropertyChangeSupport objects for the board, currentTeam, and winner */
     private void setupChangeManagers() {
-        this.boardChangeManager = new PropertyChangeSupport(this.board);
-        this.currentTeamChangeManager = new PropertyChangeSupport(this.currentTeam);
-        this.winnerChangeManager = new PropertyChangeSupport(this.winner);
+        boardChangeManager = new PropertyChangeSupport(this.board);
+        currentTeamChangeManager = new PropertyChangeSupport(this.currentTeam);
+        winnerChangeManager = new PropertyChangeSupport(this.winner);
+        turnHistoryChangeManager = new PropertyChangeSupport(turnHitory);
     }
 }
