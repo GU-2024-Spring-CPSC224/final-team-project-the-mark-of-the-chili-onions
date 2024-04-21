@@ -61,8 +61,7 @@ public class AfterGameScreen extends JPanel {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 0, 5, 0);
 
-        JLabel label = new JLabel("After Game Screen");
-        Theme.setBackgroundFor(label, ThemeComponent.background);
+        ThemeLabel label = new ThemeLabel("After Game Screen");
         middlePanel.add(label, gbc);
 
         gbc.gridy++;
@@ -70,8 +69,7 @@ public class AfterGameScreen extends JPanel {
         middlePanel.add(showGameplayScreenButton, gbc);
 
         gbc.gridy++;
-        JLabel afterGameStats = new JLabel("After Game Stats Stuff (Placeholder)");
-        Theme.setBackgroundFor(afterGameStats, ThemeComponent.background);
+        ThemeLabel afterGameStats = new ThemeLabel("After Game Stats Stuff (Placeholder)");
         middlePanel.add(afterGameStats, gbc);
 
 
