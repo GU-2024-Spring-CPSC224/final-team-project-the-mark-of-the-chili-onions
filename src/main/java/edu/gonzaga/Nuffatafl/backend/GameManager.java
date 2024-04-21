@@ -61,6 +61,7 @@ public class GameManager {
         Board oldBoard = this.board;
 
         Integer result = board.movePiece(from, to, currentTeam);
+
         if (result < 0) { return -1; }
         storeTurn(currentTeam, from, to, result);
         switchCurrentTeam();
