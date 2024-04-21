@@ -102,6 +102,10 @@ public class Theme {
         });
     }
 
+    public static Theme getCurrentTheme() {
+        return current;
+    }
+
     /**
      * Sets the background color for a JComponent and updates it when the theme changes
      * @param component The JComponent (JPanel, JButton, etc.) to set and change the background color of

@@ -11,12 +11,15 @@
 package edu.gonzaga.Nuffatafl.views;
 
 
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /** JPanel that contains the UI for the Settings screen */
 public class SettingsScreen extends JPanel {
@@ -51,16 +54,17 @@ public class SettingsScreen extends JPanel {
         gbc.gridy++;
 
         // Theme selection
-        String[] themeChoices = {"Light", "Dark", "Purple", "Fruity"};
-        //String currentTheme = getCurrentTheme();
-        //String[] themeChoices = getThemeOptions();
-        JComboBox<String> themeComboBox = new JComboBox<>(themeChoices);
-        //themeComboBox.setSelectedIndex(getCurrentThemeIndex());
-        themeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                //setThemeOptions
-            }
+        ArrayList<String> themeStringOptions = new ArrayList<>();
+        JComboBox<String> themeComboBox = new JComboBox<>();
+        for (Theme theme : Theme.themes) {
+            themeComboBox.addItem(theme.getName());
+            themeStringOptions.add(theme.getName());
+        }
+        String currentTheme = Theme.getCurrentTheme().getName();
+        themeComboBox.setSelectedIndex(themeStringOptions.indexOf(currentTheme));
+        themeComboBox.addActionListener(actionEvent -> {
+            String selected = themeStringOptions.get(themeComboBox.getSelectedIndex());
+            Theme.setTheme(Theme.from(selected));
         });
         this.add(themeComboBox, gbc);
         gbc.gridy++;
@@ -86,6 +90,6 @@ public class SettingsScreen extends JPanel {
 
         JButton exitProgramButton = new JButton("Quit Program");
         exitProgramButton.addActionListener(event -> stateController.endProgram());
-        this.add(exitProgramButton);
+        this.add(exitProgramButton, gbc);
     }
 }
