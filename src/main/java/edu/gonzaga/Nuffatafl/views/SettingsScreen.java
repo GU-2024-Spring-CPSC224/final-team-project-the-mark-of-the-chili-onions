@@ -12,6 +12,7 @@ package edu.gonzaga.Nuffatafl.views;
 
 
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
@@ -38,18 +39,17 @@ public class SettingsScreen extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 0);
 
         // Settings screen
-        JLabel label = new JLabel("Settings Screen");
+        ThemeLabel label = new ThemeLabel("Settings Screen");
         this.add(label, gbc);
         gbc.gridy++;
 
         // Go back from settings screen
-        JButton goToPreviousViewButton = new JButton("Hide Settings Screen");
-        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousScreen());
+        ThemeButton goToPreviousViewButton = new ThemeButton("Hide Settings Screen", event -> stateController.goToPreviousScreen());
         this.add(goToPreviousViewButton, gbc);
         gbc.gridy++;
 
         // Themes
-        JLabel themeLabel = new JLabel("Theme Settings");
+        ThemeLabel themeLabel = new ThemeLabel("Theme Settings");
         this.add(themeLabel, gbc);
         gbc.gridy++;
 
@@ -62,14 +62,14 @@ public class SettingsScreen extends JPanel {
         gbc.gridy++;
 
         // Start new game
-        JButton startNewGame = new JButton("Start New Game");
-        startNewGame.addActionListener(event -> stateController.showWelcomeScreen());
+        ThemeButton startNewGame = new ThemeButton("Start New Game", event -> stateController.showWelcomeScreen());
         this.add(startNewGame, gbc);
         gbc.gridy++;
 
-        JButton exitProgramButton = new JButton("Quit Program");
-        exitProgramButton.addActionListener(event -> stateController.endProgram());
+        ThemeButton exitProgramButton = new ThemeButton("Quit Program", event -> stateController.endProgram());
         this.add(exitProgramButton, gbc);
+
+        Theme.setBackgroundFor(this, ThemeComponent.background);
     }
 
     JComboBox<String> themeComboBox() {
@@ -93,6 +93,11 @@ public class SettingsScreen extends JPanel {
             Theme.setTheme(Theme.from(selected));
         });
 
+        // Theming
+        themeComboBox.setOpaque(false);
+        Theme.setForegroundFor(themeComboBox, ThemeComponent.text);
+        Theme.setBackgroundFor(themeComboBox, ThemeComponent.background);
+
         return themeComboBox;
     }
 
@@ -103,6 +108,12 @@ public class SettingsScreen extends JPanel {
             //focusModeCheckBox.isSelected() ? setFocusMode(true) : setFocusMode(false);
         });
 
+        focusModeCheckBox.setOpaque(false);
+        focusModeCheckBox.setFocusPainted(false);
+        focusModeCheckBox.setBorderPainted(false);
+        focusModeCheckBox.setContentAreaFilled(false);
+        Theme.setForegroundFor(focusModeCheckBox, ThemeComponent.text);
+        Theme.setBackgroundFor(focusModeCheckBox, ThemeComponent.background);
         return focusModeCheckBox;
     }
 }

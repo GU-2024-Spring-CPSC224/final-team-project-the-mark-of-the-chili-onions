@@ -9,6 +9,9 @@ import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
 /** A convenience view that makes creating a button that follows the theme colors easier */
 public class ThemeButton extends JPanel {
+    /** The actual button that does the heavy lifting */
+    public JButton button;
+
     /**
      * Create a blank button with a given
      * @param onClick lamda expression to be called when clicked
@@ -48,6 +51,7 @@ public class ThemeButton extends JPanel {
         super();
         button = new JButton();
         button.setOpaque(false);
+        button.setFocusPainted(false);
         button.setBorderPainted(false);
         button.setContentAreaFilled(false);
         if (text != null) { button.setText(text); }
@@ -59,7 +63,4 @@ public class ThemeButton extends JPanel {
         Theme.setForegroundFor(button, ThemeComponent.text);
         Theme.setBackgroundFor(this, ThemeComponent.background2);
     }
-        
-    /** The actual button that does the heavy lifting */
-    public JButton button;
 }
