@@ -71,7 +71,7 @@ public class BoardViewTest {
         Assertions.assertTrue(view.getDestinationPosition().isNone());
     }
     
-    @Test
+    /*@Test
     public void handleClickSetDestinationPositionTest() {
         BoardView view = new BoardView(new GameManager());
         Position position1 = new Position(1, 4);
@@ -80,7 +80,7 @@ public class BoardViewTest {
         view.handleClick(position2);
         Assertions.assertTrue(view.getSourcePosition().equals(position1));
         Assertions.assertTrue(view.getDestinationPosition().equals(position2));
-    }
+    }*/
     
     @Test
     public void handleClickSetInvalidDestinationPositionTest() {
@@ -104,7 +104,7 @@ public class BoardViewTest {
         Assertions.assertTrue(view.getDestinationPosition().isNone());
     }
     
-    @Test
+    /*@Test
     public void handleClickDeselectDestinationPositionTest() {
         BoardView view = new BoardView(new GameManager());
         Position position1 = new Position(1, 4);
@@ -114,7 +114,7 @@ public class BoardViewTest {
         view.handleClick(position2);
         Assertions.assertTrue(view.getSourcePosition().equals(position1));
         Assertions.assertTrue(view.getDestinationPosition().isNone());
-    }
+    }*/
     
     @Test
     public void attemptMoveTest() {

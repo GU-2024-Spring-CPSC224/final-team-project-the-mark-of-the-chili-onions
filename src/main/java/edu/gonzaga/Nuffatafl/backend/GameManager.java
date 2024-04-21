@@ -44,6 +44,26 @@ public class GameManager {
     }
 
     /**
+     * Takes a position and returns an ArrayList holding all valid move spots.
+     * @param pos The position to check from.
+     * @return An ArrayList of valid spots.
+     */
+    public ArrayList<Position> getValidMoveSpots(Position pos) {
+        ArrayList<Position> spots = new ArrayList<Position>();
+
+        for (int y = 0; y < board.getSize(); y++) {
+            for (int x = 0; x < board.getSize(); x++) {
+                Position currentPos = new Position(x, y);
+                if (board.canMoveWithTeam(pos, currentPos, currentTeam)) {
+                    spots.add(currentPos);
+                }
+            }
+        }
+
+        return spots;
+    }
+
+    /**
      *  Attempts to move a piece and returns if successful or not.
      * @param from Position to move from.
      * @param to Position to move to.

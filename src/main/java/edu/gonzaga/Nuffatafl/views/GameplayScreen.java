@@ -48,7 +48,7 @@ public class GameplayScreen extends JPanel {
         setupLayout();
         setupTopPanel();
         setupBottomPanel();
-        setupCapturedPeicesView();
+        setupCapturedPiecesView();
         setupTurnHistoryView();  
          
         Theme.setBackgroundFor(this, ThemeComponent.background);     
@@ -125,7 +125,7 @@ public class GameplayScreen extends JPanel {
         Theme.setBackgroundFor(boardView, ThemeComponent.background);
     }
 
-    private void setupCapturedPeicesView() {
+    private void setupCapturedPiecesView() {
         capturedPiecesView = new JPanel();
         capturedPiecesView.setLayout(new BoxLayout(capturedPiecesView, BoxLayout.Y_AXIS));
         add(capturedPiecesView, BorderLayout.WEST);
