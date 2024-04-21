@@ -11,12 +11,15 @@
 package edu.gonzaga.Nuffatafl.views;
 
 
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 /** JPanel that contains the UI for the Settings screen */
 public class SettingsScreen extends JPanel {
@@ -51,31 +54,11 @@ public class SettingsScreen extends JPanel {
         gbc.gridy++;
 
         // Theme selection
-        String[] themeChoices = {"Light", "Dark", "Purple", "Fruity"};
-        //String currentTheme = getCurrentTheme();
-        //String[] themeChoices = getThemeOptions();
-        JComboBox<String> themeComboBox = new JComboBox<>(themeChoices);
-        //themeComboBox.setSelectedIndex(getCurrentThemeIndex());
-        themeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                //setThemeOptions
-            }
-        });
-        this.add(themeComboBox, gbc);
+        this.add(themeComboBox(), gbc);
         gbc.gridy++;
 
         // Focus Mode
-        JCheckBox focusModeCheckBox = new JCheckBox("Focus Mode");
-        //focusModeCheckBox.setSelected(getFocusMode());
-        focusModeCheckBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                //focusModeCheckBox.isSelected() ? setFocusMode(true) : setFocusMode(false);
-            }
-        });
-        this.add(focusModeCheckBox, gbc);
+        this.add(focusModeCheckBox(), gbc);
         gbc.gridy++;
 
         // Start new game
@@ -86,6 +69,40 @@ public class SettingsScreen extends JPanel {
 
         JButton exitProgramButton = new JButton("Quit Program");
         exitProgramButton.addActionListener(event -> stateController.endProgram());
-        this.add(exitProgramButton);
+        this.add(exitProgramButton, gbc);
+    }
+
+    JComboBox<String> themeComboBox() {
+        // String array for getting indexes of string names
+        ArrayList<String> themeStringOptions = new ArrayList<>();
+        JComboBox<String> themeComboBox = new JComboBox<>();
+
+        // Add all the available themes to both the combo box and the array of strings
+        for (Theme theme : Theme.themes) {
+            themeComboBox.addItem(theme.getName());
+            themeStringOptions.add(theme.getName());
+        }
+
+        // Set the current theme in the combo box
+        String currentTheme = Theme.getCurrentTheme().getName();
+        themeComboBox.setSelectedIndex(themeStringOptions.indexOf(currentTheme));
+
+        // Set up action event
+        themeComboBox.addActionListener(actionEvent -> {
+            String selected = themeStringOptions.get(themeComboBox.getSelectedIndex());
+            Theme.setTheme(Theme.from(selected));
+        });
+
+        return themeComboBox;
+    }
+
+    JCheckBox focusModeCheckBox() {
+        JCheckBox focusModeCheckBox = new JCheckBox("Focus Mode");
+        //focusModeCheckBox.setSelected(getFocusMode());
+        focusModeCheckBox.addActionListener(actionEvent -> {
+            //focusModeCheckBox.isSelected() ? setFocusMode(true) : setFocusMode(false);
+        });
+
+        return focusModeCheckBox;
     }
 }
