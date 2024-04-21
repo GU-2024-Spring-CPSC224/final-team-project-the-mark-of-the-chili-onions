@@ -147,7 +147,7 @@ public class GameManager {
         attackerPlayer = player;
     }
 
-    public Player getAttackerPlayer(Player player) {
+    public Player getAttackerPlayer() {
         return attackerPlayer;
     }
 
@@ -155,7 +155,7 @@ public class GameManager {
         defenderPlayer = player;
     }
 
-    public Player getDefenderPlayer(Player player) {
+    public Player getDefenderPlayer() {
         return defenderPlayer;
     }
 
