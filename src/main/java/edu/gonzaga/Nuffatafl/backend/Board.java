@@ -100,6 +100,20 @@ public class Board {
     }
 
     /**
+     * Checks if a position is on the corner.
+     * @param pos The position to check.
+     * @return True if on corner.
+     */
+    public boolean isPositionCorner(Position pos) {
+        Position NW = new Position(0, 0);
+        Position SW = new Position(0, SIZE - 1);
+        Position NE = new Position(SIZE - 1, 0);
+        Position SE = new Position(SIZE - 1, SIZE - 1);
+
+        return (NW.equals(pos) || SW.equals(pos) || NE.equals(pos) || SE.equals(pos));
+    }
+
+    /**
      * Add a piece to the board at a given position.
      * @param pos The position to add it to.
      * @param piece The piece to add.
@@ -131,20 +145,20 @@ public class Board {
     }
 
     /**
-     * Moves a piece from to if possible. Returns false if not possible.
+     * Moves a piece from to if possible.
      * @param from The position to move from.
      * @param to The position to move to.
      * @param team The team of the attempted move.
-     * @return True on success, false on failure.
+     * @return number of enemy pieces captured, -1 if move could not be made
      */
-    public boolean movePiece(Position from, Position to, Team team) {
+    public Integer movePiece(Position from, Position to, Team team) {
         if (canMoveWithTeam(from, to, team)) {
             swapPieces(from, to);
-            checkForAndHandleCapture(to);
-            return true;
+            Integer capturedPieces = checkForAndHandleCapture(to);
+            return capturedPieces;
         }
 
-        return false;
+        return -1;
     }
 
     /**
@@ -259,32 +273,34 @@ public class Board {
      * @param x 1 for right, -1 for left,  0 for up, 0 for down
      * @param y 0 for right,  0 for left, -1 for up, 1 for down
      */
-    private void checkForAndHandleCaptureInDirection(Position movedPosition, int x, int y) {
-        if (x != 0 && y != 0) { return; }
+    private Integer checkForAndHandleCaptureInDirection(Position movedPosition, int x, int y) {
+        if (x != 0 && y != 0) { return 0; }
 
         Position oneOver = movedPosition.add(x, y);
         Position twoOver = movedPosition.add(2 * x, 2 * y);
 
         if (!isPositionOnBoard(movedPosition) || !isPositionOnBoard(oneOver) || !isPositionOnBoard(twoOver)) {
-            return;
+            return 0;
         }
         
         Piece movedPiece = getPieceAtPosition(movedPosition);
         Piece oneOverPiece = getPieceAtPosition(oneOver);
         Piece twoOverPiece = getPieceAtPosition(twoOver);
 
-        if (!movedPiece.isEnemyOf(oneOverPiece) || oneOverPiece.getType().equals(Piece.Type.KING)) { return; }
+        if (!movedPiece.isEnemyOf(oneOverPiece) || oneOverPiece.getType().equals(Piece.Type.KING)) { return 0; }
         
-        if (movedPiece.isAllyOf(twoOverPiece) || isPositionCenterAndEmpty(twoOver)) {
+        if (movedPiece.isAllyOf(twoOverPiece) || isPositionCenterAndEmpty(twoOver) || isPositionCorner(twoOver)) {
             setPiece(oneOver, new NonePiece());
+            return 1;
         }
+         return 0;
     }
     
     /**
      * Checks to see if pieces should be captured, and if so, captures them.
      * @param pos The position a piece has been moved to.
      */
-    private void checkForAndHandleCapture(Position pos) {
+    private Integer checkForAndHandleCapture(Position pos) {
         /*
         This will be yucky, but I feel that there's no true loop method for this.
         Basic Plan:
@@ -295,54 +311,19 @@ public class Board {
          */
 
         if (!isPositionOnBoard(pos)) {
-            return;
+            return 0;
         }
+
+        Integer piecesCaptured = 0;
+
         // param 1 is x direction: 1 for right, -1 for left,  0 for up, 0 for down
         // param 2 is y direction:  0 for right,  0 for left, -1 for up, 1 for down
-        checkForAndHandleCaptureInDirection(pos, -1, 0);
-        checkForAndHandleCaptureInDirection(pos, 1, 0);
-        checkForAndHandleCaptureInDirection(pos, 0, -1);
-        checkForAndHandleCaptureInDirection(pos, 0, 1);
-        
-        /* 
-        Piece self = getPieceAtPosition(pos);        
-        
-        //Up direction
-        if (isPositionOnBoard(pos.add(0, 2))) {
-            Piece ally = getPieceAtPosition(pos.add(0, 2));
-            Piece enemy = getPieceAtPosition(pos.add(0, 1));
-            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(0, 2))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(0, 1), new NonePiece());
-            }
-        }
+        piecesCaptured += checkForAndHandleCaptureInDirection(pos, -1, 0);
+        piecesCaptured += checkForAndHandleCaptureInDirection(pos, 1, 0);
+        piecesCaptured += checkForAndHandleCaptureInDirection(pos, 0, -1);
+        piecesCaptured += checkForAndHandleCaptureInDirection(pos, 0, 1);
 
-        //Down direction
-        if (isPositionOnBoard(pos.add(0, -2))) {
-            Piece ally = getPieceAtPosition(pos.add(0, -2));
-            Piece enemy = getPieceAtPosition(pos.add(0, -1));
-            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(0, -2))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(0, -1), new NonePiece());
-            }
-        }
-
-        //Right direction
-        if (isPositionOnBoard(pos.add(2, 0))) {
-            Piece ally = getPieceAtPosition(pos.add(2, 0));
-            Piece enemy = getPieceAtPosition(pos.add(1, 0));
-            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(2, 0))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(1, 0), new NonePiece());
-            }
-        }
-
-        //Left direction
-        if (isPositionOnBoard(pos.add(-2, 0))) {
-            Piece ally = getPieceAtPosition(pos.add(-2, 0));
-            Piece enemy = getPieceAtPosition(pos.add(-1, 0));
-            if ((ally.sameTeam(self.getTeam()) || isPositionCenter(pos.add(-2, 0))) && !enemy.sameTeam(self.getTeam()) && !(enemy.getType() == Piece.Type.KING)) {
-                setPiece(pos.add(-1, 0), new NonePiece());
-            }
-        }
-        */
+        return piecesCaptured;
     }
 
     /**

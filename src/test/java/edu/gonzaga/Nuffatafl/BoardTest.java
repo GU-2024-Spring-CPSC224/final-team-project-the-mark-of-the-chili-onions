@@ -45,6 +45,45 @@ public class BoardTest {
     }
 
     @Test
+    void positionIsNotOnCorner() {
+        Board board = new Board(9);
+
+        Position pos = new Position(4, 4);
+
+        boolean expected = false;
+
+        boolean actual = board.isPositionCorner(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void positionIsOnCornerNW() {
+        Board board = new Board(9);
+
+        Position pos = new Position(0, 0);
+
+        boolean expected = true;
+
+        boolean actual = board.isPositionCorner(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
+    void positionIsNotCornerSE() {
+        Board board = new Board(9);
+
+        Position pos = new Position(8, 8);
+
+        boolean expected = true;
+
+        boolean actual = board.isPositionCorner(pos);
+
+        Assertions.assertEquals(actual, expected);
+    }
+
+    @Test
     void positionIsNotOnCenter() {
         Board board = new Board(9);
 
@@ -340,7 +379,7 @@ public class BoardTest {
         board.setPiece(soldier2Pos, soldier2);
         board.setPiece(soldier3Pos, soldier3);
 
-        boolean success = board.movePiece(from, to, Team.ATTACKER);
+        Integer success = board.movePiece(from, to, Team.ATTACKER);
 
         boolean expected = true;
 
@@ -362,7 +401,7 @@ public class BoardTest {
         board.setPiece(from, soldier1);
         board.setPiece(soldier2Pos, soldier2);
 
-        boolean success = board.movePiece(from, to, Team.ATTACKER);
+        Integer success = board.movePiece(from, to, Team.ATTACKER);
 
         boolean expected = true;
 
@@ -388,7 +427,7 @@ public class BoardTest {
         board.setPiece(soldier2Pos, soldier2);
         board.setPiece(soldier3Pos, soldier3);
 
-        boolean success = board.movePiece(from, to, Team.ATTACKER);
+        Integer success = board.movePiece(from, to, Team.ATTACKER);
 
         boolean expected = false;
 
