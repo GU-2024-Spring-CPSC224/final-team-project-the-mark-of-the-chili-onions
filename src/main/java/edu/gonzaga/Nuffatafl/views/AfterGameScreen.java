@@ -10,6 +10,8 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
@@ -26,6 +28,8 @@ public class AfterGameScreen extends JPanel {
 
         this.add(topPanel(), BorderLayout.PAGE_START);
         this.add(middlePanel(), BorderLayout.CENTER);
+
+        Theme.setBackgroundFor(this, ThemeComponent.background);
     }
 
     /**
@@ -35,16 +39,13 @@ public class AfterGameScreen extends JPanel {
     private JPanel topPanel() {
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
-        JButton showRulesScreenButton = new JButton("Rules");
-        showRulesScreenButton.addActionListener(event -> stateController.showRules());
+        ThemeButton showRulesScreenButton = new ThemeButton("Rules", ImageLoading.rulesIcon(20), event -> stateController.showRules());
         topPanel.add(showRulesScreenButton);
 
-        JButton showSettingsScreenButton = new JButton("Settings");
-        showSettingsScreenButton.setIcon(ImageLoading.getImage("./src/main/resources/settings.png", 20, 20));
-
-        showSettingsScreenButton.addActionListener(event -> stateController.showSettings());
+        ThemeButton showSettingsScreenButton = new ThemeButton("Settings", ImageLoading.settingsIcon(20), event -> stateController.showSettings());
         topPanel.add(showSettingsScreenButton);
 
+        Theme.setBackgroundFor(topPanel, ThemeComponent.background);
         return topPanel;
     }
 
@@ -61,22 +62,24 @@ public class AfterGameScreen extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 0);
 
         JLabel label = new JLabel("After Game Screen");
+        Theme.setBackgroundFor(label, ThemeComponent.background);
         middlePanel.add(label, gbc);
 
         gbc.gridy++;
-        JButton showGameplayScreenButton = new JButton("Show Welcome Screen");
-        showGameplayScreenButton.addActionListener(event -> stateController.showWelcomeScreen());
+        ThemeButton showGameplayScreenButton = new ThemeButton("Show Welcome Screen", event -> stateController.showWelcomeScreen());
         middlePanel.add(showGameplayScreenButton, gbc);
 
         gbc.gridy++;
         JLabel afterGameStats = new JLabel("After Game Stats Stuff (Placeholder)");
+        Theme.setBackgroundFor(afterGameStats, ThemeComponent.background);
         middlePanel.add(afterGameStats, gbc);
 
 
         gbc.gridy++;
-        JButton exitProgramButton = new JButton("Quit Program");
-        exitProgramButton.addActionListener(event -> stateController.endProgram());
+        ThemeButton exitProgramButton = new ThemeButton("Quit Program", event -> stateController.endProgram());
         middlePanel.add(exitProgramButton, gbc);
+
+        Theme.setBackgroundFor(middlePanel, ThemeComponent.background);
         return middlePanel;
     }
 }
