@@ -10,6 +10,8 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
@@ -29,25 +31,26 @@ public class RulesScreen extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 0);
 
         // Rules Screen
-        JLabel label = new JLabel("Rules Screen");
+        ThemeLabel label = new ThemeLabel("Rules Screen");
         this.add(label, gbc);
         gbc.gridy++;
 
         // Go back
-        JButton goToPreviousViewButton = new JButton("Hide Rules Screen");
-        goToPreviousViewButton.addActionListener(event -> stateController.goToPreviousScreen());
+        ThemeButton goToPreviousViewButton = new ThemeButton("Hide Rules Screen", event -> stateController.goToPreviousScreen());
         this.add(goToPreviousViewButton, gbc);
         gbc.gridy++;
 
         // Rules Text
-        this.add(rulesTextPalen(), gbc);
+        this.add(rulesTextPlain(), gbc);
+
+        Theme.setBackgroundFor(this, ThemeComponent.background);
     }
 
     /**
      * Middle Panel with all the rules text
      * @return JPanel middle panel
      */
-    private JPanel rulesTextPalen() {
+    private JPanel rulesTextPlain() {
         JPanel middlePanel = new JPanel();
 
         JTextArea textArea = new JTextArea();
@@ -91,7 +94,10 @@ public class RulesScreen extends JPanel {
                 "nobody, including the king, can move to the throne). The black player wins the game.\n" +
                 "\n" +
                 "  *  A player cannot make a legal move. This player loses the game.");
+        Theme.setForegroundFor(textArea, ThemeComponent.text);
+        Theme.setBackgroundFor(textArea, ThemeComponent.background);
         middlePanel.add(textArea);
+        Theme.setBackgroundFor(middlePanel, ThemeComponent.background);
         return middlePanel;
 
     }
