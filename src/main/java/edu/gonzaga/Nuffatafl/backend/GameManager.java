@@ -2,6 +2,7 @@ package edu.gonzaga.Nuffatafl.backend;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 
 public class GameManager {
     private Board board;
@@ -48,12 +49,15 @@ public class GameManager {
      * @param to Position to move to.
      * @return The success of the move.
      */
-    public boolean movePiece(Position from, Position to) {
+    public Integer movePiece(Position from, Position to) {
         //Saves the old board for the PropertyChangeEvent oldValue
         Board oldBoard = this.board;
 
-        boolean result = board.movePiece(from, to, currentTeam);
-        switchCurrentTeam();
+        Integer result = board.movePiece(from, to, currentTeam);
+
+        if (result != -1) { //don't switch if failed move
+            switchCurrentTeam();
+        }
 
         if (board.isDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
         if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
