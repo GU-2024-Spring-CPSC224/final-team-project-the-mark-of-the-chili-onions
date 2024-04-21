@@ -109,17 +109,17 @@ public class WelcomeScreen extends JPanel {
         // Who goes first buttons
         gbc.gridy++;
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ThemeToggleButton player1GoesFirst = new ThemeToggleButton("Player 1", event -> {});
-        ThemeToggleButton player2GoesFirst = new ThemeToggleButton("Player 2", event -> {});
+        ThemeButton player1GoesFirst = new ThemeButton("Player 1", event -> {});
+        ThemeButton player2GoesFirst = new ThemeButton("Player 2", event -> {});
         player1GoesFirst.button.addActionListener(actionEvent -> {
             player2GoesFirst.button.setSelected(false);
-            player1GoesFirst.button.setBackground(Theme.getCurrentTheme().colorForKey(ThemeComponent.background));
-            player2GoesFirst.button.setBackground(Theme.getCurrentTheme().colorForKey(ThemeComponent.background2));
+            Theme.setBackgroundFor(player1GoesFirst, ThemeComponent.background2);
+            Theme.setBackgroundFor(player2GoesFirst, ThemeComponent.background);
         });
         player2GoesFirst.button.addActionListener(actionEvent -> {
             player1GoesFirst.button.setSelected(false);
-            player2GoesFirst.button.setBackground(Theme.getCurrentTheme().colorForKey(ThemeComponent.background));
-            player1GoesFirst.button.setBackground(Theme.getCurrentTheme().colorForKey(ThemeComponent.background2));
+            Theme.setBackgroundFor(player2GoesFirst, ThemeComponent.background2);
+            Theme.setBackgroundFor(player1GoesFirst, ThemeComponent.background);
         });
         player1GoesFirst.button.doClick();
         buttonPanel.add(player1GoesFirst);
