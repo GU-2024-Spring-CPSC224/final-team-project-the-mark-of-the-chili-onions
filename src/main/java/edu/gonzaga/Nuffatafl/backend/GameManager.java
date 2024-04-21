@@ -2,6 +2,7 @@ package edu.gonzaga.Nuffatafl.backend;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 
 public class GameManager {
     private Board board;
@@ -40,6 +41,26 @@ public class GameManager {
      */
     public boolean canAttemptMove(Position pos) {
         return board.getPieceAtPosition(pos).sameTeam(currentTeam);
+    }
+
+    /**
+     * Takes a position and returns an ArrayList holding all valid move spots.
+     * @param pos The position to check from.
+     * @return An ArrayList of valid spots.
+     */
+    public ArrayList<Position> getValidMoveSpots(Position pos) {
+        ArrayList<Position> spots = new ArrayList<Position>();
+
+        for (int y = 0; y < board.getSize(); y++) {
+            for (int x = 0; x < board.getSize(); x++) {
+                Position currentPos = new Position(x, y);
+                if (board.canMoveWithTeam(pos, currentPos, currentTeam)) {
+                    spots.add(currentPos);
+                }
+            }
+        }
+
+        return spots;
     }
 
     /**
