@@ -129,14 +129,7 @@ public class GameplayScreen extends JPanel {
         capturedPiecesView = new JPanel();
         capturedPiecesView.setLayout(new BoxLayout(capturedPiecesView, BoxLayout.Y_AXIS));
         add(capturedPiecesView, BorderLayout.WEST);
-        
-        for (Theme theme : Theme.themes) {
-            capturedPiecesView.add(
-                new ThemeButton(theme.getName(), label -> {
-                    Theme.setTheme(Theme.from(label.getText()));
-                })
-            );
-        }
+
         
         Theme.setBackgroundFor(capturedPiecesView, ThemeComponent.background);
     }

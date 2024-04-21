@@ -56,7 +56,7 @@ public class ThemeButton extends JPanel {
             onClick.action(button);
         });
         add(button);
-        Theme.setForegroundFor(this, ThemeComponent.text);
+        Theme.setForegroundFor(button, ThemeComponent.text);
         Theme.setBackgroundFor(this, ThemeComponent.background2);
     }
         
