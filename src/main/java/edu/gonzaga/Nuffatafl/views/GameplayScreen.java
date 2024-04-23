@@ -70,11 +70,11 @@ public class GameplayScreen extends JPanel {
         topPanel.setSize(topPanel.getWidth(), 50);
         add(topPanel, BorderLayout.NORTH);
 
-        /*// Current Team
-        Player a = new Player("Player A", "🥸", Color.green, Team.ATTACKER);
+        // Current Team
+        Player a = new Player("Temp", "🥸", Color.black, Team.ATTACKER);
         stateController.gameManager.setAttackerPlayer(a);
-        Player d = new Player("Player B", "👻", Color.cyan, Team.DEFENDER);
-        stateController.gameManager.setDefenderPlayer(d);*/
+        Player d = new Player("Temp", "👻", Color.black, Team.DEFENDER);
+        stateController.gameManager.setDefenderPlayer(d);
 
         attackerLabel = stateController.gameManager.getAttackerPlayer().label();
         Theme.setBackgroundFor(attackerLabel, ThemeComponent.background2);

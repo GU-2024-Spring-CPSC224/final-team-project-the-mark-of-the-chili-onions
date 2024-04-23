@@ -12,17 +12,24 @@ package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Player;
 import edu.gonzaga.Nuffatafl.backend.Team;
+import edu.gonzaga.Nuffatafl.viewHelpers.PlayerChangeRelay;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
+import edu.gonzaga.Nuffatafl.viewNavigation.Screen;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+
+import javax.naming.event.ObjectChangeListener;
 import javax.swing.*;
 import java.awt.*;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.concurrent.atomic.AtomicReference;
 
 /** JPanel that contains the UI for the Welcome screen */
 public class WelcomeScreen extends JPanel {
 
     private final StateController stateController;
+    private final PropertyChangeSupport playerChangeSupport;
 
     Player p1;
     Player p2;
@@ -31,6 +38,11 @@ public class WelcomeScreen extends JPanel {
     public WelcomeScreen(StateController stateController) {
         super(new BorderLayout());
         this.stateController = stateController;
+
+        playerChangeSupport = new PropertyChangeSupport(this);
+        // Instatiates the playerChangeRelay once WelcomeScreen exists, this bridges the gap of MVC without having
+        // to pass MainView everywhere to connect GameplayScreen and WelcomeScreen
+        stateController.playerChangeRelay = new PlayerChangeRelay(this);
 
         p1 = new Player("Blinky", ":)", Color.red, Team.ATTACKER);
         p2 = new Player("Pinky", ";[", Color.pink, Team.DEFENDER);
@@ -114,19 +126,12 @@ public class WelcomeScreen extends JPanel {
         ThemeButton showGameplayScreenButton = new ThemeButton("Start Game (Show Gameplay screen)", event -> {
             stateController.startGame();
             if (player1GoesFirst.button.isSelected()) {
-                p1.team = Team.ATTACKER;
-                stateController.gameManager.setAttackerPlayer(p1);
-
-                p2.team = Team.DEFENDER;
-                stateController.gameManager.setDefenderPlayer(p2);
+                playerChange(p1, true);
+                playerChange(p2, false);
             } else {
-                p1.team = Team.DEFENDER;
-                stateController.gameManager.setDefenderPlayer(p1);
-
-                p2.team = Team.ATTACKER;
-                stateController.gameManager.setAttackerPlayer(p2);
+                playerChange(p1, false);
+                playerChange(p2, true);
             }
-            // Something to set who goes first
         });
         middlePanel.add(showGameplayScreenButton, gbc);
 
@@ -195,5 +200,30 @@ public class WelcomeScreen extends JPanel {
         // Return
         Theme.setBackgroundFor(panel, ThemeComponent.background);
         return panel;
+    }
+
+    /**
+     * Adds an observer to be notified when a player is changed
+     * @param listener Code to execute when the player changes
+     */
+    public void addPlayerListener(PropertyChangeListener listener) {
+        playerChangeSupport.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Notifies listeners of a change to a player and changes the value for the stateController.gameManager
+     * @param player the new player that changed
+     * @param attacker whether the player that changed was an attacker;
+     */
+    private void playerChange(Player player, boolean attacker) {
+        if (attacker) {
+            player.team = Team.ATTACKER;
+            stateController.gameManager.setAttackerPlayer(player);
+            playerChangeSupport.firePropertyChange("attackerChange", player, player);
+        } else {
+            player.team = Team.DEFENDER;
+            stateController.gameManager.setAttackerPlayer(player);
+            playerChangeSupport.firePropertyChange("defenderChange", player, player);
+        }
     }
 }

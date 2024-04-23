@@ -11,6 +11,9 @@
 package edu.gonzaga.Nuffatafl.viewNavigation;
 
 import edu.gonzaga.Nuffatafl.backend.GameManager;
+import edu.gonzaga.Nuffatafl.backend.Player;
+import edu.gonzaga.Nuffatafl.viewHelpers.PlayerChangeRelay;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -39,6 +42,9 @@ public class StateController {
 
     /** Handles updating observers when new value change is published for screen */
     private final PropertyChangeSupport screenChangeManager;
+
+    /** Handles relaying player changes to the gamePlay screen, because the two are otherwise disconnected */
+    public PlayerChangeRelay playerChangeRelay;
 
     /** Changes program state to cause UI to show welcome screen */
     public void showWelcomeScreen() {
