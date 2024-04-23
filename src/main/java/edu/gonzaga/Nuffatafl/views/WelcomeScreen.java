@@ -76,7 +76,7 @@ public class WelcomeScreen extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 0);
 
         // Title text
-        JLabel label = new JLabel("Nuffatafl");
+        JLabel label = new JLabel(" Nuffatafl");
         label.setFont(new Font("Serif", Font.PLAIN, 60));
         middlePanel.add(label, gbc);
 
@@ -90,7 +90,7 @@ public class WelcomeScreen extends JPanel {
 
         // Who goes first buttons
         gbc.gridy++;
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         ThemeButton player1GoesFirst = new ThemeButton("Player 1", event -> {});
         ThemeButton player2GoesFirst = new ThemeButton("Player 2", event -> {});
         player1GoesFirst.button.addActionListener(actionEvent -> {
@@ -169,6 +169,17 @@ public class WelcomeScreen extends JPanel {
 
         Theme.setBackgroundFor(colorChooserPanel, ThemeComponent.background);
         panel.add(colorChooserPanel);
+
+        // Emoji Picker
+        String[] emojis = {"😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃"};
+        JComboBox<String> emojiComboBox = new JComboBox<>(emojis);
+        emojiComboBox.setSelectedIndex(0);
+        emojiComboBox.addActionListener(actionEvent -> player.emoji = emojiComboBox.getSelectedItem().toString());
+        panel.add(emojiComboBox);
+        emojiComboBox.setOpaque(false);
+        Theme.setForegroundFor(emojiComboBox, ThemeComponent.text);
+        Theme.setBackgroundFor(emojiComboBox, ThemeComponent.background);
+
 
         // Return
         Theme.setBackgroundFor(panel, ThemeComponent.background);
