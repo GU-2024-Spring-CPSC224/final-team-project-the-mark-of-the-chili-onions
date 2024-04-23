@@ -25,6 +25,7 @@ public class StateController {
         this.screen = Screen.none;
         this.previousScreen = Screen.none;
         this.screenChangeManager = new PropertyChangeSupport(this.screen);
+        this.focusModeObservable = new PropertyChangeSupport(this.screen);
         this.gameManager = new GameManager();
     }
 
@@ -105,5 +106,30 @@ public class StateController {
         this.previousScreen = this.screen;
         this.screen = newScreen;
         this.screenChangeManager.firePropertyChange("screen", this.previousScreen, this.screen);
+    }
+
+
+    /** Boolean for storing focus mode state */
+    private boolean focusMode;
+
+    /** Handles updating observers when new value change is published for focus mode */
+    private final PropertyChangeSupport focusModeObservable;
+
+    /**
+     * Adds an observer to be notified when focus mode is changed
+     * @param listener Code to execute when current screen changes
+     */
+    public void addFocusModeListener(PropertyChangeListener listener) {
+        this.focusModeObservable.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Changes the current focus mode and publishes the change to observers
+     * @param focusMode the new focus mode boolean
+     */
+    public void setFocusMode(boolean focusMode) {
+        boolean previousMode = this.focusMode;
+        this.focusMode = focusMode;
+        this.focusModeObservable.firePropertyChange("focusMode", previousMode, this.focusMode);
     }
 }
