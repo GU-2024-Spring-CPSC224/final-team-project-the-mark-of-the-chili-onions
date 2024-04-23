@@ -114,11 +114,17 @@ public class WelcomeScreen extends JPanel {
         ThemeButton showGameplayScreenButton = new ThemeButton("Start Game (Show Gameplay screen)", event -> {
             stateController.startGame();
             if (player1GoesFirst.button.isSelected()) {
+                p1.team = Team.ATTACKER;
                 stateController.gameManager.setAttackerPlayer(p1);
+
+                p2.team = Team.DEFENDER;
                 stateController.gameManager.setDefenderPlayer(p2);
             } else {
-                stateController.gameManager.setAttackerPlayer(p2);
+                p1.team = Team.DEFENDER;
                 stateController.gameManager.setDefenderPlayer(p1);
+
+                p2.team = Team.ATTACKER;
+                stateController.gameManager.setAttackerPlayer(p2);
             }
             // Something to set who goes first
         });
