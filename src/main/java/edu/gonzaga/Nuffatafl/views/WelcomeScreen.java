@@ -4,29 +4,36 @@
  * Final Project
  * No sources to cite.
  *
- * @author Mark Reggiardo
+ * @author Mark Reggiardo, Orion Hess
  * @version v0.1.0 03/28/2024
  */
 
 package edu.gonzaga.Nuffatafl.views;
 
+import edu.gonzaga.Nuffatafl.backend.Player;
+import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.concurrent.atomic.AtomicReference;
 
 /** JPanel that contains the UI for the Welcome screen */
 public class WelcomeScreen extends JPanel {
 
     private final StateController stateController;
 
+    Player p1;
+    Player p2;
+
+
     public WelcomeScreen(StateController stateController) {
         super(new BorderLayout());
         this.stateController = stateController;
+
+        p1 = new Player("Blinky", ":)", Color.red, Team.ATTACKER);
+        p2 = new Player("Pinky", ";[", Color.pink, Team.DEFENDER);
 
         this.add(topPanel(), BorderLayout.PAGE_START);
         this.add(middlePanel(), BorderLayout.CENTER);
@@ -73,33 +80,8 @@ public class WelcomeScreen extends JPanel {
         label.setFont(new Font("Serif", Font.PLAIN, 60));
         middlePanel.add(label, gbc);
 
-        // Set P1 name
         gbc.gridy++;
-        JPanel p1NamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ThemeLabel player1Label = new ThemeLabel("Player 1 Name");
-        p1NamePanel.add(player1Label);
-        JTextField player1Dialog = new JTextField("Player 1");
-        player1Dialog.setPreferredSize(new Dimension(100, 20));
-        Theme.setForegroundFor(player1Dialog, ThemeComponent.text);
-        Theme.setBackgroundFor(player1Dialog, ThemeComponent.background2);
-        p1NamePanel.add(player1Dialog);
-
-        Theme.setBackgroundFor(p1NamePanel, ThemeComponent.background);
-        middlePanel.add(p1NamePanel, gbc);
-
-        // Set P2 name
-        gbc.gridy++;
-        JPanel p2NamePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        ThemeLabel player2Label = new ThemeLabel("Player 2 Name");
-        p2NamePanel.add(player2Label);
-        JTextField player2Dialog = new JTextField("Player 2");
-        player2Dialog.setPreferredSize(new Dimension(100, 20));
-        Theme.setForegroundFor(player2Dialog, ThemeComponent.text);
-        Theme.setBackgroundFor(player2Dialog, ThemeComponent.background2);
-        p2NamePanel.add(player2Dialog);
-
-        Theme.setBackgroundFor(p2NamePanel, ThemeComponent.background);
-        middlePanel.add(p2NamePanel, gbc);
+        middlePanel.add(playersPanel(), gbc);
 
         // Who goes first question
         gbc.gridy++;
@@ -131,7 +113,8 @@ public class WelcomeScreen extends JPanel {
         gbc.gridy++;
         ThemeButton showGameplayScreenButton = new ThemeButton("Start Game (Show Gameplay screen)", event -> {
             stateController.startGame();
-            // Something to set names
+            stateController.gameManager.setAttackerPlayer(p1);
+            stateController.gameManager.setAttackerPlayer(p2);
             // Something to set who goes first
         });
         middlePanel.add(showGameplayScreenButton, gbc);
@@ -139,5 +122,56 @@ public class WelcomeScreen extends JPanel {
 
         Theme.setBackgroundFor(middlePanel, ThemeComponent.background);
         return middlePanel;
+    }
+
+    private JPanel playersPanel() {
+        JPanel playersPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+
+        playersPanel.add(setupPlayer(p1, 1));
+        playersPanel.add(setupPlayer(p2, 2));
+
+        Theme.setBackgroundFor(playersPanel, ThemeComponent.background);
+        return playersPanel;
+    }
+
+    private JPanel setupPlayer(Player player, int playerNumber) {
+        JPanel panel = new JPanel();
+        BoxLayout layout = new BoxLayout(panel, BoxLayout.Y_AXIS);
+        panel.setLayout(layout);
+
+        // Label for which player it is
+        ThemeLabel label = new ThemeLabel("Player #" + playerNumber);
+        panel.add(label);
+
+        // Text field to set the player name
+        JTextField nameField = new JTextField(player.name);
+        Theme.setForegroundFor(nameField, ThemeComponent.text);
+        Theme.setBackgroundFor(nameField, ThemeComponent.background);
+        panel.add(nameField);
+
+        // Panel to choose the color
+        JPanel colorChooserPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+
+        ColorSquare colorSquare = new ColorSquare(player.color, 20);
+        colorSquare.setPreferredSize(new Dimension(20, 20));
+
+        ThemeButton player2ColorButton = new ThemeButton("Pick a color", event -> {
+            Color color = JColorChooser.showDialog(
+                    this,
+                    "Select a color",
+                    player.color);
+            player.color = color;
+            colorSquare.setColor(color);
+        });
+
+        colorChooserPanel.add(player2ColorButton);
+        colorChooserPanel.add(colorSquare);
+
+        Theme.setBackgroundFor(colorChooserPanel, ThemeComponent.background);
+        panel.add(colorChooserPanel);
+
+        // Return
+        Theme.setBackgroundFor(panel, ThemeComponent.background);
+        return panel;
     }
 }
