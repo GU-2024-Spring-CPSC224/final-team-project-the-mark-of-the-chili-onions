@@ -16,12 +16,12 @@ public class PlayerChangeRelay implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
+        System.out.println("PlayerChangeRelay propertyChanged " + evt.getPropertyName());
         playerChangeSupport.firePropertyChange(evt.getPropertyName(), evt.getOldValue(), evt.getNewValue());
     }
 
     public void addPlayerListener(PropertyChangeListener playerListener) {
         playerChangeSupport.addPropertyChangeListener(playerListener);
-        System.out.println("PlayerChangeRelay added a listener");
     }
 
 }

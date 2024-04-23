@@ -28,8 +28,8 @@ public class GameplayScreen extends JPanel {
     private JPanel bottomPanel;
     private JPanel capturedPiecesView;
     private JPanel turnHistoryView;
-    private JPanel attackerLabel;
-    private JPanel defenderLabel;
+    private PlayerLabel attackerLabel;
+    private PlayerLabel defenderLabel;
     private JLabel victoryLabel;
 
     public GameplayScreen(StateController stateController) {
@@ -70,17 +70,11 @@ public class GameplayScreen extends JPanel {
         topPanel.setSize(topPanel.getWidth(), 50);
         add(topPanel, BorderLayout.NORTH);
 
-        // Current Team
-        Player a = new Player("Temp", "🥸", Color.black, Team.ATTACKER);
-        stateController.gameManager.setAttackerPlayer(a);
-        Player d = new Player("Temp", "👻", Color.black, Team.DEFENDER);
-        stateController.gameManager.setDefenderPlayer(d);
-
-        attackerLabel = stateController.gameManager.getAttackerPlayer().label();
+        attackerLabel = new PlayerLabel(stateController, true);
         Theme.setBackgroundFor(attackerLabel, ThemeComponent.background2);
         topPanel.add(attackerLabel);
 
-        defenderLabel = stateController.gameManager.getDefenderPlayer().label();
+        defenderLabel = new PlayerLabel(stateController, false);
         Theme.setBackgroundFor(defenderLabel, ThemeComponent.background2);
         topPanel.add(defenderLabel);
 
