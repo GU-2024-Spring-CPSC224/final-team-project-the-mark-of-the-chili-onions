@@ -85,7 +85,7 @@ public class WelcomeScreen extends JPanel {
 
         // Who goes first question
         gbc.gridy++;
-        ThemeLabel whoGoesFirst = new ThemeLabel("  Who goes first?");
+        ThemeLabel whoGoesFirst = new ThemeLabel("  Who goes first (Attacker)?");
         middlePanel.add(whoGoesFirst, gbc);
 
         // Who goes first buttons
@@ -113,8 +113,13 @@ public class WelcomeScreen extends JPanel {
         gbc.gridy++;
         ThemeButton showGameplayScreenButton = new ThemeButton("Start Game (Show Gameplay screen)", event -> {
             stateController.startGame();
-            stateController.gameManager.setAttackerPlayer(p1);
-            stateController.gameManager.setAttackerPlayer(p2);
+            if (player1GoesFirst.button.isSelected()) {
+                stateController.gameManager.setAttackerPlayer(p1);
+                stateController.gameManager.setDefenderPlayer(p2);
+            } else {
+                stateController.gameManager.setAttackerPlayer(p2);
+                stateController.gameManager.setDefenderPlayer(p1);
+            }
             // Something to set who goes first
         });
         middlePanel.add(showGameplayScreenButton, gbc);
