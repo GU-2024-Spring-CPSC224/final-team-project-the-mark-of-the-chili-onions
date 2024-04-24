@@ -58,7 +58,7 @@ public class SettingsScreen extends JPanel {
         gbc.gridy++;
 
         // Focus Mode
-        this.add(focusModeCheckBox(), gbc);
+        this.add(focusModeCheckBox(stateController), gbc);
         gbc.gridy++;
 
         // Start new game
@@ -101,11 +101,10 @@ public class SettingsScreen extends JPanel {
         return themeComboBox;
     }
 
-    JCheckBox focusModeCheckBox() {
+    JCheckBox focusModeCheckBox(StateController stateController) {
         JCheckBox focusModeCheckBox = new JCheckBox("Focus Mode");
-        //focusModeCheckBox.setSelected(getFocusMode());
         focusModeCheckBox.addActionListener(actionEvent -> {
-            //focusModeCheckBox.isSelected() ? setFocusMode(true) : setFocusMode(false);
+            stateController.setFocusMode(focusModeCheckBox.isSelected());
         });
 
         focusModeCheckBox.setOpaque(false);
