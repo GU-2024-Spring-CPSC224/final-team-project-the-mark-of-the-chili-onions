@@ -1,51 +1,26 @@
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Player;
-import edu.gonzaga.Nuffatafl.backend.Team;
-import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
-import java.awt.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+import javax.swing.border.EmptyBorder;
 
-public class PlayerLabel extends JPanel implements PropertyChangeListener {
-    private StateController stateController;
-    boolean attacker;
-    Player player;
+public class PlayerLabel extends JPanel {
+    public JLabel emojiLabel;
+    public JLabel nameLabel;
 
-    public PlayerLabel(StateController stateController, boolean attacker) {
-        super();
-        if (attacker) {
-            player = new Player("Temp", "🥸", Color.black, Team.ATTACKER);
-            stateController.gameManager.setAttackerPlayer(player);
-
-        } else {
-            player = new Player("Temp", "🥸", Color.black, Team.DEFENDER);
-            stateController.gameManager.setDefenderPlayer(player);
-        }
-        this.stateController = stateController;
-        this.attacker = attacker;
-        this.add(player.label());
-        stateController.playerChangeRelay.addPlayerListener(this);
+    public PlayerLabel(Player player) {
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        emojiLabel = new JLabel(player.emoji);
+        emojiLabel.setBorder(new EmptyBorder(13, 13, 13, 13));
+        add(emojiLabel);
+        nameLabel = new JLabel(player.name);
+        nameLabel.setBorder(new EmptyBorder(13, 0, 13, 13));
+        add(nameLabel);
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        if (propertyChangeEvent.getPropertyName().equals("attackerChange") && attacker) {
-            player = (Player)propertyChangeEvent.getNewValue();
-            stateController.gameManager.setAttackerPlayer(player);
-            this.removeAll();
-            this.add(player.label());
-            this.revalidate();
-            System.out.println("Attacker Changed");
-        } else if (propertyChangeEvent.getPropertyName().equals("defenderChange") && !attacker) {
-            player = (Player)propertyChangeEvent.getNewValue();
-            stateController.gameManager.setDefenderPlayer(player);
-            this.removeAll();
-            this.add(player.label());
-            this.revalidate();
-            System.out.println("Defender Changed");
-        }
+    public void update(Player newPlayer) {
+        emojiLabel.setText(newPlayer.emoji);
+        nameLabel.setText(newPlayer.name);
     }
 }
