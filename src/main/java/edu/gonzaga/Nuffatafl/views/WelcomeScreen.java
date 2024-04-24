@@ -21,7 +21,10 @@ public class WelcomeScreen extends JPanel {
 
     private final StateController stateController;
 
+    /** The view to customize the color, emoji, and name for Player 1 */
     private PlayerCustomizationPanel player1Panel;
+
+    /** The view to customize the color, emoji, and name for Player 2 */
     private PlayerCustomizationPanel player2Panel;
 
     public WelcomeScreen(StateController stateController) {
@@ -125,6 +128,7 @@ public class WelcomeScreen extends JPanel {
         return middlePanel;
     }
 
+    /** Contains the customization views for both players */
     private JPanel playersPanel() {
         JPanel playersPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 

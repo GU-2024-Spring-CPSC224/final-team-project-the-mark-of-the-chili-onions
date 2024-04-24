@@ -5,6 +5,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+/** Manages the information for the gameplay */
 public class GameManager {
     private Board board;
     private Team currentTeam;
