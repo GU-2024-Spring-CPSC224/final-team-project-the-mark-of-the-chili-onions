@@ -89,8 +89,9 @@ public class GameManager {
         if (board.isDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
         if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
 
-        //Publishes that the board was changed to observers of the board
-        this.boardChangeManager.firePropertyChange("board", oldBoard, getBoard());
+        // Publishes that the board was changed to observers of the board
+        // new value is not the same type as old value so that the property change will always fire
+        this.boardChangeManager.firePropertyChange("board", oldBoard, result);
         return result;
     }
 
