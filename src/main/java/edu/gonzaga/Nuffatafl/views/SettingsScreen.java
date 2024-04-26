@@ -104,6 +104,7 @@ public class SettingsScreen extends JPanel {
     JCheckBox focusModeCheckBox(StateController stateController) {
         JCheckBox focusModeCheckBox = new JCheckBox("Focus Mode");
         focusModeCheckBox.addActionListener(actionEvent -> {
+            stateController.isAutoFocusModeEnabled = false;
             stateController.setFocusMode(focusModeCheckBox.isSelected());
         });
 

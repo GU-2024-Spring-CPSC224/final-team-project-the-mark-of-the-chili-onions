@@ -138,4 +138,7 @@ public class StateController {
     public boolean getFocusMode() {
         return focusMode;
     }
+
+    /** Allows game to turn on/off focus mode based on size, set to false if user changes focus mode manually */
+    public boolean isAutoFocusModeEnabled = true;
 }

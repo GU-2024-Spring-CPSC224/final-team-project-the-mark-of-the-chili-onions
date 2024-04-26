@@ -15,6 +15,8 @@ import edu.gonzaga.Nuffatafl.viewNavigation.Screen;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
+import javax.tools.Tool;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -26,18 +28,25 @@ public class MainView extends JFrame {
      */
     public MainView() {
         super();
-        this.stateController = new StateController();
-        this.stateController.onScreenChange(event -> handleScreenChange(event));
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setSize(1000, 1000);
-        this.setTitle("Nuffatafl");
-        this.setVisible(true);
+        stateController = new StateController();
+        stateController.onScreenChange(event -> handleScreenChange(event));
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        this.welcomeScreen = new WelcomeScreen(this.stateController);
-        this.gameplayScreen = new GameplayScreen(this.stateController);
-        this.afterGameScreen = new AfterGameScreen(this.stateController);
-        this.rulesScreen = new RulesScreen(this.stateController);
-        this.settingsScreen = new SettingsScreen(this.stateController);
+        // Sets the size to the available screen size cause we're greedy and we want all them pixels
+        setSize(Toolkit.getDefaultToolkit().getScreenSize());
+
+        // Keeps the user from making this program too small - it's for their own good
+        // I tested smaller sizes and this is the smallest size I would recommend (any smaller and things break)
+        setMinimumSize(new Dimension(480, 480));
+
+        setTitle("Nuffatafl");
+        setVisible(true);
+
+        welcomeScreen = new WelcomeScreen(this.stateController);
+        gameplayScreen = new GameplayScreen(this.stateController);
+        afterGameScreen = new AfterGameScreen(this.stateController);
+        rulesScreen = new RulesScreen(this.stateController);
+        settingsScreen = new SettingsScreen(this.stateController);
     }
 
     /** Shows the welcome screen */
@@ -89,11 +98,11 @@ public class MainView extends JFrame {
      */
     private JPanel screenForState(Screen state) {
         return switch (state) {
-            case gameplay -> this.gameplayScreen;
-            case afterGame -> this.afterGameScreen;
-            case rules -> this.rulesScreen;
-            case settings -> this.settingsScreen;
-            default -> this.welcomeScreen;
+            case gameplay   -> gameplayScreen;
+            case afterGame  -> afterGameScreen;
+            case rules      -> rulesScreen;
+            case settings   -> settingsScreen;
+            default         -> welcomeScreen;
         };
     }
 

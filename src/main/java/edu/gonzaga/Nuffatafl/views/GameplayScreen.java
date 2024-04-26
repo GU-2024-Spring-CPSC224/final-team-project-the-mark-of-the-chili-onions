@@ -17,6 +17,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 
 /** JPanel that contains the UI for the Gameplay screen */
@@ -74,6 +76,8 @@ public class GameplayScreen extends JPanel {
         stateController.addFocusModeListener(event -> updateSidePanelsVisibility());
 
         Theme.setBackgroundFor(this, ThemeComponent.background);
+
+        addComponentListener(componentListener);
     }
 
     // Shows or hides the side panels based on the focus mode
@@ -208,4 +212,29 @@ public class GameplayScreen extends JPanel {
         victoryLabel.setText("Winner: " + winnerName);
         boardView.deselectPieces();
     }
+
+    /** Handles changes to the window sie */
+    private final ComponentListener componentListener =  new ComponentListener() {
+        /**
+         * Called when the size of the window  changes
+         * Sets focus mode based on size if isAutoFocusModeEnabled is true
+         */
+        @Override
+        public void componentResized(ComponentEvent event) {
+            int width = getWidth();
+
+            if (stateController.isAutoFocusModeEnabled) {
+                if (width < 750) {
+                    stateController.setFocusMode(true);
+                } else if (width > 800) {
+                    stateController.setFocusMode(false);
+                }
+            }
+        }
+
+        // Unused
+        @Override public void componentMoved(ComponentEvent e) {}
+        @Override public void componentShown(ComponentEvent e) {}
+        @Override public void componentHidden(ComponentEvent e) {}
+    };
 }
