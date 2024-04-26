@@ -133,4 +133,9 @@ public class StateController {
         this.focusMode = focusMode;
         this.focusModeObservable.firePropertyChange("focusMode", previousMode, this.focusMode);
     }
+
+    /** True if focus mdoe is enabled, false otherwise */
+    public boolean getFocusMode() {
+        return focusMode;
+    }
 }

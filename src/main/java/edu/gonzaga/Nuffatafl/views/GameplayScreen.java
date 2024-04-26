@@ -67,8 +67,20 @@ public class GameplayScreen extends JPanel {
             defenderLabel.update(game.getDefender());
             handleTeamSwitch();
         });
-         
+
+        updateSidePanelsVisibility();
+
+        // Update side panel visibility every time the focus mode changes
+        stateController.addFocusModeListener(event -> updateSidePanelsVisibility());
+
         Theme.setBackgroundFor(this, ThemeComponent.background);
+    }
+
+    // Shows or hides the side panels based on the focus mode
+    private void updateSidePanelsVisibility() {
+        boolean showPanels = !stateController.getFocusMode();
+        capturedPiecesView.setVisible(showPanels);
+        turnHistoryView.setVisible(showPanels);
     }
     
     private void setupLayout() {
