@@ -16,6 +16,7 @@ import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
 import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 /** The main view for the program UI */
 public class MainView extends JFrame {
@@ -27,7 +28,6 @@ public class MainView extends JFrame {
         super();
         this.stateController = new StateController();
         this.stateController.onScreenChange(event -> handleScreenChange(event));
-
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setSize(1000, 1000);
         this.setTitle("Nuffatafl");

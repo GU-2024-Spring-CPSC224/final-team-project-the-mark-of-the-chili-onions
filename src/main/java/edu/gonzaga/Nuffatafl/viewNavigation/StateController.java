@@ -48,6 +48,7 @@ public class StateController {
 
     /** Changes program state to cause UI to show gameplay screen */
     public void startGame() {
+        this.gameManager.reset();
         this.changeState(Screen.gameplay);
     }
 
