@@ -27,7 +27,7 @@ public class GameplayScreen extends JPanel {
     private JPanel topPanel;
     private JPanel bottomPanel;
     private JPanel capturedPiecesView;
-    private JPanel turnHistoryView;
+    private TurnHistoryView turnHistoryView;
     private PlayerLabel attackerLabel;
     private PlayerLabel defenderLabel;
     private JLabel victoryLabel;
@@ -67,7 +67,7 @@ public class GameplayScreen extends JPanel {
             handleTeamSwitch();
         });
          
-        Theme.setBackgroundFor(this, ThemeComponent.background);     
+        Theme.setBackgroundFor(this, ThemeComponent.background);
     }
     
     private void setupLayout() {
@@ -82,11 +82,11 @@ public class GameplayScreen extends JPanel {
         topPanel.setSize(topPanel.getWidth(), 50);
         add(topPanel, BorderLayout.NORTH);
 
-        attackerLabel = new PlayerLabel(game.getAttacker());
+        attackerLabel = new PlayerLabel(game.getAttacker(), true);
         Theme.setBackgroundFor(attackerLabel, ThemeComponent.background2);
         topPanel.add(attackerLabel);
 
-        defenderLabel = new PlayerLabel(game.getDefender());
+        defenderLabel = new PlayerLabel(game.getDefender(), true);
         Theme.setBackgroundFor(defenderLabel, ThemeComponent.background2);
         topPanel.add(defenderLabel);
 
@@ -158,9 +158,8 @@ public class GameplayScreen extends JPanel {
     }
 
     private void setupTurnHistoryView() {
-        turnHistoryView = new JPanel();
+        turnHistoryView = new TurnHistoryView(stateController);
         add(turnHistoryView, BorderLayout.EAST);
-        
         Theme.setBackgroundFor(turnHistoryView, ThemeComponent.background);
     }
 
