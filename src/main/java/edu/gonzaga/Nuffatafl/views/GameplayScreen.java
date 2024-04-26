@@ -17,6 +17,8 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
 
 /** JPanel that contains the UI for the Gameplay screen */
@@ -31,6 +33,9 @@ public class GameplayScreen extends JPanel {
     private PlayerLabel attackerLabel;
     private PlayerLabel defenderLabel;
     private JLabel victoryLabel;
+
+    /* Height for the top and bottom bar */
+    private static final int BAR_HEIGHT = 50;
 
     public GameplayScreen(StateController stateController) {
         super();
@@ -56,18 +61,30 @@ public class GameplayScreen extends JPanel {
         setupTurnHistoryView();
 
         game.onAttackerChange(event -> {
-            System.out.println("attacker change in gameplay: " + game.getAttacker().name);
             attackerLabel.update(game.getAttacker());
             handleTeamSwitch();
         });
 
         game.onDefenderChange(event -> {
-            System.out.println("defender change in gameplay: " + game.getDefender().name);
             defenderLabel.update(game.getDefender());
             handleTeamSwitch();
         });
-         
+
+        updateSidePanelsVisibility();
+
+        // Update side panel visibility every time the focus mode changes
+        stateController.addFocusModeListener(event -> updateSidePanelsVisibility());
+
         Theme.setBackgroundFor(this, ThemeComponent.background);
+
+        addComponentListener(componentListener);
+    }
+
+    // Shows or hides the side panels based on the focus mode
+    private void updateSidePanelsVisibility() {
+        boolean showPanels = !stateController.getFocusMode();
+        capturedPiecesView.setVisible(showPanels);
+        turnHistoryView.setVisible(showPanels);
     }
     
     private void setupLayout() {
@@ -79,7 +96,7 @@ public class GameplayScreen extends JPanel {
 
     private void setupTopPanel() {
         topPanel = new JPanel(new FlowLayout());
-        topPanel.setSize(topPanel.getWidth(), 50);
+        topPanel.setSize(topPanel.getWidth(), GameplayScreen.BAR_HEIGHT);
         add(topPanel, BorderLayout.NORTH);
 
         attackerLabel = new PlayerLabel(game.getAttacker(), true);
@@ -96,13 +113,13 @@ public class GameplayScreen extends JPanel {
         topPanel.add(victoryLabel);
 
         // Rules button
-        ThemeButton rulesButton = new ThemeButton("Rules", ImageLoading.rulesIcon(20), label -> {
+        ThemeButton rulesButton = new ThemeButton("Rules", ImageLoading.rulesIcon(Theme.ICON_SIZE), label -> {
             stateController.showRules();
         });
         topPanel.add(rulesButton);
 
         // Settings button
-        ThemeButton settingsButton = new ThemeButton("Settings", ImageLoading.settingsIcon(20), label -> {
+        ThemeButton settingsButton = new ThemeButton("Settings", ImageLoading.settingsIcon(Theme.ICON_SIZE), label -> {
             stateController.showSettings();
         });
         topPanel.add(settingsButton);   
@@ -113,7 +130,7 @@ public class GameplayScreen extends JPanel {
     private void setupBottomPanel() {
         // Setup panel and add to view
         bottomPanel = new JPanel(new FlowLayout());
-        bottomPanel.setSize(bottomPanel.getWidth(), 50);
+        bottomPanel.setSize(bottomPanel.getWidth(), GameplayScreen.BAR_HEIGHT);
         add(bottomPanel, BorderLayout.SOUTH);
 
         // End game button
@@ -149,11 +166,8 @@ public class GameplayScreen extends JPanel {
     }
 
     private void setupCapturedPiecesView() {
-        capturedPiecesView = new JPanel();
-        capturedPiecesView.setLayout(new BoxLayout(capturedPiecesView, BoxLayout.Y_AXIS));
+        capturedPiecesView = new CapturedPiecesView(stateController);
         add(capturedPiecesView, BorderLayout.WEST);
-
-        
         Theme.setBackgroundFor(capturedPiecesView, ThemeComponent.background);
     }
 
@@ -198,4 +212,29 @@ public class GameplayScreen extends JPanel {
         victoryLabel.setText("Winner: " + winnerName);
         boardView.deselectPieces();
     }
+
+    /** Handles changes to the window sie */
+    private final ComponentListener componentListener =  new ComponentListener() {
+        /**
+         * Called when the size of the window  changes
+         * Sets focus mode based on size if isAutoFocusModeEnabled is true
+         */
+        @Override
+        public void componentResized(ComponentEvent event) {
+            int width = getWidth();
+
+            if (stateController.isAutoFocusModeEnabled) {
+                if (width < 750) {
+                    stateController.setFocusMode(true);
+                } else if (width > 800) {
+                    stateController.setFocusMode(false);
+                }
+            }
+        }
+
+        // Unused
+        @Override public void componentMoved(ComponentEvent e) {}
+        @Override public void componentShown(ComponentEvent e) {}
+        @Override public void componentHidden(ComponentEvent e) {}
+    };
 }

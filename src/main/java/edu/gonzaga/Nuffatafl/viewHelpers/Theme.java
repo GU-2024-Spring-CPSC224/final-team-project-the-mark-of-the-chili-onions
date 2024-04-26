@@ -144,9 +144,23 @@ public class Theme {
         foregroundColorObservers.add(new ThemeObserver(component, themeKey));
     }
 
+    /** Observers for when the current theme is changed */
     private static final ArrayList<EventCallback<Theme>> themeChangeObservers = new ArrayList<>();
 
+    /** Adds an observer to be called when the current theme is changed */
     public static void onChange(EventCallback<Theme> observer) {
         themeChangeObservers.add(observer);
     }
+
+    /** Padding to use for empty borders when you want more space */
+    public static final int PADDING_L = 13;
+
+    /** Padding to use for empty borders when you want the standard amount of space */
+    public static final int PADDING_M = 10;
+
+    /** Padding to use for empty borders when you want less space */
+    public static final int PADDING_S = 8;
+
+    /** The default size for icons */
+    public static final int ICON_SIZE = 20;
 }

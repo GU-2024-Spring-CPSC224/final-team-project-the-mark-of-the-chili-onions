@@ -13,6 +13,10 @@ import edu.gonzaga.Nuffatafl.views.MainView;
 
 /** Class that contains the main entry point for program */
 public class MainGame {
+
+    // Keep track of main JFrame for adding JDialogs to it
+    public static MainView mainView;
+
     /**
      * Main entry point for program
      * Creates a StateController and shows the WelcomeScreen for the game
@@ -21,7 +25,7 @@ public class MainGame {
         System.out.println("Program starting");
 
         javax.swing.SwingUtilities.invokeLater(() -> {
-            MainView mainView = new MainView();
+            mainView = new MainView();
             mainView.showGUI();
        });
     }

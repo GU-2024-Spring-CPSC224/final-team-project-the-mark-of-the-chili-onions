@@ -7,10 +7,10 @@ import javax.swing.*;
 
 /**
  * A convenience view that makes creating a label that follows the theme colors easier
- * Foreground: ThemeComponent.text
- * Background: ThemeComponent.background
+ * Foreground: ThemeComponent.text2
+ * Background: ThemeComponent.background2
  */
-public class ThemeLabel extends JPanel {
+public class ThemeLabel2 extends JPanel {
     /** The actual label that does the heavy lifting */
     public JLabel label;
 
@@ -20,7 +20,7 @@ public class ThemeLabel extends JPanel {
      *
      * @param text    Text to display on label
      */
-    public ThemeLabel(String text) {
+    public ThemeLabel2(String text) {
         this(text, null);
     }
 
@@ -29,7 +29,7 @@ public class ThemeLabel extends JPanel {
      *
      * @param icon    The image to display on the label
      */
-    public ThemeLabel(ImageIcon icon) {
+    public ThemeLabel2(ImageIcon icon) {
         this(null, icon);
     }
 
@@ -39,14 +39,14 @@ public class ThemeLabel extends JPanel {
      * @param text    Text to display on label
      * @param icon    The image to display on the label
      */
-    public ThemeLabel(String text, ImageIcon icon) {
+    public ThemeLabel2(String text, ImageIcon icon) {
         super();
         label = new JLabel();
         label.setOpaque(false);
         if (text != null) { label.setText(text); }
         if (icon != null) { label.setIcon(icon); }
         add(label);
-        Theme.setForegroundFor(label, ThemeComponent.text);
-        Theme.setBackgroundFor(this, ThemeComponent.background);
+        Theme.setForegroundFor(label, ThemeComponent.text2);
+        Theme.setBackgroundFor(this, ThemeComponent.background2);
     }
 }
