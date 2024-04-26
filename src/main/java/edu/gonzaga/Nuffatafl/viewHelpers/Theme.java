@@ -1,5 +1,7 @@
 package edu.gonzaga.Nuffatafl.viewHelpers;
 
+import jdk.jfr.Event;
+
 import java.awt.Color;
 import java.util.ArrayList;
 import javax.swing.JComponent;
@@ -100,6 +102,10 @@ public class Theme {
         foregroundColorObservers.forEach(observer -> {
             observer.jComponent.setForeground(current.colorForKey(observer.themeComponent));
         });
+
+        themeChangeObservers.forEach(observer -> {
+            observer.action(current);
+        });
     }
 
     public static Theme getCurrentTheme() {
@@ -136,5 +142,11 @@ public class Theme {
         foregroundColorObservers.removeIf(observer -> observer.jComponent == component);
         // Set up a new observer
         foregroundColorObservers.add(new ThemeObserver(component, themeKey));
+    }
+
+    private static final ArrayList<EventCallback<Theme>> themeChangeObservers = new ArrayList<>();
+
+    public static void onChange(EventCallback<Theme> observer) {
+        themeChangeObservers.add(observer);
     }
 }
