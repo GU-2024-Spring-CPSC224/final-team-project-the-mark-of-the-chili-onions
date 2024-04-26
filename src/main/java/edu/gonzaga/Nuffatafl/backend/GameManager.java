@@ -16,7 +16,7 @@ public class GameManager {
     private PropertyChangeSupport attackerChange;
     private PropertyChangeSupport defenderChange;
 
-    private ArrayList<Turn> turnHitory = new ArrayList<Turn>();
+    private ArrayList<Turn> turnHistory = new ArrayList<Turn>();
 
     /** Tracks which team has won the game, necessary for PropertyChangeSupport to notify UI of victory */
     private Team winner = Team.NONE;
@@ -44,7 +44,18 @@ public class GameManager {
         this.setupChangeManagers();
     }
 
+    /**
+     * Resets the game, bringing the starting team back to default,
+     * clearing the turn history, clearing captured pieces, and resetting the board.
+     */
     public void reset() {
+        //Reset starting team
+        currentTeam = DEFAULT_STARTING_TEAM;
+
+        //Reset turn history
+        turnHistory.clear();
+
+        //Reset board
         Board oldBoard = this.board;
         this.board = new Board();
         this.boardChangeManager.firePropertyChange("board", oldBoard, this.board);
@@ -114,7 +125,7 @@ public class GameManager {
         if (player == null) { return false; }
 
         Turn turn = new Turn(player, from, to, captureCount);
-        turnHitory.add(0, turn);
+        turnHistory.add(0, turn);
         return false;
     }
 
@@ -200,7 +211,7 @@ public class GameManager {
     }
 
     public ArrayList<Turn> getTurnHistory() {
-        return turnHitory;
+        return turnHistory;
     }
 
     /** Sets up PropertyChangeSupport objects for the board, currentTeam, and winner */
