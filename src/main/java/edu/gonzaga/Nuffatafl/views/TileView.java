@@ -16,7 +16,6 @@ import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
 import javax.swing.*;
-import java.beans.PropertyChangeEvent;
 
 /** View for a single tile on the gameboard */
 public class TileView extends JPanel {
@@ -34,7 +33,7 @@ public class TileView extends JPanel {
         super();
 
         game = gameManager;
-        game.onBoardChange(event -> handleBoardChange(event));
+        game.onBoardChange(event -> updatePieceImage());
 
         this.position = position;
         this.pieceImages = pieceImages;
@@ -108,12 +107,5 @@ public class TileView extends JPanel {
         int y = position.getY();
         int size = game.getBoard().getSize() - 1;
         return (x == 0 && y ==  0) || (x == 0 && y == size) || (x == size && y ==  0) || (x == size && y == size);
-    }
-
-    /** Updates image when the information for the tile at this position changes */
-    private void handleBoardChange(PropertyChangeEvent event) {
-        if (event.getOldValue().getClass() != event.getNewValue().getClass()) {
-            updatePieceImage();
-        }
     }
 }

@@ -1,15 +1,20 @@
 package edu.gonzaga.Nuffatafl.backend;
 
+import java.awt.*;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+/** Manages the information for the gameplay */
 public class GameManager {
     private Board board;
     private Team currentTeam;
 
-    private Player attackerPlayer;
-    private Player defenderPlayer;
+    private Player attacker = new Player("Attacker", "🥸", Color.red, Team.ATTACKER);
+    private Player defender = new Player("Defender", "🥺", Color.blue, Team.DEFENDER);
+
+    private PropertyChangeSupport attackerChange;
+    private PropertyChangeSupport defenderChange;
 
     private ArrayList<Turn> turnHitory = new ArrayList<Turn>();
 
@@ -89,15 +94,16 @@ public class GameManager {
         if (board.isDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
         if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
 
-        //Publishes that the board was changed to observers of the board
-        this.boardChangeManager.firePropertyChange("board", oldBoard, getBoard());
+        // Publishes that the board was changed to observers of the board
+        // new value is not the same type as old value so that the property change will always fire
+        this.boardChangeManager.firePropertyChange("board", oldBoard, result);
         return result;
     }
 
     private boolean storeTurn(Team team, Position from, Position to, Integer captureCount) {
         Player player = switch (team) {
-            case ATTACKER -> attackerPlayer;
-            case DEFENDER -> defenderPlayer;
+            case ATTACKER -> attacker;
+            case DEFENDER -> defender;
             default -> null;
         };
 
@@ -163,20 +169,30 @@ public class GameManager {
         winnerChangeManager.addPropertyChangeListener(listener);
     }
 
-    public void setAttackerPlayer(Player player) {
-        attackerPlayer = player;
+    public void setAttacker(Player player) {
+        attacker = player;
+        attackerChange.firePropertyChange("attacker", attacker, 1);
     }
 
-    public Player getAttackerPlayer() {
-        return attackerPlayer;
+    public Player getAttacker() {
+        return attacker;
     }
 
-    public void setDefenderPlayer(Player player) {
-        defenderPlayer = player;
+    public void onAttackerChange(PropertyChangeListener listener) {
+        attackerChange.addPropertyChangeListener(listener);
     }
 
-    public Player getDefenderPlayer() {
-        return defenderPlayer;
+    public void setDefender(Player player) {
+        defender = player;
+        defenderChange.firePropertyChange("defender", defender, 1);
+    }
+
+    public Player getDefender() {
+        return defender;
+    }
+
+    public void onDefenderChange(PropertyChangeListener listener) {
+        defenderChange.addPropertyChangeListener(listener);
     }
 
     public ArrayList<Turn> getTurnHistory() {
@@ -193,5 +209,7 @@ public class GameManager {
         currentTeamChangeManager = new PropertyChangeSupport(this.currentTeam);
         winnerChangeManager = new PropertyChangeSupport(this.winner);
         turnHistoryChangeManager = new PropertyChangeSupport(turnHitory);
+        attackerChange = new PropertyChangeSupport(attacker);
+        defenderChange = new PropertyChangeSupport(defender);
     }
 }

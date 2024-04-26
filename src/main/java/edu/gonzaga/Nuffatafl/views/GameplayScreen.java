@@ -28,8 +28,8 @@ public class GameplayScreen extends JPanel {
     private JPanel bottomPanel;
     private JPanel capturedPiecesView;
     private JPanel turnHistoryView;
-    private JPanel attackerLabel;
-    private JPanel defenderLabel;
+    private PlayerLabel attackerLabel;
+    private PlayerLabel defenderLabel;
     private JLabel victoryLabel;
 
     public GameplayScreen(StateController stateController) {
@@ -53,7 +53,19 @@ public class GameplayScreen extends JPanel {
         setupTopPanel();
         setupBottomPanel();
         setupCapturedPiecesView();
-        setupTurnHistoryView();  
+        setupTurnHistoryView();
+
+        game.onAttackerChange(event -> {
+            System.out.println("attacker change in gameplay: " + game.getAttacker().name);
+            attackerLabel.update(game.getAttacker());
+            handleTeamSwitch();
+        });
+
+        game.onDefenderChange(event -> {
+            System.out.println("defender change in gameplay: " + game.getDefender().name);
+            defenderLabel.update(game.getDefender());
+            handleTeamSwitch();
+        });
          
         Theme.setBackgroundFor(this, ThemeComponent.background);     
     }
@@ -64,23 +76,17 @@ public class GameplayScreen extends JPanel {
         borderLayout.setVgap(0);
         setLayout(borderLayout);
     }
-    
+
     private void setupTopPanel() {
         topPanel = new JPanel(new FlowLayout());
         topPanel.setSize(topPanel.getWidth(), 50);
         add(topPanel, BorderLayout.NORTH);
 
-        // Current Team
-        Player a = new Player("Player A", "🥸", Color.green, Team.ATTACKER);
-        stateController.gameManager.setAttackerPlayer(a);
-        Player d = new Player("Player B", "👻", Color.cyan, Team.DEFENDER);
-        stateController.gameManager.setDefenderPlayer(d);
-
-        attackerLabel = stateController.gameManager.getAttackerPlayer().label();
+        attackerLabel = new PlayerLabel(game.getAttacker());
         Theme.setBackgroundFor(attackerLabel, ThemeComponent.background2);
         topPanel.add(attackerLabel);
 
-        defenderLabel = stateController.gameManager.getDefenderPlayer().label();
+        defenderLabel = new PlayerLabel(game.getDefender());
         Theme.setBackgroundFor(defenderLabel, ThemeComponent.background2);
         topPanel.add(defenderLabel);
 
@@ -158,9 +164,10 @@ public class GameplayScreen extends JPanel {
         Theme.setBackgroundFor(turnHistoryView, ThemeComponent.background);
     }
 
+    /** Put a border around the label of the current player and not on the other one */
     private void handleTeamSwitch() {
-        Color attackerColor = stateController.gameManager.getAttackerPlayer().color;
-        Color defenderColor = stateController.gameManager.getDefenderPlayer().color;
+        Color attackerColor = stateController.gameManager.getAttacker().color;
+        Color defenderColor = stateController.gameManager.getDefender().color;
 
         switch (stateController.gameManager.getCurrentTeam()) {
             case ATTACKER -> {
@@ -178,8 +185,18 @@ public class GameplayScreen extends JPanel {
         }
     }
 
+    /** Display a notice that the game has been won and disable all the pieces on the board */
     private void handleVictory(PropertyChangeEvent event) {
-        victoryLabel.setText("Winner: " + (Team) event.getNewValue());
+        Team winningTeam = game.getWinner();
+        String winnerName = winningTeam.name();
+
+        if (winningTeam.equals(Team.ATTACKER)) {
+            winnerName = game.getAttacker().name;
+        } else if (winningTeam.equals(Team.DEFENDER)) {
+            winnerName = game.getAttacker().name;
+        }
+
+        victoryLabel.setText("Winner: " + winnerName);
         boardView.deselectPieces();
     }
 }
