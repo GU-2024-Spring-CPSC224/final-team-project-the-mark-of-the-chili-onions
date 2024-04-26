@@ -32,6 +32,9 @@ public class GameplayScreen extends JPanel {
     private PlayerLabel defenderLabel;
     private JLabel victoryLabel;
 
+    /* Height for the top and bottom bar */
+    private static final int BAR_HEIGHT = 50;
+
     public GameplayScreen(StateController stateController) {
         super();
         
@@ -77,7 +80,7 @@ public class GameplayScreen extends JPanel {
 
     private void setupTopPanel() {
         topPanel = new JPanel(new FlowLayout());
-        topPanel.setSize(topPanel.getWidth(), 50);
+        topPanel.setSize(topPanel.getWidth(), GameplayScreen.BAR_HEIGHT);
         add(topPanel, BorderLayout.NORTH);
 
         attackerLabel = new PlayerLabel(game.getAttacker(), true);
@@ -94,13 +97,13 @@ public class GameplayScreen extends JPanel {
         topPanel.add(victoryLabel);
 
         // Rules button
-        ThemeButton rulesButton = new ThemeButton("Rules", ImageLoading.rulesIcon(20), label -> {
+        ThemeButton rulesButton = new ThemeButton("Rules", ImageLoading.rulesIcon(Theme.ICON_SIZE), label -> {
             stateController.showRules();
         });
         topPanel.add(rulesButton);
 
         // Settings button
-        ThemeButton settingsButton = new ThemeButton("Settings", ImageLoading.settingsIcon(20), label -> {
+        ThemeButton settingsButton = new ThemeButton("Settings", ImageLoading.settingsIcon(Theme.ICON_SIZE), label -> {
             stateController.showSettings();
         });
         topPanel.add(settingsButton);   
@@ -111,7 +114,7 @@ public class GameplayScreen extends JPanel {
     private void setupBottomPanel() {
         // Setup panel and add to view
         bottomPanel = new JPanel(new FlowLayout());
-        bottomPanel.setSize(bottomPanel.getWidth(), 50);
+        bottomPanel.setSize(bottomPanel.getWidth(), GameplayScreen.BAR_HEIGHT);
         add(bottomPanel, BorderLayout.SOUTH);
 
         // End game button

@@ -20,6 +20,9 @@ public class CapturedPiecesView extends JPanel {
     private JPanel attackerPieces;
     private JPanel defenderPieces;
 
+    /** Maximum size for each bar or row in this view */
+    private static final Dimension MAX_BAR_SIZE = new Dimension(300, 20);
+
     public CapturedPiecesView(StateController stateController) {
         super();
         this.stateController = stateController;
@@ -30,7 +33,7 @@ public class CapturedPiecesView extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         ThemeLabel title = new ThemeLabel("Captured Pieces");
-        title.setMaximumSize(new Dimension(300, 20));
+        title.setMaximumSize(CapturedPiecesView.MAX_BAR_SIZE);
         add(title);
 
         JPanel piecesPanel = new JPanel();
@@ -53,8 +56,8 @@ public class CapturedPiecesView extends JPanel {
     }
 
     private int getPieceImageSize() {
-        int w = Math.max(0, (getWidth() / 2) - 20);
-        int h = Math.max(0, getHeight() / 16);
+        int w = Math.max(0, (getWidth() / 2) - (Theme.PADDING_M * 2));
+        int h = Math.max(0, getHeight() / 16); // 16 is max number of pieces team can have
         return Math.min(w, h);
     }
 
@@ -92,21 +95,23 @@ public class CapturedPiecesView extends JPanel {
 
         panel.removeAll();
         ThemeLabel2 aName = new ThemeLabel2(name);
-        aName.setMaximumSize(new Dimension(300, 20));
+        aName.setMaximumSize(CapturedPiecesView.MAX_BAR_SIZE);
         panel.add(aName, gbc);
 
         gbc.gridy++;
 
         ThemeLabel2 aPieceCount = new ThemeLabel2("-" + count + aPieces);
-        aPieceCount.setMaximumSize(new Dimension(300, 20));
+        aPieceCount.setMaximumSize(CapturedPiecesView.MAX_BAR_SIZE);
         panel.add(aPieceCount, gbc);
+
+        EmptyBorder padding = new EmptyBorder(Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M);
 
         for (int i = 0; i < count; i++) {
             gbc.gridy++;
             JLabel piece = new JLabel(images.imageFor(new Soldier(team)));
             piece.setOpaque(false);
             piece.setBackground(new Color(0, 0, 0, 0));
-            piece.setBorder(new EmptyBorder(10, 10, 10, 10));
+            piece.setBorder(padding);
             panel.add(piece, gbc);
         }
 

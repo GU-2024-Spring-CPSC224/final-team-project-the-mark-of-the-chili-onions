@@ -1,6 +1,8 @@
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Player;
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -17,7 +19,7 @@ public class PlayerLabel extends JPanel {
         nameLabel = new ThemeLabel(player.name);
         add(nameLabel);
 
-        int pad = padding ? 13 : 0;
+        int pad = padding ? Theme.PADDING_M : 0;
         emojiLabel.setBorder(new EmptyBorder(pad, pad, pad, pad));
         nameLabel.setBorder(new EmptyBorder(pad, 0, pad, pad));
     }

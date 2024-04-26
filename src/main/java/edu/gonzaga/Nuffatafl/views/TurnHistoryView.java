@@ -28,8 +28,8 @@ public class TurnHistoryView extends JPanel {
         // Panel for all the TurnViews
         turnsView = new JPanel();
         turnsView.setLayout(new BoxLayout(turnsView, BoxLayout.Y_AXIS));
-        turnsView.setBorder(new EmptyBorder(10, 10, 10, 10));
-        setBorder(new EmptyBorder(0, 8, 0, 8));
+        turnsView.setBorder(new EmptyBorder(Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M));
+        setBorder(new EmptyBorder(0, Theme.PADDING_S, 0, 8));
         Theme.setBackgroundFor(this, ThemeComponent.background2);
 
         // Scroll pane so we can see all the TurnViews even when they fall off the screen

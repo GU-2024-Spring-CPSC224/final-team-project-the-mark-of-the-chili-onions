@@ -5,7 +5,11 @@ import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
 import javax.swing.*;
 
-/** A convenience view that makes creating a label that follows the theme colors easier */
+/**
+ * A convenience view that makes creating a label that follows the theme colors easier
+ * Foreground: ThemeComponent.text2
+ * Background: ThemeComponent.background2
+ */
 public class ThemeLabel2 extends JPanel {
     /** The actual label that does the heavy lifting */
     public JLabel label;

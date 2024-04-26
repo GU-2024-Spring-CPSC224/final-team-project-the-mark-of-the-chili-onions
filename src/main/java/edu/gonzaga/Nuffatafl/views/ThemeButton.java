@@ -7,7 +7,11 @@ import edu.gonzaga.Nuffatafl.viewHelpers.EventCallback;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
-/** A convenience view that makes creating a button that follows the theme colors easier */
+/**
+ * A convenience view that makes creating a button that follows the theme colors easier
+ * Foreground: ThemeComponent.text
+ * Background: ThemeComponent.background2
+ */
 public class ThemeButton extends JPanel {
     /** The actual button that does the heavy lifting */
     public JButton button;

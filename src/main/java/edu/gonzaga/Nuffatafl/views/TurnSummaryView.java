@@ -30,18 +30,18 @@ public class TurnSummaryView extends JPanel {
             setupColorBar();
             add(Box.createHorizontalGlue());
             setupCenterPanel();
-            centerPanel.setBorder(new EmptyBorder(0, 8, 0, 0));
+            centerPanel.setBorder(new EmptyBorder(0, Theme.PADDING_S, 0, 0));
         } else {
             setupCenterPanel();
             add(Box.createHorizontalGlue());
             setupColorBar();
-            centerPanel.setBorder(new EmptyBorder(0, 0, 0, 8));
+            centerPanel.setBorder(new EmptyBorder(0, 0, 0, Theme.PADDING_S));
         }
 
         Theme.setBackgroundFor(this, ThemeComponent.background);
 
         setMaximumSize(new Dimension(400, 100));
-        setBorder(new EmptyBorder(8, 8, 8, 8));
+        setBorder(new EmptyBorder(Theme.PADDING_S, Theme.PADDING_S, Theme.PADDING_S, Theme.PADDING_S));
 
         revalidate();
         repaint();
