@@ -56,13 +56,11 @@ public class GameplayScreen extends JPanel {
         setupTurnHistoryView();
 
         game.onAttackerChange(event -> {
-            System.out.println("attacker change in gameplay: " + game.getAttacker().name);
             attackerLabel.update(game.getAttacker());
             handleTeamSwitch();
         });
 
         game.onDefenderChange(event -> {
-            System.out.println("defender change in gameplay: " + game.getDefender().name);
             defenderLabel.update(game.getDefender());
             handleTeamSwitch();
         });
@@ -149,11 +147,8 @@ public class GameplayScreen extends JPanel {
     }
 
     private void setupCapturedPiecesView() {
-        capturedPiecesView = new JPanel();
-        capturedPiecesView.setLayout(new BoxLayout(capturedPiecesView, BoxLayout.Y_AXIS));
+        capturedPiecesView = new CapturedPiecesView(stateController);
         add(capturedPiecesView, BorderLayout.WEST);
-
-        
         Theme.setBackgroundFor(capturedPiecesView, ThemeComponent.background);
     }
 

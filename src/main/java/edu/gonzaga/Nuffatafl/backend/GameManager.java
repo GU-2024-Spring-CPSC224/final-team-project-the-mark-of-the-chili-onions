@@ -30,8 +30,6 @@ public class GameManager {
     /** Handles updating observers when a team wins the game */
     private PropertyChangeSupport winnerChangeManager;
 
-    private PropertyChangeSupport turnHistoryChangeManager;
-
     private static final Team DEFAULT_STARTING_TEAM = Team.ATTACKER;
 
     public GameManager(int size) {
@@ -205,16 +203,11 @@ public class GameManager {
         return turnHitory;
     }
 
-    public void onTurnHistoryChange(PropertyChangeListener listener) {
-        turnHistoryChangeManager.addPropertyChangeListener(listener);
-    }
-
     /** Sets up PropertyChangeSupport objects for the board, currentTeam, and winner */
     private void setupChangeManagers() {
         boardChangeManager = new PropertyChangeSupport(this.board);
         currentTeamChangeManager = new PropertyChangeSupport(this.currentTeam);
         winnerChangeManager = new PropertyChangeSupport(this.winner);
-        turnHistoryChangeManager = new PropertyChangeSupport(turnHitory);
         attackerChange = new PropertyChangeSupport(attacker);
         defenderChange = new PropertyChangeSupport(defender);
     }
