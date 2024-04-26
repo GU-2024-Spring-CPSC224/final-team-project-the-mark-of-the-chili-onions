@@ -43,7 +43,7 @@ public class GameplayScreen extends JPanel {
             }
         });
 
-        // Set up callbakcs for when team is switched or game is won
+        // Set up callbacks for when team is switched or game is won
         game = stateController.gameManager;
         game.onTeamSwitch(event -> handleTeamSwitch());
         game.onVictory(event -> handleVictory(event));

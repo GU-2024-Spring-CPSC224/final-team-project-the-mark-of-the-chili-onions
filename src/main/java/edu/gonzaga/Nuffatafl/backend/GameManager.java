@@ -46,6 +46,12 @@ public class GameManager {
         this.setupChangeManagers();
     }
 
+    public void reset() {
+        Board oldBoard = this.board;
+        this.board = new Board();
+        this.boardChangeManager.firePropertyChange("board", oldBoard, this.board);
+    }
+
     /**
      * Checks if a piece is on the current team and can therefore attempt a move.
      * @param pos The position of the piece to check.
