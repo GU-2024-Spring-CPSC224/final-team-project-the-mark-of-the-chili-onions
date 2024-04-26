@@ -9,14 +9,17 @@ public class PlayerLabel extends JPanel {
     public ThemeLabel emojiLabel;
     public ThemeLabel nameLabel;
 
-    public PlayerLabel(Player player) {
+    /** @param padding indicates if label should have padding or not */
+    public PlayerLabel(Player player, boolean padding) {
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
         emojiLabel = new ThemeLabel(player.emoji);
-        emojiLabel.setBorder(new EmptyBorder(13, 13, 13, 13));
         add(emojiLabel);
         nameLabel = new ThemeLabel(player.name);
-        nameLabel.setBorder(new EmptyBorder(13, 0, 13, 13));
         add(nameLabel);
+
+        int pad = padding ? 13 : 0;
+        emojiLabel.setBorder(new EmptyBorder(pad, pad, pad, pad));
+        nameLabel.setBorder(new EmptyBorder(pad, 0, pad, pad));
     }
 
     /** Updates the emoji and name being displayed for the player */
