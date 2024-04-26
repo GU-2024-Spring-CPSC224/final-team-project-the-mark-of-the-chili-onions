@@ -4,8 +4,8 @@ import edu.gonzaga.Nuffatafl.backend.Soldier;
 import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.backend.Turn;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -13,6 +13,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
+/** Displays the captured pieces */
 public class CapturedPiecesView extends JPanel {
     private StateController stateController;
     private PieceImages images;
@@ -36,15 +37,17 @@ public class CapturedPiecesView extends JPanel {
         piecesPanel.setLayout(new GridLayout(1, 2));
         attackerPieces = new JPanel();
         attackerPieces.setLayout(new GridBagLayout());
+        Theme.setBackgroundFor(attackerPieces, ThemeComponent.background2);
         piecesPanel.add(attackerPieces);
         defenderPieces = new JPanel();
         defenderPieces.setLayout(new GridBagLayout());
+        Theme.setBackgroundFor(defenderPieces, ThemeComponent.background2);
         piecesPanel.add(defenderPieces);
         add(piecesPanel);
 
         updatePieces();
 
-        setBorder(new EmptyBorder(10, 10, 10, 10));
+        setBorder(new EmptyBorder(8, 8, 8, 8));
         revalidate();
         repaint();
     }
@@ -71,71 +74,49 @@ public class CapturedPiecesView extends JPanel {
             }
         }
 
+        updateCollumn(attackerPieces, Team.ATTACKER, stateController.gameManager.getAttacker().name, capturedAttackers);
+        updateCollumn(defenderPieces, Team.DEFENDER, stateController.gameManager.getDefender().name, capturedDefenders);
+
+        revalidate();
+        repaint();
+    }
+
+    private void updateCollumn(JPanel panel, Team team, String name, int count) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weighty = 0;
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        String aPieces = capturedAttackers == 1 ? " piece" : " pieces";
+        String aPieces = count == 1 ? " piece" : " pieces";
 
-        attackerPieces.removeAll();
-        ThemeLabel2 aName = new ThemeLabel2(stateController.gameManager.getAttacker().name);
+        panel.removeAll();
+        ThemeLabel2 aName = new ThemeLabel2(name);
         aName.setMaximumSize(new Dimension(300, 20));
-        attackerPieces.add(aName, gbc);
+        panel.add(aName, gbc);
 
         gbc.gridy++;
 
-        ThemeLabel2 aPieceCount = new ThemeLabel2("-" + capturedAttackers + aPieces);
+        ThemeLabel2 aPieceCount = new ThemeLabel2("-" + count + aPieces);
         aPieceCount.setMaximumSize(new Dimension(300, 20));
-        attackerPieces.add(aPieceCount, gbc);
+        panel.add(aPieceCount, gbc);
 
-        for (int i = 0; i < capturedAttackers; i++) {
+        for (int i = 0; i < count; i++) {
             gbc.gridy++;
-            JLabel piece = new JLabel(images.imageFor(new Soldier(Team.ATTACKER)));
+            JLabel piece = new JLabel(images.imageFor(new Soldier(team)));
             piece.setOpaque(false);
             piece.setBackground(new Color(0, 0, 0, 0));
             piece.setBorder(new EmptyBorder(10, 10, 10, 10));
-            attackerPieces.add(piece, gbc);
+            panel.add(piece, gbc);
         }
 
         gbc.gridy++;
         gbc.weighty = 1;
 
-        attackerPieces.add(new JPanel(), gbc);
+        JPanel bitchPanel = new JPanel();
+        bitchPanel.setOpaque(false);
 
-        gbc.gridy = 0;
-        gbc.weighty = 0;
-
-        String dPieces = capturedDefenders == 1 ? " piece" : " pieces";
-
-        defenderPieces.removeAll();
-        ThemeLabel2 dName = new ThemeLabel2(stateController.gameManager.getDefender().name);
-        aName.setMaximumSize(new Dimension(300, 20));
-        defenderPieces.add(dName, gbc);
-
-        gbc.gridy++;
-
-        ThemeLabel2 dPieceCount = new ThemeLabel2("-" + capturedDefenders + dPieces);
-        dPieceCount.setMaximumSize(new Dimension(300, 20));
-        defenderPieces.add(dPieceCount, gbc);
-
-        for (int i = 0; i < capturedDefenders; i++) {
-            gbc.gridy++;
-            JLabel piece = new JLabel(images.imageFor(new Soldier(Team.DEFENDER)));
-            piece.setOpaque(false);
-            piece.setBackground(new Color(0, 0, 0, 0));
-            piece.setBorder(new EmptyBorder(10, 10, 10, 10));
-            defenderPieces.add(piece, gbc);
-        }
-
-        gbc.gridy++;
-        gbc.weighty = 1;
-
-        defenderPieces.add(new JPanel(), gbc);
-
-        revalidate();
-        repaint();
+        panel.add(bitchPanel, gbc);
     }
 
     private final ComponentListener componentListener =  new ComponentListener() {
