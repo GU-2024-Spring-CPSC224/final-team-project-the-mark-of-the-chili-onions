@@ -47,6 +47,8 @@ public class MainView extends JFrame {
         afterGameScreen = new AfterGameScreen(this.stateController);
         rulesScreen = new RulesScreen(this.stateController);
         settingsScreen = new SettingsScreen(this.stateController);
+
+        setIconImage(new ImageIcon("src/main/resources/icon.png").getImage());
     }
 
     /** Shows the welcome screen */
