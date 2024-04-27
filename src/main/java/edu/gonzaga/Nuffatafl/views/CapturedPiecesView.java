@@ -28,6 +28,7 @@ public class CapturedPiecesView extends JPanel {
         this.stateController = stateController;
         images = new PieceImages(getPieceImageSize());
         stateController.gameManager.onTeamSwitch(event -> updatePieces());
+        stateController.gameManager.onBoardChange(event -> updatePieces()); //Reset view whenever board is changed
         addComponentListener(componentListener);
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
