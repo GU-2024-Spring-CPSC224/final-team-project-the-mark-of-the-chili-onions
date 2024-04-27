@@ -27,12 +27,16 @@ public class WelcomeScreen extends JPanel {
     /** The view to customize the color, emoji, and name for Player 2 */
     private PlayerCustomizationPanel player2Panel;
 
+    private boolean player1FirstBool;
+
     public WelcomeScreen(StateController stateController) {
         super(new BorderLayout());
         this.stateController = stateController;
 
         player1Panel = new PlayerCustomizationPanel(stateController.gameManager.getAttacker(), 1);
         player2Panel = new PlayerCustomizationPanel(stateController.gameManager.getDefender(), 2);
+
+        player1FirstBool = true;
 
         this.add(topPanel(), BorderLayout.PAGE_START);
         this.add(middlePanel(), BorderLayout.CENTER);
@@ -95,11 +99,13 @@ public class WelcomeScreen extends JPanel {
         ThemeButton player2GoesFirst = new ThemeButton("Player 2", event -> {
         });
         player1GoesFirst.button.addActionListener(actionEvent -> {
+            player1FirstBool = true;
             player2GoesFirst.button.setSelected(false);
             Theme.setBackgroundFor(player1GoesFirst, ThemeComponent.background2);
             Theme.setBackgroundFor(player2GoesFirst, ThemeComponent.background);
         });
         player2GoesFirst.button.addActionListener(actionEvent -> {
+            player1FirstBool = false;
             player1GoesFirst.button.setSelected(false);
             Theme.setBackgroundFor(player2GoesFirst, ThemeComponent.background2);
             Theme.setBackgroundFor(player1GoesFirst, ThemeComponent.background);
@@ -114,10 +120,12 @@ public class WelcomeScreen extends JPanel {
         gbc.gridy++;
         ThemeButton showGameplayScreenButton = new ThemeButton("Start Game (Show Gameplay screen)", event -> {
             stateController.startGame();
-            if (player1GoesFirst.button.isSelected()) {
+            if (player1FirstBool) {
+                System.out.println("Player 1 goes first");
                 stateController.gameManager.setAttacker(player1Panel.getPlayer());
                 stateController.gameManager.setDefender(player2Panel.getPlayer());
             } else {
+                System.out.println("Player 2 goes first");
                 stateController.gameManager.setAttacker(player2Panel.getPlayer());
                 stateController.gameManager.setDefender(player1Panel.getPlayer());
             }
