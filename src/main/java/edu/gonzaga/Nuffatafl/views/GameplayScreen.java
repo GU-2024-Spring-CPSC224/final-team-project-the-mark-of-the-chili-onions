@@ -27,6 +27,7 @@ public class GameplayScreen extends JPanel {
     private final StateController stateController;
     private final GameManager game;
     private BoardView boardView;
+    private AfterGameDialog afterGameDialog;
     private JPanel topPanel;
     private JPanel bottomPanel;
     private JPanel capturedPiecesView;
@@ -79,6 +80,8 @@ public class GameplayScreen extends JPanel {
         Theme.setBackgroundFor(this, ThemeComponent.background);
 
         addComponentListener(componentListener);
+
+        afterGameDialog = new AfterGameDialog(this, stateController);
     }
 
     // Shows or hides the side panels based on the focus mode
@@ -137,7 +140,7 @@ public class GameplayScreen extends JPanel {
         // End game button
         bottomPanel.add(
             new ThemeButton("End Game", label -> {
-                stateController.endGame();
+                afterGameDialog.displayEndGameDialog();
             }), 
             FlowLayout.LEFT
         );
