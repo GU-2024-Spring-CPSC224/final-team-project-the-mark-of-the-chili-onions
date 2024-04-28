@@ -30,6 +30,7 @@ public class StateController {
         this.previousScreen = Screen.none;
         this.screenChangeManager = new PropertyChangeSupport(this.screen);
         this.focusModeObservable = new PropertyChangeSupport(this.screen);
+        this.highlightingModeObservable = new PropertyChangeSupport(this.screen);
         this.gameManager = new GameManager();
 
         this.settings = new Properties();
@@ -131,7 +132,7 @@ public class StateController {
 
     /**
      * Adds an observer to be notified when focus mode is changed
-     * @param listener Code to execute when current screen changes
+     * @param listener Code to execute when focus mode changes
      */
     public void addFocusModeListener(PropertyChangeListener listener) {
         this.focusModeObservable.addPropertyChangeListener(listener);
@@ -155,5 +156,33 @@ public class StateController {
     /** Allows game to turn on/off focus mode based on size, set to false if user changes focus mode manually */
     public boolean isAutoFocusModeEnabled = true;
 
+    private boolean highlightingMode = true;
+
+    /** Handles updating observers when new value change is published for highlighting mode */
+    private final PropertyChangeSupport highlightingModeObservable;
+
+    /**
+     * Adds an observer to be notified when highlighting mode is changed
+     * @param listener Code to execute when highlighting mode changes
+     */
+    public void addHighlightingModeListener(PropertyChangeListener listener) {
+        this.highlightingModeObservable.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Changes the current highlighting mode and publishes the change to observers
+     * @param highlightingMode the new highlighting mode boolean
+     */
+    public void setHighlightingMode(boolean highlightingMode) {
+        boolean previousMode = this.highlightingMode;
+        this.highlightingMode = highlightingMode;
+        this.highlightingModeObservable.firePropertyChange("highlightingMode", previousMode, this.highlightingMode);
+    }
+
+    public boolean getHighlightingMode() {
+        return highlightingMode;
+    }
+
+    /** Properties object for setting and getting settings from a file */
     public Properties settings;
 }

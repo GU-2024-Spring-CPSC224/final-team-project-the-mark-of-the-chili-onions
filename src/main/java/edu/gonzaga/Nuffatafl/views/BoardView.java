@@ -16,9 +16,13 @@ import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.KeyCode;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+
 import javax.swing.*;
+import javax.swing.plaf.nimbus.State;
 import java.awt.*;
 import java.awt.event.*;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
@@ -43,6 +47,9 @@ public class BoardView extends JPanel {
      */
     private Position highlightPosition;
     private PropertyChangeSupport validSpotHighlightChangeSupport;
+
+    /** Keeps track of wether or not we will be highlighting */
+    private boolean highlighting = true;
 
     public BoardView(GameManager gameManager) {
         super();
@@ -136,7 +143,9 @@ public class BoardView extends JPanel {
                 });
 
                 validSpotHighlightChangeSupport.addPropertyChangeListener(event -> {
-                    tileView.highlight(highlightPosition);
+                    if (highlighting) {
+                        tileView.highlight(highlightPosition);
+                    }
                 });
 
                 // Add the tile view and keep track of it
@@ -264,6 +273,10 @@ public class BoardView extends JPanel {
                 setDestinationPosition(newDestinationPosition);
             }            
         }
+    }
+
+    public void setHighlighting(PropertyChangeEvent event) {
+        this.highlighting = (boolean)event.getNewValue();
     }
 
     /**
