@@ -79,8 +79,8 @@ public class WelcomeScreen extends JPanel {
         gbc.insets = new Insets(5, 0, 5, 0);
 
         // Title text
-        JLabel label = new JLabel(" Nuffatafl");
-        label.setFont(new Font("Serif", Font.PLAIN, 60));
+        ThemeLabel label = new ThemeLabel(" Nuffatafl");
+        label.label.setFont(new Font("Serif", Font.PLAIN, 60));
         middlePanel.add(label, gbc);
 
         gbc.gridy++;
