@@ -20,6 +20,7 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
+import java.util.ArrayList;
 
 /** JPanel that contains the UI for the Gameplay screen */
 public class GameplayScreen extends JPanel {
@@ -107,10 +108,10 @@ public class GameplayScreen extends JPanel {
         Theme.setBackgroundFor(defenderLabel, ThemeComponent.background2);
         topPanel.add(defenderLabel);
 
-        handleTeamSwitch();
-
         victoryLabel = new JLabel("");
         topPanel.add(victoryLabel);
+
+        handleTeamSwitch();
 
         // Rules button
         ThemeButton rulesButton = new ThemeButton("Rules", ImageLoading.rulesIcon(Theme.ICON_SIZE), label -> {
@@ -196,6 +197,8 @@ public class GameplayScreen extends JPanel {
                 defenderLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
             }
         }
+
+        checkResetWinState();
     }
 
     /** Display a notice that the game has been won and disable all the pieces on the board */
@@ -212,6 +215,18 @@ public class GameplayScreen extends JPanel {
         victoryLabel.setText("Winner: " + winnerName);
         boardView.deselectPieces();
     }
+
+    /**
+     * Handles the victory label needing to be reset when the game resets.
+     * This is a little hacky because it runs every time the turn changes, but it makes us not need an extra property
+     * change support for the game resetting when it would only be used by this. Also, performance is not an issue as
+     * of right now.
+     */
+    private void checkResetWinState() {
+        int turnCount = game.getTurnHistory().size();
+        if (turnCount == 0) victoryLabel.setText("");
+    }
+
 
     /** Handles changes to the window sie */
     private final ComponentListener componentListener =  new ComponentListener() {
