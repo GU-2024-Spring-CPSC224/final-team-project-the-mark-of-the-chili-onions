@@ -5,7 +5,7 @@
  * No sources to cite.
  *
  * @author Orion Hess
- * @version v0.1.0 04/22/2024
+ * @version v1.0.0 04/22/2024
  */
 
 package edu.gonzaga.Nuffatafl.views;

@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Cash Hilstad, Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.backend;
 
 import java.awt.*;
@@ -8,13 +18,13 @@ import java.util.ArrayList;
 /** Manages the information for the gameplay */
 public class GameManager {
     private static final Team DEFAULT_STARTING_TEAM = Team.ATTACKER;
+    private final ArrayList<Turn> turnHistory = new ArrayList<Turn>();
     private Board board;
     private Team currentTeam;
     private Player attacker = new Player("Player 1", "🥸", Color.red, Team.ATTACKER);
     private Player defender = new Player("Player 2", "🥺", Color.blue, Team.DEFENDER);
     private PropertyChangeSupport attackerChange;
     private PropertyChangeSupport defenderChange;
-    private final ArrayList<Turn> turnHistory = new ArrayList<Turn>();
     /** Tracks which team has won the game, necessary for PropertyChangeSupport to notify UI of victory */
     private Team winner = Team.NONE;
     /** Handles updating observers when the board changes (i.e. when a piece is moved) */

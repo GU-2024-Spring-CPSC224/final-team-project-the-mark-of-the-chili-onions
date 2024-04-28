@@ -4,8 +4,8 @@
  * Final Project
  * No sources to cite.
  *
- * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @author Mark Reggiardo, Cash Hilstad
+ * @version v1.0.0 03/28/2024
  */
 
 package edu.gonzaga.Nuffatafl.views;

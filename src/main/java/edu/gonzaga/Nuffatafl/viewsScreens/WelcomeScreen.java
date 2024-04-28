@@ -4,8 +4,8 @@
  * Final Project
  * No sources to cite.
  *
- * @author Mark Reggiardo, Orion Hess
- * @version v0.1.0 03/28/2024
+ * @author Orion Hess, Mark Reggiardo
+ * @version v1.0.0 03/28/2024
  */
 
 package edu.gonzaga.Nuffatafl.viewsScreens;

@@ -5,7 +5,7 @@
  * No sources to cite.
  *
  * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @version v1.0.0 03/28/2024
  */
 
 package edu.gonzaga.Nuffatafl.viewsScreens;
@@ -32,40 +32,8 @@ public class GameplayScreen extends JPanel {
     private static final int BAR_HEIGHT = 50;
     private final StateController stateController;
     private final GameManager game;
-    /** Handles changes to the window sie */
-    private final ComponentListener componentListener = new ComponentListener() {
-        /**
-         * Called when the size of the window  changes
-         * Sets focus mode based on size if isAutoFocusModeEnabled is true
-         */
-        @Override
-        public void componentResized(ComponentEvent event) {
-            int width = getWidth();
-
-            if (stateController.isAutoFocusModeEnabled) {
-                if (width < 750) {
-                    stateController.setFocusMode(true);
-                } else if (width > 800) {
-                    stateController.setFocusMode(false);
-                }
-            }
-        }
-
-        // Unused
-        @Override
-        public void componentMoved(ComponentEvent e) {
-        }
-
-        @Override
-        public void componentShown(ComponentEvent e) {
-        }
-
-        @Override
-        public void componentHidden(ComponentEvent e) {
-        }
-    };
-    private BoardView boardView;
     private final AfterGameDialog afterGameDialog;
+    private BoardView boardView;
     private JPanel topPanel;
     private JPanel bottomPanel;
     private JPanel capturedPiecesView;
@@ -264,4 +232,37 @@ public class GameplayScreen extends JPanel {
         int turnCount = game.getTurnHistory().size();
         if (turnCount == 0) victoryLabel.setText("");
     }
+
+    /** Handles changes to the window sie */
+    private final ComponentListener componentListener = new ComponentListener() {
+        /**
+         * Called when the size of the window  changes
+         * Sets focus mode based on size if isAutoFocusModeEnabled is true
+         */
+        @Override
+        public void componentResized(ComponentEvent event) {
+            int width = getWidth();
+
+            if (stateController.isAutoFocusModeEnabled) {
+                if (width < 750) {
+                    stateController.setFocusMode(true);
+                } else if (width > 800) {
+                    stateController.setFocusMode(false);
+                }
+            }
+        }
+
+        // Unused
+        @Override
+        public void componentMoved(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentShown(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentHidden(ComponentEvent e) {
+        }
+    };
 }

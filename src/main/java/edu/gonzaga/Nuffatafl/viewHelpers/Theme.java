@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.viewHelpers;
 
 import javax.swing.*;
@@ -17,6 +27,10 @@ public class Theme {
     public static final int ICON_SIZE = 20;
     /** Observers for when the current theme is changed */
     private static final ArrayList<EventCallback<Theme>> themeChangeObservers = new ArrayList<>();
+    /** Observers to change the background color of when the theme changes */
+    private static final ArrayList<ThemeObserver> backgroundColorObservers = new ArrayList<ThemeObserver>();
+    /** Observers to change the foreground color of when the theme changes */
+    private static final ArrayList<ThemeObserver> foregroundColorObservers = new ArrayList<ThemeObserver>();
     /** The available themes to choose from */
     public static ArrayList<Theme> themes = new ArrayList<Theme>();
     /** Default theme (light) */
@@ -33,7 +47,6 @@ public class Theme {
             case text2 -> new Color(61, 68, 69);
         };
     });
-
     /** Midnight theme (dark) */
     public static Theme midnightTheme = new Theme("Midnight", themeKey -> {
         return switch (themeKey) {
@@ -50,10 +63,6 @@ public class Theme {
     });
     /** Keeps track of the current theme and notifies observers when it changes */
     private static Theme current = defaultTheme;
-    /** Observers to change the background color of when the theme changes */
-    private static final ArrayList<ThemeObserver> backgroundColorObservers = new ArrayList<ThemeObserver>();
-    /** Observers to change the foreground color of when the theme changes */
-    private static final ArrayList<ThemeObserver> foregroundColorObservers = new ArrayList<ThemeObserver>();
     /** Name of the theme to display to the user */
     private final String name;
     /** The lambda expression that returns the right color for each ThemeComponent in this theme */

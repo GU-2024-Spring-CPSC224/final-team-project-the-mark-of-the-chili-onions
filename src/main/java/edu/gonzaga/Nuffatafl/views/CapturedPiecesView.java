@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Soldier;
@@ -23,6 +33,7 @@ public class CapturedPiecesView extends JPanel {
     private final JPanel attackerPieces;
     private final JPanel defenderPieces;
     private int scaledImagePadding = 4;
+
     private final ComponentListener componentListener = new ComponentListener() {
         @Override
         public void componentResized(ComponentEvent event) {
