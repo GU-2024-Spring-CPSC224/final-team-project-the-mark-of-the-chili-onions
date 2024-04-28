@@ -77,6 +77,9 @@ public class GameplayScreen extends JPanel {
         // Update side panel visibility every time the focus mode changes
         stateController.addFocusModeListener(event -> updateSidePanelsVisibility());
 
+        // Update highlighting when the highlighting mode changes
+        stateController.addHighlightingModeListener(event -> boardView.setHighlighting(event));
+
         Theme.setBackgroundFor(this, ThemeComponent.background);
 
         addComponentListener(componentListener);
