@@ -9,8 +9,6 @@
  */
 package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.Nuffatafl.views.MainView;
-
 /** Class that contains the main entry point for program */
 public class MainGame {
 

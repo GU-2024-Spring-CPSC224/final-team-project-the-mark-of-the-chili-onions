@@ -8,11 +8,13 @@
  * @version v0.1.0 03/28/2024
  */
 
-package edu.gonzaga.Nuffatafl.views;
+package edu.gonzaga.Nuffatafl.viewsScreens;
 
 import edu.gonzaga.Nuffatafl.backend.*;
 import edu.gonzaga.Nuffatafl.viewHelpers.*;
 import edu.gonzaga.Nuffatafl.viewNavigation.*;
+import edu.gonzaga.Nuffatafl.views.*;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -20,7 +22,6 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.beans.PropertyChangeEvent;
-import java.util.ArrayList;
 
 /** JPanel that contains the UI for the Gameplay screen */
 public class GameplayScreen extends JPanel {

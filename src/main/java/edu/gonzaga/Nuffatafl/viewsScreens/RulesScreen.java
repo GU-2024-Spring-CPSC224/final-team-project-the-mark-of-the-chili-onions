@@ -8,11 +8,13 @@
  * @version v0.1.0 03/28/2024
  */
 
-package edu.gonzaga.Nuffatafl.views;
+package edu.gonzaga.Nuffatafl.viewsScreens;
 
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+import edu.gonzaga.Nuffatafl.views.ThemeButton;
+import edu.gonzaga.Nuffatafl.views.ThemeLabel;
 
 import javax.swing.*;
 import java.awt.*;

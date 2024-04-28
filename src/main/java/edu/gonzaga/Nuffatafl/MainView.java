@@ -8,17 +8,15 @@
  * @version v0.1.0 03/28/2024
  */
 
-package edu.gonzaga.Nuffatafl.views;
+package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewNavigation.Screen;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+import edu.gonzaga.Nuffatafl.viewsScreens.*;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /** The main view for the program UI */
 public class MainView extends JFrame {
