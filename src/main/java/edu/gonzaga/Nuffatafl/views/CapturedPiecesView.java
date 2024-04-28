@@ -19,6 +19,7 @@ public class CapturedPiecesView extends JPanel {
     private PieceImages images;
     private JPanel attackerPieces;
     private JPanel defenderPieces;
+    private int scaledImagePadding = 4;
 
     /** Maximum size for each bar or row in this view */
     private static final Dimension MAX_BAR_SIZE = new Dimension(300, 20);
@@ -56,9 +57,13 @@ public class CapturedPiecesView extends JPanel {
         repaint();
     }
 
+    private void calcScaledImagePadding() {
+        scaledImagePadding = (getHeight()) / (16 * 16);
+    }
+
     private int getPieceImageSize() {
         int w = Math.max(0, (getWidth() / 2) - (Theme.PADDING_M * 2));
-        int h = Math.max(0, getHeight() / 16); // 16 is max number of pieces team can have
+        int h = Math.max(0, (getHeight() - scaledImagePadding * 16 * 2 - 120) / 16); // 16 is max number of pieces team can have
         return Math.min(w, h);
     }
 
@@ -71,15 +76,15 @@ public class CapturedPiecesView extends JPanel {
         for (Turn turn : turns) {
             Team team = turn.player.team;
 
-            if (team.equals(Team.ATTACKER)) {
+            if (team.equals(Team.DEFENDER)) {
                 capturedAttackers += turn.capturedPieceCount;
-            } else if (team.equals(Team.DEFENDER)) {
+            } else if (team.equals(Team.ATTACKER)) {
                 capturedDefenders += turn.capturedPieceCount;
             }
         }
 
-        updateCollumn(attackerPieces, Team.ATTACKER, stateController.gameManager.getAttacker().name, capturedAttackers);
-        updateCollumn(defenderPieces, Team.DEFENDER, stateController.gameManager.getDefender().name, capturedDefenders);
+        updateCollumn(attackerPieces, Team.DEFENDER, stateController.gameManager.getAttacker().name, capturedDefenders);
+        updateCollumn(defenderPieces, Team.ATTACKER, stateController.gameManager.getDefender().name, capturedAttackers);
 
         setPreferredSize(new Dimension(148, getHeight()));
 
@@ -103,11 +108,12 @@ public class CapturedPiecesView extends JPanel {
 
         gbc.gridy++;
 
-        ThemeLabel2 aPieceCount = new ThemeLabel2("-" + count + aPieces);
+        ThemeLabel2 aPieceCount = new ThemeLabel2(count + aPieces);
         aPieceCount.setMaximumSize(CapturedPiecesView.MAX_BAR_SIZE);
         panel.add(aPieceCount, gbc);
 
-        EmptyBorder padding = new EmptyBorder(Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M);
+        calcScaledImagePadding();
+        EmptyBorder padding = new EmptyBorder(scaledImagePadding, scaledImagePadding, scaledImagePadding, scaledImagePadding);
 
         for (int i = 0; i < count; i++) {
             gbc.gridy++;
