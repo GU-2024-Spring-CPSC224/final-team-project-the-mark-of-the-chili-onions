@@ -81,6 +81,8 @@ public class CapturedPiecesView extends JPanel {
         updateCollumn(attackerPieces, Team.ATTACKER, stateController.gameManager.getAttacker().name, capturedAttackers);
         updateCollumn(defenderPieces, Team.DEFENDER, stateController.gameManager.getDefender().name, capturedDefenders);
 
+        setPreferredSize(new Dimension(148, getHeight()));
+
         revalidate();
         repaint();
     }

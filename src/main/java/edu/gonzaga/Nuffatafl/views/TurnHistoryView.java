@@ -64,6 +64,8 @@ public class TurnHistoryView extends JPanel {
             turnsView.add(Box.createVerticalStrut(8));
         }
 
+        setPreferredSize(new Dimension(201, getHeight()));
+
         revalidate();
         repaint();
     }
