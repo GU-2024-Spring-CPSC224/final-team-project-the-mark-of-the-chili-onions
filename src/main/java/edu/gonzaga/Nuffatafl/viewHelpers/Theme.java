@@ -42,6 +42,7 @@ public class Theme {
         return switch (themeKey) {
             case accent         -> new Color(104, 204, 227);
             case accent2        -> new Color(255, 240, 145);
+            case accent3        -> new Color(225, 210, 115);
             case background     -> Color.white;
             case background2    -> new Color(240, 240, 240);
             case checkerOff     -> Color.white;
@@ -56,6 +57,7 @@ public class Theme {
         return switch (themeKey) {
             case accent         -> new Color(214, 154, 191);
             case accent2        -> new Color(108, 171, 128);
+            case accent3        -> new Color(74, 128, 109);
             case background     -> new Color(29, 33, 41);
             case background2    -> new Color(45, 55, 69);
             case checkerOff     -> new Color(29, 33, 41);

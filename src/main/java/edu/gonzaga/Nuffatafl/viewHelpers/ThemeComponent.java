@@ -8,6 +8,7 @@ public enum ThemeComponent {
     text2,
     accent,
     accent2,
+    accent3,
     checkerOff,
     checkerOn
 }
