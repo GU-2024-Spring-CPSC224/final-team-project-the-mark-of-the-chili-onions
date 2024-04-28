@@ -180,7 +180,7 @@ public class Board {
      * @return True if movement is possible.
      */
     public boolean canMove(Position from, Position to) {
-        if (!isPositionOnBoard(to) || isPositionCenter(to)) {
+        if (!isPositionOnBoard(to) || isPositionCenter(to) || isPositionCorner(to)) {
             return false;
         }
 
