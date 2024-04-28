@@ -77,9 +77,9 @@ public class AfterGameDialog extends JDialog {
         for (Turn turn : turns) {
             Team team = turn.player.team;
 
-            if (team.equals(Team.ATTACKER)) {
+            if (team.equals(Team.DEFENDER)) {
                 winningTeamCaptureCount += turn.capturedPieceCount;
-            } else if (team.equals(Team.DEFENDER)) {
+            } else if (team.equals(Team.ATTACKER)) {
                 losingTeamCaptureCount += turn.capturedPieceCount;
             }
         }
