@@ -76,7 +76,7 @@ public class TileView extends JPanel {
         if (position.getX() % 2 == position.getY() % 2) {
             Theme.setBackgroundFor(this, ThemeComponent.checkerOn);
         } else {
-            Theme.setBackgroundFor(this, ThemeComponent.chekcerOff);
+            Theme.setBackgroundFor(this, ThemeComponent.checkerOff);
         }
     }
 
