@@ -66,6 +66,20 @@ public class Theme {
             case text2          -> new Color(196, 209, 204);
         };
     });
+
+    public static Theme sillyGooseTheme = new Theme(" Silly Goose", themeKey -> {
+        return switch (themeKey) {
+            case accent         -> new Color(60, 147, 92);
+            case accent2        -> new Color(242, 171, 55);
+            case accent3        -> new Color(205, 95, 42);
+            case background     -> new Color(250, 245, 216);
+            case background2    -> new Color(216, 174, 139);
+            case checkerOn     -> new Color(216, 174, 139);
+            case checkerOff      -> new Color(250, 245, 216);
+            case text           -> new Color(28, 37, 54);
+            case text2          -> new Color(32, 39, 45);
+        };
+    });
         
     /** Gets a theme from its name */
     public static Theme from(String name) {
