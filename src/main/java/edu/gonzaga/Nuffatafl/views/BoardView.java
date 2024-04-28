@@ -48,7 +48,7 @@ public class BoardView extends JPanel {
     private Position highlightPosition;
     private PropertyChangeSupport validSpotHighlightChangeSupport;
 
-    /** Keeps track of wether or not we will be highlighting */
+    /** Keeps track of whether we will be highlighting */
     private boolean highlighting = true;
 
     public BoardView(GameManager gameManager) {

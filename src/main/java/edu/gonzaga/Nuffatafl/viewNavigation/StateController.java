@@ -16,7 +16,6 @@ import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -38,7 +37,9 @@ public class StateController {
 
         this.settings = new Properties();
         loadProperties();
-        Theme.setTheme(Theme.from(getProperty("theme")));
+        Theme.setTheme(Theme.from(getProperty("theme", "Default")));
+        setFocusMode(Boolean.parseBoolean(getProperty("focusMode", "false")));
+        isAutoFocusModeEnabled = !focusMode; // Autofocus should be off at the start if focus mode is already selected, and on if it's not
     }
 
     /** The GameManager that handles game logic, included here to keep everything together */
