@@ -44,7 +44,6 @@ public class MainView extends JFrame {
 
         welcomeScreen = new WelcomeScreen(this.stateController);
         gameplayScreen = new GameplayScreen(this.stateController);
-        afterGameScreen = new AfterGameScreen(this.stateController);
         rulesScreen = new RulesScreen(this.stateController);
         settingsScreen = new SettingsScreen(this.stateController);
 
@@ -64,9 +63,6 @@ public class MainView extends JFrame {
 
     /** Subclassed JPanel that displays UI content for the gameplay screen */
     private final GameplayScreen gameplayScreen;
-
-    /** Subclassed JPanel that displays UI content for the after game screen */
-    private final AfterGameScreen afterGameScreen;
 
     /** Subclassed JPanel that displays UI content for the rules screen */
     private final RulesScreen rulesScreen;
@@ -101,7 +97,6 @@ public class MainView extends JFrame {
     private JPanel screenForState(Screen state) {
         return switch (state) {
             case gameplay   -> gameplayScreen;
-            case afterGame  -> afterGameScreen;
             case rules      -> rulesScreen;
             case settings   -> settingsScreen;
             default         -> welcomeScreen;
