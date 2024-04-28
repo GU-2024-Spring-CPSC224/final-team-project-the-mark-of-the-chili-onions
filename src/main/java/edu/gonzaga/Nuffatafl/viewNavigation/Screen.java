@@ -15,7 +15,6 @@ public enum Screen {
     none,
     welcome,
     gameplay,
-    afterGame,
     settings,
     rules
 }

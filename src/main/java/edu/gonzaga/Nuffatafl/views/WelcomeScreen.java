@@ -118,7 +118,7 @@ public class WelcomeScreen extends JPanel {
 
         // Go to gameplay screen
         gbc.gridy++;
-        ThemeButton showGameplayScreenButton = new ThemeButton("Start Game (Show Gameplay screen)", event -> {
+        ThemeButton showGameplayScreenButton = new ThemeButton("Start Game", event -> {
             stateController.startGame();
             if (player1FirstBool) {
                 System.out.println("Player 1 goes first");
