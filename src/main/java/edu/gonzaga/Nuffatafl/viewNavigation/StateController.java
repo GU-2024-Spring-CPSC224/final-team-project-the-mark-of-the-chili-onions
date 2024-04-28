@@ -66,11 +66,6 @@ public class StateController {
         this.changeState(Screen.gameplay);
     }
 
-    /** Changes program state to cause UI to show afterGame screen */
-    public void endGame() {
-        this.changeState(Screen.afterGame);
-    }
-
     /** Changes program state to cause UI to show rules screen */
     public void showRules() {
         this.changeState(Screen.rules);
