@@ -27,3 +27,6 @@ target/
 
 # Ignore intellij files
 .idea/
+
+# Ignore settings file created by the program
+settings.xml
