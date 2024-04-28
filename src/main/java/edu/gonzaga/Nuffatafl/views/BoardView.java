@@ -38,6 +38,12 @@ public class BoardView extends JPanel {
     private Position destinationPosition;
     private PropertyChangeSupport destinationPositionChangeSupport;
 
+    /**
+     * Keeps track of where to highlight for possible movement.
+     */
+    private Position highlightPosition;
+    private PropertyChangeSupport validSpotHighlightChangeSupport;
+
     public BoardView(GameManager gameManager) {
         super();
 
@@ -49,6 +55,8 @@ public class BoardView extends JPanel {
         sourcePositionChangeSupport = new PropertyChangeSupport(sourcePosition);
         destinationPosition = Position.none;
         destinationPositionChangeSupport = new PropertyChangeSupport(sourcePosition);
+        highlightPosition = Position.none;
+        validSpotHighlightChangeSupport = new PropertyChangeSupport(highlightPosition);
 
         // Setup UI
         setupLayout();
@@ -127,6 +135,10 @@ public class BoardView extends JPanel {
                     tileView.updateSelected(sourcePosition, destinationPosition);
                 });
 
+                validSpotHighlightChangeSupport.addPropertyChangeListener(event -> {
+                    tileView.highlight(highlightPosition);
+                });
+
                 // Add the tile view and keep track of it
                 tileViews.add(tileView);
                 add(tileView);
@@ -148,6 +160,18 @@ public class BoardView extends JPanel {
         destinationPositionChangeSupport.firePropertyChange("secondarySelection", old, position);
     }
 
+    /**
+     * Highlights all valid move positions on the board.
+     * @param position The position to move from.
+     */
+    public void highlightValidPositions(Position position) {
+        ArrayList<Position> validSpots = game.getValidMoveSpots(position);
+        for (Position newPosition : validSpots) {
+            highlightPosition = newPosition;
+            validSpotHighlightChangeSupport.firePropertyChange("secondarySelection", position, highlightPosition);
+        }
+    }
+
     /** handles when a user clicks on one of the tileViews */
     public void handleClick(Position position) {
         // If the game is over, do nothing
@@ -161,6 +185,7 @@ public class BoardView extends JPanel {
         } else if (sourcePosition.isNone()) {
             if (game.canAttemptMove(position)) { 
                 setSourcePosition(position);
+                highlightValidPositions(position);
             }
         } else if (position.equals(sourcePosition)) {
             setSourcePosition(Position.none);

@@ -67,6 +67,25 @@ public class TileView extends JPanel {
         }
     }
 
+    /**
+     * Highlights with accent2 if position matches. If it doesn't, do nothing.
+     * @param destination The destination to highlight.
+     */
+    public void highlight(Position destination) {
+        if (position.equals(destination)) {
+            setupHighlightCheckerColoring();
+        }
+    }
+
+    /** Colors the highlight of the square according to its corresponding color on a checkerboard */
+    private void setupHighlightCheckerColoring() {
+        if (position.getX() % 2 == position.getY() % 2) {
+            Theme.setBackgroundFor(this, ThemeComponent.accent3);
+        } else {
+            Theme.setBackgroundFor(this, ThemeComponent.accent2);
+        }
+    }
+
     private void setupLayout() {
         setLayout(new OverlayLayout(this));
     }
