@@ -179,8 +179,8 @@ public class BoardTest {
         Board board = new Board(9);
         Soldier soldier = new Soldier(Team.ATTACKER);
 
-        Position from = new Position(0, 0);
-        Position to = new Position(0, 8);
+        Position from = new Position(1, 0);
+        Position to = new Position(1, 8);
 
         board.setPiece(from, soldier);
 
@@ -196,8 +196,8 @@ public class BoardTest {
         Board board = new Board(9);
         Soldier soldier = new Soldier(Team.ATTACKER);
 
-        Position from = new Position(0, 8);
-        Position to = new Position(0, 0);
+        Position from = new Position(1, 8);
+        Position to = new Position(1, 0);
 
         board.setPiece(from, soldier);
 
@@ -213,8 +213,8 @@ public class BoardTest {
         Board board = new Board(9);
         Soldier soldier = new Soldier(Team.ATTACKER);
 
-        Position from = new Position(0, 0);
-        Position to = new Position(8, 0);
+        Position from = new Position(0, 1);
+        Position to = new Position(8, 1);
 
         board.setPiece(from, soldier);
 
@@ -230,8 +230,8 @@ public class BoardTest {
         Board board = new Board(9);
         Soldier soldier = new Soldier(Team.ATTACKER);
 
-        Position from = new Position(8, 0);
-        Position to = new Position(0, 0);
+        Position from = new Position(8, 1);
+        Position to = new Position(0, 1);
 
         board.setPiece(from, soldier);
 
@@ -365,7 +365,7 @@ public class BoardTest {
 
     @Test
     void pieceIsCaptured() {
-        Board board = new Board(3);
+        Board board = new Board(6);
         Soldier soldier1 = new Soldier(Team.ATTACKER);
         Soldier soldier2 = new Soldier(Team.ATTACKER);
         Soldier soldier3 = new Soldier(Team.DEFENDER);
