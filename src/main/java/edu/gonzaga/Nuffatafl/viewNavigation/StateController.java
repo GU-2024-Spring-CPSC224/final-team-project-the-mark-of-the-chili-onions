@@ -11,8 +11,12 @@
 package edu.gonzaga.Nuffatafl.viewNavigation;
 
 import edu.gonzaga.Nuffatafl.backend.GameManager;
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.io.FileInputStream;
+import java.util.Properties;
 
 /**
  * Manages the state of the overall program (which view is displayed),
@@ -27,6 +31,15 @@ public class StateController {
         this.screenChangeManager = new PropertyChangeSupport(this.screen);
         this.focusModeObservable = new PropertyChangeSupport(this.screen);
         this.gameManager = new GameManager();
+
+        this.settings = new Properties();
+        try {
+            this.settings.loadFromXML(new FileInputStream("settings.xml"));
+        } catch (Exception e) {
+            System.out.println(e);
+            System.out.println("Error in loading settings from settings.xml");
+        }
+        Theme.setTheme(Theme.from(settings.getProperty("theme")));
     }
 
     /** The GameManager that handles game logic, included here to keep everything together */
@@ -141,4 +154,6 @@ public class StateController {
 
     /** Allows game to turn on/off focus mode based on size, set to false if user changes focus mode manually */
     public boolean isAutoFocusModeEnabled = true;
+
+    public Properties settings;
 }

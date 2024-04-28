@@ -19,6 +19,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileOutputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -90,6 +91,13 @@ public class SettingsScreen extends JPanel {
         // Set up action event
         themeComboBox.addActionListener(actionEvent -> {
             String selected = themeStringOptions.get(themeComboBox.getSelectedIndex());
+            stateController.settings.setProperty("theme", selected);
+            try {
+                stateController.settings.storeToXML(new FileOutputStream("settings.xml"), "");
+            } catch (Exception e) {
+                System.out.println(e);
+                System.out.println("Error in saving file to settings.xml");
+            }
             Theme.setTheme(Theme.from(selected));
         });
 

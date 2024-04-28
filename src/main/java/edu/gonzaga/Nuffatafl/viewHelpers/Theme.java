@@ -1,9 +1,8 @@
 package edu.gonzaga.Nuffatafl.viewHelpers;
 
-import jdk.jfr.Event;
-
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Objects;
 import javax.swing.JComponent;
 
 /** Keeps track of colors in a theme and handles theme changes for you so colors will update when the theme is changed */
@@ -45,7 +44,7 @@ public class Theme {
             case accent2        -> new Color(255, 240, 145);
             case background     -> Color.white;
             case background2    -> new Color(240, 240, 240);
-            case chekcerOff     -> Color.white;
+            case checkerOff     -> Color.white;
             case checkerOn      -> new Color(220, 220, 220);
             case text           -> Color.black;
             case text2          -> new Color(61, 68, 69);
@@ -53,27 +52,27 @@ public class Theme {
     });
 
     /** Midnight theme (dark) */
-    public static Theme midnight = new Theme("Midnight", themeKey -> {
+    public static Theme midnightTheme = new Theme("Midnight", themeKey -> {
         return switch (themeKey) {
-            case accent -> new Color(214, 154, 191);
-            case accent2 -> new Color(108, 171, 128);
-            case background -> new Color(29, 33, 41);
-            case background2 -> new Color(45, 55, 69);
-            case chekcerOff -> new Color(29, 33, 41);
-            case checkerOn -> new Color(17, 22, 33);
-            case text -> Color.white;
-            case text2 -> new Color(196, 209, 204);
+            case accent         -> new Color(214, 154, 191);
+            case accent2        -> new Color(108, 171, 128);
+            case background     -> new Color(29, 33, 41);
+            case background2    -> new Color(45, 55, 69);
+            case checkerOff     -> new Color(29, 33, 41);
+            case checkerOn      -> new Color(17, 22, 33);
+            case text           -> Color.white;
+            case text2          -> new Color(196, 209, 204);
         };
     });
         
     /** Gets a theme from its name */
     public static Theme from(String name) {
         for (Theme theme : themes) {
-            if (theme.name == name) {
+            if (Objects.equals(theme.name, name)) {
                 return theme;
             }
         }
-
+        System.out.println("Theme not found with name \"" + name + "\", using default theme");
         return Theme.defaultTheme;
     }
     
