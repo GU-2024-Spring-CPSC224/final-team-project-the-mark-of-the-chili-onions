@@ -228,7 +228,7 @@ public class GameManager {
         for (Turn turn : turns) {
             Team team = turn.player.team;
 
-            if (team.equals(Team.ATTACKER)) {
+            if (team.equals(Team.DEFENDER)) {
                 capturedAttackers += turn.capturedPieceCount;
             }
         }
