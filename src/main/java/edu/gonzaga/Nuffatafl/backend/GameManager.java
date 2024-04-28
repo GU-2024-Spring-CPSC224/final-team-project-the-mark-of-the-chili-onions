@@ -10,8 +10,8 @@ public class GameManager {
     private Board board;
     private Team currentTeam;
 
-    private Player attacker = new Player("Attacker", "🥸", Color.red, Team.ATTACKER);
-    private Player defender = new Player("Defender", "🥺", Color.blue, Team.DEFENDER);
+    private Player attacker = new Player("Player 1", "🥸", Color.red, Team.ATTACKER);
+    private Player defender = new Player("Player 2", "🥺", Color.blue, Team.DEFENDER);
 
     private PropertyChangeSupport attackerChange;
     private PropertyChangeSupport defenderChange;
