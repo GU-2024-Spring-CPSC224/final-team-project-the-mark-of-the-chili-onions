@@ -2,6 +2,7 @@ package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Piece;
 import edu.gonzaga.Nuffatafl.backend.Team;
+
 import javax.swing.*;
 
 /**

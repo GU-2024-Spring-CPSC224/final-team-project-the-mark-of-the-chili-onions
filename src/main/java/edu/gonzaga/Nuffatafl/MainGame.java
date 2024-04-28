@@ -25,6 +25,6 @@ public class MainGame {
         javax.swing.SwingUtilities.invokeLater(() -> {
             mainView = new MainView();
             mainView.showGUI();
-       });
+        });
     }
 }

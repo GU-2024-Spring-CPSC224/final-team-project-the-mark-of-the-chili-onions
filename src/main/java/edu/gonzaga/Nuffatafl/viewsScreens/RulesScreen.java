@@ -50,6 +50,7 @@ public class RulesScreen extends JPanel {
 
     /**
      * Middle Panel with all the rules text
+     *
      * @return JPanel middle panel
      */
     private JPanel rulesTextPlain() {

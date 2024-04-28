@@ -12,10 +12,5 @@ package edu.gonzaga.Nuffatafl.viewNavigation;
 
 /** Represents a JFrame that should be displayed in the MainView of the program's UI */
 public enum Screen {
-    none,
-    welcome,
-    gameplay,
-    afterGame,
-    settings,
-    rules
+    none, welcome, gameplay, afterGame, settings, rules
 }

@@ -4,17 +4,16 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Player {
+    public String name;
+    public String emoji;
+    public Color color;
+    public Team team;
     public Player(String name, String emoji, Color color, Team team) {
         this.name = name;
         this.emoji = emoji;
         this.color = color;
         this.team = team;
     }
-
-    public String name;
-    public String emoji;
-    public Color color;
-    public Team team;
 
     public JPanel label() {
         JPanel label = new JPanel();

@@ -11,11 +11,11 @@ import java.awt.*;
 
 /** Shows information for a single turn */
 public class TurnSummaryView extends JPanel {
-    private Turn turn;
-    private int number;
-    private boolean isAttacker;
+    private final Turn turn;
+    private final int number;
+    private final boolean isAttacker;
+    private final int alignment;
     private JPanel centerPanel;
-    private int alignment;
 
     public TurnSummaryView(Turn turn, int number) {
         this.turn = turn;

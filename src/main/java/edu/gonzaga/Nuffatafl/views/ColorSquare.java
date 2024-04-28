@@ -10,8 +10,8 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JComponent;
 
 /**
  * Small Class to just draw a colored square
@@ -40,7 +40,8 @@ public class ColorSquare extends JComponent {
         repaint();
     }
 
-    /** This is where the magic happens,
+    /**
+     * This is where the magic happens,
      * overriding the JComponent method paintComponent lets us paint whatever we want
      */
     @Override

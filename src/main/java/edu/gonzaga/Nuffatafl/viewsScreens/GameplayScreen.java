@@ -10,9 +10,12 @@
 
 package edu.gonzaga.Nuffatafl.viewsScreens;
 
-import edu.gonzaga.Nuffatafl.backend.*;
-import edu.gonzaga.Nuffatafl.viewHelpers.*;
-import edu.gonzaga.Nuffatafl.viewNavigation.*;
+import edu.gonzaga.Nuffatafl.backend.GameManager;
+import edu.gonzaga.Nuffatafl.backend.Team;
+import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
+import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
+import edu.gonzaga.Nuffatafl.viewNavigation.Screen;
+import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 import edu.gonzaga.Nuffatafl.views.*;
 
 import javax.swing.*;
@@ -25,10 +28,44 @@ import java.beans.PropertyChangeEvent;
 
 /** JPanel that contains the UI for the Gameplay screen */
 public class GameplayScreen extends JPanel {
+    /* Height for the top and bottom bar */
+    private static final int BAR_HEIGHT = 50;
     private final StateController stateController;
     private final GameManager game;
+    /** Handles changes to the window sie */
+    private final ComponentListener componentListener = new ComponentListener() {
+        /**
+         * Called when the size of the window  changes
+         * Sets focus mode based on size if isAutoFocusModeEnabled is true
+         */
+        @Override
+        public void componentResized(ComponentEvent event) {
+            int width = getWidth();
+
+            if (stateController.isAutoFocusModeEnabled) {
+                if (width < 750) {
+                    stateController.setFocusMode(true);
+                } else if (width > 800) {
+                    stateController.setFocusMode(false);
+                }
+            }
+        }
+
+        // Unused
+        @Override
+        public void componentMoved(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentShown(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentHidden(ComponentEvent e) {
+        }
+    };
     private BoardView boardView;
-    private AfterGameDialog afterGameDialog;
+    private final AfterGameDialog afterGameDialog;
     private JPanel topPanel;
     private JPanel bottomPanel;
     private JPanel capturedPiecesView;
@@ -37,12 +74,9 @@ public class GameplayScreen extends JPanel {
     private PlayerLabel defenderLabel;
     private JLabel victoryLabel;
 
-    /* Height for the top and bottom bar */
-    private static final int BAR_HEIGHT = 50;
-
     public GameplayScreen(StateController stateController) {
         super();
-        
+
         // Set up the board view the first time this screen is shown
         this.stateController = stateController;
         this.stateController.onScreenChange(event -> {
@@ -91,7 +125,7 @@ public class GameplayScreen extends JPanel {
         capturedPiecesView.setVisible(showPanels);
         turnHistoryView.setVisible(showPanels);
     }
-    
+
     private void setupLayout() {
         BorderLayout borderLayout = new BorderLayout();
         borderLayout.setHgap(0);
@@ -127,11 +161,11 @@ public class GameplayScreen extends JPanel {
         ThemeButton settingsButton = new ThemeButton("Settings", ImageLoading.settingsIcon(Theme.ICON_SIZE), label -> {
             stateController.showSettings();
         });
-        topPanel.add(settingsButton);   
-        
+        topPanel.add(settingsButton);
+
         Theme.setBackgroundFor(topPanel, ThemeComponent.background);
     }
-    
+
     private void setupBottomPanel() {
         // Setup panel and add to view
         bottomPanel = new JPanel(new FlowLayout());
@@ -140,33 +174,33 @@ public class GameplayScreen extends JPanel {
 
         // End game button
         bottomPanel.add(
-            new ThemeButton("End Game", label -> {
-                afterGameDialog.displayEndGameDialog();
-            }), 
-            FlowLayout.LEFT
+                new ThemeButton("End Game", label -> {
+                    afterGameDialog.displayEndGameDialog();
+                }),
+                FlowLayout.LEFT
         );
 
         // Deselect pieces button
         bottomPanel.add(
-            new ThemeButton("Deselect Pieces", label -> {
-                boardView.deselectPieces();
-            })
+                new ThemeButton("Deselect Pieces", label -> {
+                    boardView.deselectPieces();
+                })
         );
 
         // End game button
         bottomPanel.add(
-            new ThemeButton("Move Piece", label -> {
-                boardView.attemptMove();
-            })
+                new ThemeButton("Move Piece", label -> {
+                    boardView.attemptMove();
+                })
         );
-        
+
         Theme.setBackgroundFor(bottomPanel, ThemeComponent.background);
     }
 
     private void setupBoardView() {
         boardView = new BoardView(game);
         add(boardView, BorderLayout.CENTER);
-        
+
         Theme.setBackgroundFor(boardView, ThemeComponent.background);
     }
 
@@ -230,30 +264,4 @@ public class GameplayScreen extends JPanel {
         int turnCount = game.getTurnHistory().size();
         if (turnCount == 0) victoryLabel.setText("");
     }
-
-
-    /** Handles changes to the window sie */
-    private final ComponentListener componentListener =  new ComponentListener() {
-        /**
-         * Called when the size of the window  changes
-         * Sets focus mode based on size if isAutoFocusModeEnabled is true
-         */
-        @Override
-        public void componentResized(ComponentEvent event) {
-            int width = getWidth();
-
-            if (stateController.isAutoFocusModeEnabled) {
-                if (width < 750) {
-                    stateController.setFocusMode(true);
-                } else if (width > 800) {
-                    stateController.setFocusMode(false);
-                }
-            }
-        }
-
-        // Unused
-        @Override public void componentMoved(ComponentEvent e) {}
-        @Override public void componentShown(ComponentEvent e) {}
-        @Override public void componentHidden(ComponentEvent e) {}
-    };
 }

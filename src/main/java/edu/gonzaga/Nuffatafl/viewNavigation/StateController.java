@@ -23,6 +23,22 @@ import java.util.Properties;
  * Contains a MainView and GameManager to keep all relevant objects in one place
  */
 public class StateController {
+    /** Handles updating observers when new value change is published for screen */
+    private final PropertyChangeSupport screenChangeManager;
+    /** Handles updating observers when new value change is published for focus mode */
+    private final PropertyChangeSupport focusModeObservable;
+    /** The GameManager that handles game logic, included here to keep everything together */
+    public GameManager gameManager;
+    /** Allows game to turn on/off focus mode based on size, set to false if user changes focus mode manually */
+    public boolean isAutoFocusModeEnabled = true;
+    public Properties settings;
+    /** Current screen the program's UI should show */
+    private Screen screen;
+    /** Previous screen that was displayed, used to go back to previous screen */
+    private Screen previousScreen;
+    /** Boolean for storing focus mode state */
+    private boolean focusMode;
+
     /** Initializes with screen state of none, creates MainView and PropertyManager, sets up property change support */
     public StateController() {
         super();
@@ -41,18 +57,6 @@ public class StateController {
         }
         Theme.setTheme(Theme.from(settings.getProperty("theme")));
     }
-
-    /** The GameManager that handles game logic, included here to keep everything together */
-    public GameManager gameManager;
-
-    /** Current screen the program's UI should show */
-    private Screen screen;
-
-    /** Previous screen that was displayed, used to go back to previous screen */
-    private Screen previousScreen;
-
-    /** Handles updating observers when new value change is published for screen */
-    private final PropertyChangeSupport screenChangeManager;
 
     /** Changes program state to cause UI to show welcome screen */
     public void showWelcomeScreen() {
@@ -96,6 +100,7 @@ public class StateController {
 
     /**
      * Adds an observer to be notified when the current screen is changed
+     *
      * @param listener Code to execute when current screen changes
      */
     public void onScreenChange(PropertyChangeListener listener) {
@@ -114,6 +119,7 @@ public class StateController {
 
     /**
      * Changes the currently displayed screen and publishes the change to observers
+     *
      * @param newScreen the new screen to display
      */
     private void changeState(Screen newScreen) {
@@ -122,29 +128,13 @@ public class StateController {
         this.screenChangeManager.firePropertyChange("screen", this.previousScreen, this.screen);
     }
 
-
-    /** Boolean for storing focus mode state */
-    private boolean focusMode;
-
-    /** Handles updating observers when new value change is published for focus mode */
-    private final PropertyChangeSupport focusModeObservable;
-
     /**
      * Adds an observer to be notified when focus mode is changed
+     *
      * @param listener Code to execute when current screen changes
      */
     public void addFocusModeListener(PropertyChangeListener listener) {
         this.focusModeObservable.addPropertyChangeListener(listener);
-    }
-
-    /**
-     * Changes the current focus mode and publishes the change to observers
-     * @param focusMode the new focus mode boolean
-     */
-    public void setFocusMode(boolean focusMode) {
-        boolean previousMode = this.focusMode;
-        this.focusMode = focusMode;
-        this.focusModeObservable.firePropertyChange("focusMode", previousMode, this.focusMode);
     }
 
     /** True if focus mdoe is enabled, false otherwise */
@@ -152,8 +142,14 @@ public class StateController {
         return focusMode;
     }
 
-    /** Allows game to turn on/off focus mode based on size, set to false if user changes focus mode manually */
-    public boolean isAutoFocusModeEnabled = true;
-
-    public Properties settings;
+    /**
+     * Changes the current focus mode and publishes the change to observers
+     *
+     * @param focusMode the new focus mode boolean
+     */
+    public void setFocusMode(boolean focusMode) {
+        boolean previousMode = this.focusMode;
+        this.focusMode = focusMode;
+        this.focusModeObservable.firePropertyChange("focusMode", previousMode, this.focusMode);
+    }
 }

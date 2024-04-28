@@ -6,6 +6,7 @@ import edu.gonzaga.Nuffatafl.backend.Turn;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -15,14 +16,33 @@ import java.util.ArrayList;
 
 /** Displays the captured pieces */
 public class CapturedPiecesView extends JPanel {
-    private StateController stateController;
-    private PieceImages images;
-    private JPanel attackerPieces;
-    private JPanel defenderPieces;
-    private int scaledImagePadding = 4;
-
     /** Maximum size for each bar or row in this view */
     private static final Dimension MAX_BAR_SIZE = new Dimension(300, 20);
+    private final StateController stateController;
+    private final PieceImages images;
+    private final JPanel attackerPieces;
+    private final JPanel defenderPieces;
+    private int scaledImagePadding = 4;
+    private final ComponentListener componentListener = new ComponentListener() {
+        @Override
+        public void componentResized(ComponentEvent event) {
+            images.resize(getPieceImageSize());
+            updatePieces();
+        }
+
+        // Unused
+        @Override
+        public void componentMoved(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentShown(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentHidden(ComponentEvent e) {
+        }
+    };
 
     public CapturedPiecesView(StateController stateController) {
         super();
@@ -132,17 +152,4 @@ public class CapturedPiecesView extends JPanel {
 
         panel.add(bitchPanel, gbc);
     }
-
-    private final ComponentListener componentListener =  new ComponentListener() {
-        @Override
-        public void componentResized(ComponentEvent event) {
-            images.resize(getPieceImageSize());
-            updatePieces();
-        }
-
-        // Unused
-        @Override public void componentMoved(ComponentEvent e) {}
-        @Override public void componentShown(ComponentEvent e) {}
-        @Override public void componentHidden(ComponentEvent e) {}
-    };
 }

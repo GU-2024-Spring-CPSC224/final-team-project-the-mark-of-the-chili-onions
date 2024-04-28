@@ -8,8 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class PlayerCustomizationPanel extends JPanel {
-    private Player player;
-    private JTextField nameField;
+    private final Player player;
+    private final JTextField nameField;
 
     public PlayerCustomizationPanel(Player player, int playerNumber) {
         super();
@@ -51,14 +51,14 @@ public class PlayerCustomizationPanel extends JPanel {
 
         // Emoji Picker
         String[] emojis = {
-            // Faces
-            "😀", "🙃", "😆", "😅", "😂",  "🥺", "😳", "😈", "😇",  "😡", "🤬", "😱", "😛", "😘", "😎", "🤓", "🥸",
-            // Weird stuff
-            "👾", "👻", "🤡", "💩", "💀", "👽", "😻", "😼",
-            // Animals
-            "🐶", "🙈", "🐣", "🦄", "🐛", "🐙", "🐋",
-            // Hearts
-            "🩷", "❤️", "🧡", "💛", "💚", "🩵", "💙", "💜", "🖤", "🩶", "🤍", "🤎"
+                // Faces
+                "😀", "🙃", "😆", "😅", "😂", "🥺", "😳", "😈", "😇", "😡", "🤬", "😱", "😛", "😘", "😎", "🤓", "🥸",
+                // Weird stuff
+                "👾", "👻", "🤡", "💩", "💀", "👽", "😻", "😼",
+                // Animals
+                "🐶", "🙈", "🐣", "🦄", "🐛", "🐙", "🐋",
+                // Hearts
+                "🩷", "❤️", "🧡", "💛", "💚", "🩵", "💙", "💜", "🖤", "🩶", "🤍", "🤎"
         };
         JComboBox<String> emojiComboBox = new JComboBox<>(emojis);
         emojiComboBox.setSelectedIndex(0);
