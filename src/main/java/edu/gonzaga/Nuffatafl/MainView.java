@@ -44,7 +44,7 @@ public class MainView extends JFrame {
         stateController.onScreenChange(event -> handleScreenChange(event));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Sets the size to the available screen size cause we're greedy and we want all them pixels
+        // Sets the size to the available screen size because we're greedy and we want all them pixels
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         // Keeps the user from making this program too small - it's for their own good

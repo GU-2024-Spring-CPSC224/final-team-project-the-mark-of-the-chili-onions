@@ -56,11 +56,11 @@ public class Theme {
     private static final ArrayList<ThemeObserver> foregroundColorObservers = new ArrayList<ThemeObserver>();
     /** Name of the theme to display to the user */
     private final String name;
-    /** The lamda expression that returns the right color for each ThemeComponent in this theme */
+    /** The lambda expression that returns the right color for each ThemeComponent in this theme */
     private final ThemeColorKey colorKey;
 
     /**
-     * Creates a theme with a name and a lamda expression that returns the right color for each ThemeComponent.
+     * Creates a theme with a name and a lambda expression that returns the right color for each ThemeComponent.
      * Adds the theme to Theme.themes
      */
     public Theme(String name, ThemeColorKey colorKey) {

@@ -18,7 +18,7 @@ import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
 import javax.swing.*;
 
-/** View for a single tile on the gameboard */
+/** View for a single tile on the game board */
 public class TileView extends JPanel {
     private final GameManager game;
     private final Position position;
@@ -44,7 +44,7 @@ public class TileView extends JPanel {
         setupButtonAndXLabel();
     }
 
-    /** Gets resied images and updates the piece and x image */
+    /** Gets resized images and updates the piece and x image */
     public void resizeImage(PieceImages newImages) {
         pieceImages = newImages;
         updatePieceImage();
@@ -57,7 +57,7 @@ public class TileView extends JPanel {
         });
     }
 
-    /** Updates the background color when the boardVIew's source or destination positions are changed */
+    /** Updates the background color when the boardView's source or destination positions are changed */
     public void updateSelected(Position source, Position destination) {
         if (position.equals(source)) {
             Theme.setBackgroundFor(this, ThemeComponent.accent);

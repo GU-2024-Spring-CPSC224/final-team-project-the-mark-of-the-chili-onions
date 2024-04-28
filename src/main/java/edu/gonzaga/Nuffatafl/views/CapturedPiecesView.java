@@ -103,8 +103,8 @@ public class CapturedPiecesView extends JPanel {
             }
         }
 
-        updateCollumn(attackerPieces, Team.DEFENDER, stateController.gameManager.getAttacker().name, capturedDefenders);
-        updateCollumn(defenderPieces, Team.ATTACKER, stateController.gameManager.getDefender().name, capturedAttackers);
+        updateColumn(attackerPieces, Team.DEFENDER, stateController.gameManager.getAttacker().name, capturedDefenders);
+        updateColumn(defenderPieces, Team.ATTACKER, stateController.gameManager.getDefender().name, capturedAttackers);
 
         setPreferredSize(new Dimension(148, getHeight()));
 
@@ -112,7 +112,7 @@ public class CapturedPiecesView extends JPanel {
         repaint();
     }
 
-    private void updateCollumn(JPanel panel, Team team, String name, int count) {
+    private void updateColumn(JPanel panel, Team team, String name, int count) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weighty = 0;

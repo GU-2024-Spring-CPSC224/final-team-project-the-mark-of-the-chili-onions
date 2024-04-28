@@ -18,7 +18,7 @@ public class ThemeButton extends JPanel {
     /**
      * Create a blank button with a given
      *
-     * @param onClick lamda expression to be called when clicked
+     * @param onClick lambda expression to be called when clicked
      */
     public ThemeButton(EventCallback<JButton> onClick) {
         this(null, null, onClick);
@@ -28,7 +28,7 @@ public class ThemeButton extends JPanel {
      * Create a button with a text label
      *
      * @param text    Text to display on button
-     * @param onClick lamda expression to be called when clicked
+     * @param onClick lambda expression to be called when clicked
      */
     public ThemeButton(String text, EventCallback<JButton> onClick) {
         this(text, null, onClick);
@@ -38,7 +38,7 @@ public class ThemeButton extends JPanel {
      * Create a button with an image icon
      *
      * @param icon    The image to display on the button
-     * @param onClick lamda expression to be called when clicked
+     * @param onClick lambda expression to be called when clicked
      */
     public ThemeButton(ImageIcon icon, EventCallback<JButton> onClick) {
         this(null, icon, onClick);
@@ -49,7 +49,7 @@ public class ThemeButton extends JPanel {
      *
      * @param text    Text to display on button
      * @param icon    The image to display on the button
-     * @param onClick lamda expression to be called when clicked
+     * @param onClick lambda expression to be called when clicked
      */
     public ThemeButton(String text, ImageIcon icon, EventCallback<JButton> onClick) {
         super();

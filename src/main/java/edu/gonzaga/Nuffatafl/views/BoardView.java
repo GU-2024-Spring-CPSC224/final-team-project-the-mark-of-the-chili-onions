@@ -36,7 +36,7 @@ public class BoardView extends JPanel {
     private PieceImages pieceImages;
     private PropertyChangeSupport pieceImagesChange;
     /**
-     * Maintains square aspect ratio of gameboard and loads new images of the correct size
+     * Maintains square aspect ratio of game board and loads new images of the correct size
      * for the tileViews when this JFrame is resized
      */
     private final ComponentListener componentListener = new ComponentListener() {
@@ -50,7 +50,7 @@ public class BoardView extends JPanel {
             int width = getWidth();
             int height = getHeight();
 
-            // Keep square aspect ratio for gameboard
+            // Keep square aspect ratio for game board
             if (height > width) {
                 int padding = (height - width) / 2;
                 setBorder(BorderFactory.createEmptyBorder(padding, 0, padding, 0));

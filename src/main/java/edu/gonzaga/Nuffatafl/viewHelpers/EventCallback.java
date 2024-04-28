@@ -10,7 +10,7 @@
 
 package edu.gonzaga.Nuffatafl.viewHelpers;
 
-/** Allows us to use lamda expressions with 1 generic input and no return value */
+/** Allows us to use lambda expressions with 1 generic input and no return value */
 public interface EventCallback<T> {
     void action(T data);
 }
