@@ -106,6 +106,7 @@ public class GameManager {
         storeTurn(currentTeam, from, to, result);
         switchCurrentTeam();
 
+        if (defenderWinFromPieceCount()) {this.handleWin(Team.DEFENDER); }
         if (board.isDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
         if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
 
@@ -212,6 +213,25 @@ public class GameManager {
 
     public ArrayList<Turn> getTurnHistory() {
         return turnHistory;
+    }
+
+    private boolean defenderWinFromPieceCount() {
+        ArrayList<Turn> turns = getTurnHistory();
+
+        int capturedAttackers = 0;
+
+        final int startingAttackers = 16;
+
+        for (Turn turn : turns) {
+            Team team = turn.player.team;
+
+            if (team.equals(Team.ATTACKER)) {
+                capturedAttackers += turn.capturedPieceCount;
+            }
+        }
+
+        // Return true if captured attackers is equal to the starting number, false otherwise
+        return capturedAttackers == startingAttackers;
     }
 
     /** Sets up PropertyChangeSupport objects for the board, currentTeam, and winner */
