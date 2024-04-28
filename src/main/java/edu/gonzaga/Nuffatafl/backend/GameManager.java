@@ -55,6 +55,9 @@ public class GameManager {
         //Reset turn history
         turnHistory.clear();
 
+        // Reset winner
+        winner = Team.NONE;
+
         //Reset board
         Board oldBoard = this.board;
         this.board = new Board();
