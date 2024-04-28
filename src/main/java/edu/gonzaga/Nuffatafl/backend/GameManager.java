@@ -132,6 +132,15 @@ public class GameManager {
         return result;
     }
 
+    /**
+     * Handles storing turns with their data into turnHistory
+     *
+     * @param team         Team to store
+     * @param from         Where they moved from
+     * @param to           Where they moved to
+     * @param captureCount How many pieces they captured with the move
+     * @return Unused
+     */
     private boolean storeTurn(Team team, Position from, Position to, Integer captureCount) {
         Player player = switch (team) {
             case ATTACKER -> attacker;
@@ -148,9 +157,7 @@ public class GameManager {
         return false;
     }
 
-    /**
-     * Flips the current team.
-     */
+    /** Flips the current team. */
     private void switchCurrentTeam() {
         Team oldTeam = this.currentTeam;
 
@@ -164,6 +171,7 @@ public class GameManager {
         this.currentTeamChangeManager.firePropertyChange("currentTeam", oldTeam, this.currentTeam);
     }
 
+    /** Handles the publishing of a win state */
     public void handleWin(Team team) {
         this.winner = team;
 
@@ -240,6 +248,10 @@ public class GameManager {
         return turnHistory;
     }
 
+    /**
+     * Checks if the defender wins due to capturing all the attacker's pieces
+     * @return boolean of whether the defender won
+     */
     private boolean defenderWinFromPieceCount() {
         ArrayList<Turn> turns = getTurnHistory();
 

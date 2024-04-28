@@ -10,6 +10,7 @@
 
 package edu.gonzaga.Nuffatafl.backend;
 
+/** Board class for handing the tablut game board */
 public class Board {
     static final int DEFAULT_SIZE = 9;
     private final int SIZE;
@@ -31,9 +32,7 @@ public class Board {
         return SIZE;
     }
 
-    /**
-     * Fills the board with NonePieces.
-     */
+    /** Fills the board with NonePieces. */
     private void fillWithEmpty() {
         for (int y = 0; y < SIZE; y++) {
             for (int x = 0; x < SIZE; x++) {
@@ -43,11 +42,19 @@ public class Board {
         }
     }
 
-    /**
-     * Fills the board with a Tablut layout. Requires a board of size 9+.
-     */
+    /** Fills the board with a Tablut layout. Requires a board of size 9+. */
     public void setupTablutBoard() {
-        int[][] template = {{0, 0, 0, 1, 1, 1, 0, 0, 0}, {0, 0, 0, 0, 1, 0, 0, 0, 0}, {0, 0, 0, 0, 2, 0, 0, 0, 0}, {1, 0, 0, 0, 2, 0, 0, 0, 1}, {1, 1, 2, 2, 3, 2, 2, 1, 1}, {1, 0, 0, 0, 2, 0, 0, 0, 1}, {0, 0, 0, 0, 2, 0, 0, 0, 0}, {0, 0, 0, 0, 1, 0, 0, 0, 0}, {0, 0, 0, 1, 1, 1, 0, 0, 0},};
+        int[][] template = {
+                {0, 0, 0, 1, 1, 1, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0},
+                {0, 0, 0, 0, 2, 0, 0, 0, 0},
+                {1, 0, 0, 0, 2, 0, 0, 0, 1},
+                {1, 1, 2, 2, 3, 2, 2, 1, 1},
+                {1, 0, 0, 0, 2, 0, 0, 0, 1},
+                {0, 0, 0, 0, 2, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 0, 0, 0, 0},
+                {0, 0, 0, 1, 1, 1, 0, 0, 0},
+        };
 
         /*
         Key:

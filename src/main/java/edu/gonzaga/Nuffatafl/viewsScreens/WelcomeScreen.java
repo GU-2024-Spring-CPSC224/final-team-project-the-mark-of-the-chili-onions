@@ -23,15 +23,12 @@ import java.awt.*;
 
 /** JPanel that contains the UI for the Welcome screen */
 public class WelcomeScreen extends JPanel {
-
     private final StateController stateController;
-
     /** The view to customize the color, emoji, and name for Player 1 */
     private final PlayerCustomizationPanel player1Panel;
-
     /** The view to customize the color, emoji, and name for Player 2 */
     private final PlayerCustomizationPanel player2Panel;
-
+    /** Keeps track of which player is going first */
     private boolean player1FirstBool;
 
     public WelcomeScreen(StateController stateController) {

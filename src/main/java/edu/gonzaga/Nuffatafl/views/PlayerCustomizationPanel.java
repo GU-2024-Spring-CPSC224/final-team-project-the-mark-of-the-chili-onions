@@ -17,6 +17,7 @@ import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import javax.swing.*;
 import java.awt.*;
 
+/** JPanel for player customization used in the welcome screen */
 public class PlayerCustomizationPanel extends JPanel {
     private final Player player;
     private final JTextField nameField;

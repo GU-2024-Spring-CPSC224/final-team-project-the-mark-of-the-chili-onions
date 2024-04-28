@@ -10,6 +10,7 @@
 
 package edu.gonzaga.Nuffatafl.backend;
 
+/** Abstract piece used for King, Soldier, and NonePiece */
 public abstract class Piece {
 
     protected Type type;

@@ -10,6 +10,7 @@
 
 package edu.gonzaga.Nuffatafl.backend;
 
+/** Info about an individual turn, used in turnHistory */
 public class Turn {
     public Player player;
     public Position from;

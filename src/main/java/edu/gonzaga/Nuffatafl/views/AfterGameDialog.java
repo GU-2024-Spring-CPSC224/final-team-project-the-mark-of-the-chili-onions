@@ -21,6 +21,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+/** Dialog that shows up when the game is finished, either by choice or by a win */
 public class AfterGameDialog extends JDialog {
     private final JPanel parentPanel;
     private final StateController stateController;

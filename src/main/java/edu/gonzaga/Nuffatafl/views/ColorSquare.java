@@ -13,9 +13,7 @@ package edu.gonzaga.Nuffatafl.views;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Small Class to just draw a colored square
- */
+/** Small Class to just draw a colored square */
 public class ColorSquare extends JComponent {
     private Color color;
     private int squareSize = 20; // Default square size

@@ -10,6 +10,7 @@
 
 package edu.gonzaga.Nuffatafl.backend;
 
+/** King piece */
 public class King extends Piece {
     public King() {
         team = Team.DEFENDER;

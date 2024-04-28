@@ -10,6 +10,7 @@
 
 package edu.gonzaga.Nuffatafl.backend;
 
+/** Soldier Piece */
 public class Soldier extends Piece {
     public Soldier(Team team) {
         this.team = team;

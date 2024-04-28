@@ -26,6 +26,7 @@ import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+/** Board JPanel that goes inside the gameplay screen */
 public class BoardView extends JPanel {
     private final GameManager game;
     private final PropertyChangeSupport sourcePositionChangeSupport;

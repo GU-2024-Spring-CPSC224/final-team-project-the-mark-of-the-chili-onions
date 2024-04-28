@@ -10,6 +10,7 @@
 
 package edu.gonzaga.Nuffatafl.backend;
 
+/** None piece for empty spots and null values */
 public class NonePiece extends Piece {
     NonePiece() {
         team = Team.NONE;

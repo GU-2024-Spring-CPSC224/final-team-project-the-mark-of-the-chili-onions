@@ -24,7 +24,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
-/** Displays the captured pieces */
+/** Displays the captured pieces, used inside of gameplay screen */
 public class CapturedPiecesView extends JPanel {
     /** Maximum size for each bar or row in this view */
     private static final Dimension MAX_BAR_SIZE = new Dimension(300, 20);
@@ -158,6 +158,10 @@ public class CapturedPiecesView extends JPanel {
         gbc.gridy++;
         gbc.weighty = 1;
 
+        /*
+         * Used for moving all the pieces to the top of the view, this one is weighted heavier.
+         * Evidently mark was not happy with it
+         */
         JPanel bitchPanel = new JPanel();
         bitchPanel.setOpaque(false);
 

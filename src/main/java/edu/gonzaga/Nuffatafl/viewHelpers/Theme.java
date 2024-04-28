@@ -33,36 +33,6 @@ public class Theme {
     private static final ArrayList<ThemeObserver> foregroundColorObservers = new ArrayList<ThemeObserver>();
     /** The available themes to choose from */
     public static ArrayList<Theme> themes = new ArrayList<Theme>();
-    /** Default theme (light) */
-    public static Theme defaultTheme = new Theme("Default", themeKey -> {
-        return switch (themeKey) {
-            case accent -> new Color(104, 204, 227);
-            case accent2 -> new Color(255, 240, 145);
-            case accent3 -> new Color(225, 210, 115);
-            case background -> Color.white;
-            case background2 -> new Color(240, 240, 240);
-            case checkerOff -> Color.white;
-            case checkerOn -> new Color(220, 220, 220);
-            case text -> Color.black;
-            case text2 -> new Color(61, 68, 69);
-        };
-    });
-    /** Midnight theme (dark) */
-    public static Theme midnightTheme = new Theme("Midnight", themeKey -> {
-        return switch (themeKey) {
-            case accent -> new Color(214, 154, 191);
-            case accent2 -> new Color(108, 171, 128);
-            case accent3 -> new Color(74, 128, 109);
-            case background -> new Color(29, 33, 41);
-            case background2 -> new Color(45, 55, 69);
-            case checkerOff -> new Color(29, 33, 41);
-            case checkerOn -> new Color(17, 22, 33);
-            case text -> Color.white;
-            case text2 -> new Color(196, 209, 204);
-        };
-    });
-    /** Keeps track of the current theme and notifies observers when it changes */
-    private static Theme current = defaultTheme;
     /** Name of the theme to display to the user */
     private final String name;
     /** The lambda expression that returns the right color for each ThemeComponent in this theme */
@@ -162,4 +132,37 @@ public class Theme {
     public Color colorForKey(ThemeComponent themeKey) {
         return colorKey.colorForKey(themeKey);
     }
+
+    // Themes
+    /** Default theme (light) */
+    public static Theme defaultTheme = new Theme("Default", themeKey -> {
+        return switch (themeKey) {
+            case accent -> new Color(104, 204, 227);
+            case accent2 -> new Color(255, 240, 145);
+            case accent3 -> new Color(225, 210, 115);
+            case background -> Color.white;
+            case background2 -> new Color(240, 240, 240);
+            case checkerOff -> Color.white;
+            case checkerOn -> new Color(220, 220, 220);
+            case text -> Color.black;
+            case text2 -> new Color(61, 68, 69);
+        };
+    });
+    /** Midnight theme (dark) */
+    public static Theme midnightTheme = new Theme("Midnight", themeKey -> {
+        return switch (themeKey) {
+            case accent -> new Color(214, 154, 191);
+            case accent2 -> new Color(108, 171, 128);
+            case accent3 -> new Color(74, 128, 109);
+            case background -> new Color(29, 33, 41);
+            case background2 -> new Color(45, 55, 69);
+            case checkerOff -> new Color(29, 33, 41);
+            case checkerOn -> new Color(17, 22, 33);
+            case text -> Color.white;
+            case text2 -> new Color(196, 209, 204);
+        };
+    });
+
+    /** Keeps track of the current theme and notifies observers when it changes */
+    private static Theme current = defaultTheme;
 }

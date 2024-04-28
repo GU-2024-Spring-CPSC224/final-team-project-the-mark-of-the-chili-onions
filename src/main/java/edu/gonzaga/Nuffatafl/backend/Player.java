@@ -13,6 +13,7 @@ package edu.gonzaga.Nuffatafl.backend;
 import javax.swing.*;
 import java.awt.*;
 
+/** Player class for keeping track of player name etc. */
 public class Player {
     public String name;
     public String emoji;
@@ -26,6 +27,10 @@ public class Player {
         this.team = team;
     }
 
+    /**
+     * Returns a label of the player.
+     * @return JPanel containing player info
+     */
     public JPanel label() {
         JPanel label = new JPanel();
         label.setLayout(new BoxLayout(label, BoxLayout.X_AXIS));

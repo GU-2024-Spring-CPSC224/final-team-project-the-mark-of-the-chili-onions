@@ -10,4 +10,5 @@
 
 package edu.gonzaga.Nuffatafl.backend;
 
+/** Used for turn switching and info around turns */
 public enum Team {ATTACKER, DEFENDER, NONE}

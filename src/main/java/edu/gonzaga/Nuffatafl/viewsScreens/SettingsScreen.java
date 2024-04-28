@@ -30,8 +30,6 @@ public class SettingsScreen extends JPanel {
         super(new GridBagLayout());
         this.stateController = stateController;
 
-        /*BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(layout);*/
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -72,6 +70,7 @@ public class SettingsScreen extends JPanel {
         Theme.setBackgroundFor(this, ThemeComponent.background);
     }
 
+    /** Returns a combo box of theme options that handles saving and setting of the themes */
     JComboBox<String> themeComboBox() {
         // String array for getting indexes of string names
         ArrayList<String> themeStringOptions = new ArrayList<>();
@@ -108,6 +107,7 @@ public class SettingsScreen extends JPanel {
         return themeComboBox;
     }
 
+    /** Checkbox for changing focus mode state */
     JCheckBox focusModeCheckBox(StateController stateController) {
         JCheckBox focusModeCheckBox = new JCheckBox("Focus Mode");
         focusModeCheckBox.addActionListener(actionEvent -> {
