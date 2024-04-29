@@ -33,14 +33,14 @@ public class TurnHistoryView extends JPanel {
 
         // Title
         ThemeLabel title = new ThemeLabel("Turn History");
-        title.setMaximumSize(new Dimension(300, 20));
+        title.setMaximumSize(new Dimension(400, 20));
         add(title);
 
         // Panel for all the TurnViews
         turnsView = new JPanel();
         turnsView.setLayout(new BoxLayout(turnsView, BoxLayout.Y_AXIS));
         turnsView.setBorder(new EmptyBorder(Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M, Theme.PADDING_M));
-        setBorder(new EmptyBorder(0, Theme.PADDING_S, 0, 8));
+        setBorder(new EmptyBorder(0, Theme.PADDING_S, 0, Theme.PADDING_S));
         Theme.setBackgroundFor(this, ThemeComponent.background2);
 
         // Scroll pane so we can see all the TurnViews even when they fall off the screen
@@ -75,7 +75,7 @@ public class TurnHistoryView extends JPanel {
             turnsView.add(Box.createVerticalStrut(8));
         }
 
-        setPreferredSize(new Dimension(201, getHeight()));
+        setPreferredSize(new Dimension(220, getHeight()));
 
         revalidate();
         repaint();

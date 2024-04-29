@@ -18,6 +18,7 @@ import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -34,6 +35,8 @@ public class AfterGameDialog extends JDialog {
 
         // Display the dialog when the game is won
         this.stateController.gameManager.onVictory(event -> displayEndGameDialog());
+        setMinimumSize(new Dimension(460, 300));
+        setPreferredSize(new Dimension(500, 300));
     }
 
     // Display the dialog
@@ -52,6 +55,7 @@ public class AfterGameDialog extends JDialog {
 
         Theme.setBackgroundFor(panel, ThemeComponent.background);
 
+        panel.setBorder(new EmptyBorder(Theme.PADDING_L, Theme.PADDING_L, Theme.PADDING_L, Theme.PADDING_L));
         setVisible(true);
     }
 
@@ -112,6 +116,8 @@ public class AfterGameDialog extends JDialog {
         panel.add(p2Label);
         Theme.setForegroundFor(panel, ThemeComponent.text);
         Theme.setBackgroundFor(panel, ThemeComponent.background);
+
+        panel.setBorder(new EmptyBorder(Theme.PADDING_L, Theme.PADDING_L, Theme.PADDING_L, Theme.PADDING_L));
         return panel;
     }
 
@@ -133,6 +139,7 @@ public class AfterGameDialog extends JDialog {
         panel.add(okButton);
 
         Theme.setBackgroundFor(panel, ThemeComponent.background);
+        panel.setBorder(new EmptyBorder(Theme.PADDING_L, Theme.PADDING_L, Theme.PADDING_L, Theme.PADDING_L));
 
         return panel;
     }

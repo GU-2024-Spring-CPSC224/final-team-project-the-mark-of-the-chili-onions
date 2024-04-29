@@ -50,7 +50,7 @@ public class TurnSummaryView extends JPanel {
 
         Theme.setBackgroundFor(this, ThemeComponent.background);
 
-        setMaximumSize(new Dimension(400, 100));
+        setMaximumSize(new Dimension(400 - (2 * Theme.PADDING_S), 100));
         setBorder(new EmptyBorder(Theme.PADDING_S, Theme.PADDING_S, Theme.PADDING_S, Theme.PADDING_S));
 
         revalidate();

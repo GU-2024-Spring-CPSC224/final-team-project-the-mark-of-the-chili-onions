@@ -17,12 +17,14 @@ import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.KeyCode;
 
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
@@ -36,49 +38,6 @@ public class BoardView extends JPanel {
     /** Keeps images for each type of piece */
     private PieceImages pieceImages;
     private PropertyChangeSupport pieceImagesChange;
-    /**
-     * Maintains square aspect ratio of game board and loads new images of the correct size
-     * for the tileViews when this JFrame is resized
-     */
-    private final ComponentListener componentListener = new ComponentListener() {
-        /**
-         * Called when the size of the board view changes
-         * Makes sure board view maintains square aspect ratio
-         * Resizes board piece images
-         */
-        @Override
-        public void componentResized(ComponentEvent event) {
-            int width = getWidth();
-            int height = getHeight();
-
-            // Keep square aspect ratio for game board
-            if (height > width) {
-                int padding = (height - width) / 2;
-                setBorder(BorderFactory.createEmptyBorder(padding, 0, padding, 0));
-            } else {
-                int padding = (width - height) / 2;
-                setBorder(BorderFactory.createEmptyBorder(0, padding, 0, padding));
-            }
-
-            // Resize images and notify tileViews of change
-            int size = Math.min(getWidth(), getHeight()) / game.getBoard().getSize();
-            pieceImages.resize(size);
-            pieceImagesChange.firePropertyChange("pieceImages", null, pieceImages);
-        }
-
-        // Unused
-        @Override
-        public void componentMoved(ComponentEvent e) {
-        }
-
-        @Override
-        public void componentShown(ComponentEvent e) {
-        }
-
-        @Override
-        public void componentHidden(ComponentEvent e) {
-        }
-    };
     /** Keeps track of the position of the piece to move */
     private Position sourcePosition;
     /** Keeps track of the position to move the moveFrom piece to */
@@ -87,6 +46,9 @@ public class BoardView extends JPanel {
      * Keeps track of where to highlight for possible movement.
      */
     private Position highlightPosition;
+
+    /** Keeps track of wether or not we will be highlighting */
+    private boolean highlighting = true;
 
     public BoardView(GameManager gameManager) {
         super();
@@ -198,7 +160,9 @@ public class BoardView extends JPanel {
                 });
 
                 validSpotHighlightChangeSupport.addPropertyChangeListener(event -> {
-                    tileView.highlight(highlightPosition);
+                    if (highlighting) {
+                        tileView.highlight(highlightPosition);
+                    }
                 });
 
                 // Add the tile view and keep track of it
@@ -318,4 +282,45 @@ public class BoardView extends JPanel {
             }
         }
     }
+
+
+    public void setHighlighting(PropertyChangeEvent event) {
+        this.highlighting = (boolean)event.getNewValue();
+    }
+
+    /**
+     * Maintains square aspect ratio of gameboard and loads new images of the correct size
+     * for the tileViews when this JFrame is resized
+     */
+    private final ComponentListener componentListener =  new ComponentListener() {
+        /**
+         * Called when the size of the board view changes
+         * Makes sure board view maintains square aspect ratio
+         * Resizes board piece images
+         */
+        @Override
+        public void componentResized(ComponentEvent event) {
+            int width = getWidth();
+            int height = getHeight();
+
+            // Keep square aspect ratio for gameboard
+            if (height > width) {
+                int padding = (height - width) / 2;
+                setBorder(BorderFactory.createEmptyBorder(padding, 0, padding, 0));
+            } else {
+                int padding = (width - height) / 2;
+                setBorder(BorderFactory.createEmptyBorder(0, padding, 0, padding));
+            }
+
+            // Resize images and notify tileViews of change
+            int size = Math.min(getWidth(), getHeight()) / game.getBoard().getSize();
+            pieceImages.resize(size);
+            pieceImagesChange.firePropertyChange("pieceImages", null, pieceImages);
+        }
+
+        // Unused
+        @Override public void componentMoved(ComponentEvent e) {}
+        @Override public void componentShown(ComponentEvent e) {}
+        @Override public void componentHidden(ComponentEvent e) {}
+    };
 }

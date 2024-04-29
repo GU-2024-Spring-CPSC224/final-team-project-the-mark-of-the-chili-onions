@@ -16,6 +16,9 @@ import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -29,15 +32,10 @@ public class StateController {
     private final PropertyChangeSupport focusModeObservable;
     /** The GameManager that handles game logic, included here to keep everything together */
     public GameManager gameManager;
-    /** Allows game to turn on/off focus mode based on size, set to false if user changes focus mode manually */
-    public boolean isAutoFocusModeEnabled = true;
-    public Properties settings;
     /** Current screen the program's UI should show */
     private Screen screen;
     /** Previous screen that was displayed, used to go back to previous screen */
     private Screen previousScreen;
-    /** Boolean for storing focus mode state */
-    private boolean focusMode;
 
     /** Initializes with screen state of none, creates MainView and PropertyManager, sets up property change support */
     public StateController() {
@@ -46,16 +44,12 @@ public class StateController {
         this.previousScreen = Screen.none;
         this.screenChangeManager = new PropertyChangeSupport(this.screen);
         this.focusModeObservable = new PropertyChangeSupport(this.screen);
+        this.highlightingModeObservable = new PropertyChangeSupport(this.screen);
         this.gameManager = new GameManager();
 
         this.settings = new Properties();
-        try {
-            this.settings.loadFromXML(new FileInputStream("settings.xml"));
-        } catch (Exception e) {
-            System.out.println(e);
-            System.out.println("Error in loading settings from settings.xml");
-        }
-        Theme.setTheme(Theme.from(settings.getProperty("theme")));
+        loadProperties();
+        Theme.setTheme(Theme.from(getProperty("theme")));
     }
 
     /** Changes program state to cause UI to show welcome screen */
@@ -67,11 +61,6 @@ public class StateController {
     public void startGame() {
         this.gameManager.reset();
         this.changeState(Screen.gameplay);
-    }
-
-    /** Changes program state to cause UI to show afterGame screen */
-    public void endGame() {
-        this.changeState(Screen.afterGame);
     }
 
     /** Changes program state to cause UI to show rules screen */
@@ -128,18 +117,17 @@ public class StateController {
         this.screenChangeManager.firePropertyChange("screen", this.previousScreen, this.screen);
     }
 
+
+    /** Boolean for storing focus mode state */
+    private boolean focusMode;
+
     /**
      * Adds an observer to be notified when focus mode is changed
      *
-     * @param listener Code to execute when current screen changes
+     * @param listener Code to execute when focus mode changes
      */
     public void addFocusModeListener(PropertyChangeListener listener) {
         this.focusModeObservable.addPropertyChangeListener(listener);
-    }
-
-    /** True if focus mode is enabled, false otherwise */
-    public boolean getFocusMode() {
-        return focusMode;
     }
 
     /**
@@ -151,5 +139,76 @@ public class StateController {
         boolean previousMode = this.focusMode;
         this.focusMode = focusMode;
         this.focusModeObservable.firePropertyChange("focusMode", previousMode, this.focusMode);
+    }
+
+    /** True if focus mode is enabled, false otherwise */
+    public boolean getFocusMode() {
+        return focusMode;
+    }
+
+    /** Allows game to turn on/off focus mode based on size, set to false if user changes focus mode manually */
+    public boolean isAutoFocusModeEnabled = true;
+
+    /** Boolean for storing highlighting mode state */
+    private boolean highlightingMode = true;
+
+    /** Handles updating observers when new value change is published for highlighting mode */
+    private final PropertyChangeSupport highlightingModeObservable;
+
+    /**
+     * Adds an observer to be notified when highlighting mode is changed
+     * @param listener Code to execute when highlighting mode changes
+     */
+    public void addHighlightingModeListener(PropertyChangeListener listener) {
+        this.highlightingModeObservable.addPropertyChangeListener(listener);
+    }
+
+    /**
+     * Changes the current highlighting mode and publishes the change to observers
+     * @param highlightingMode the new highlighting mode boolean
+     */
+    public void setHighlightingMode(boolean highlightingMode) {
+        boolean previousMode = this.highlightingMode;
+        this.highlightingMode = highlightingMode;
+        this.highlightingModeObservable.firePropertyChange("highlightingMode", previousMode, this.highlightingMode);
+    }
+
+    public boolean getHighlightingMode() {
+        return highlightingMode;
+    }
+
+    /** Properties object for setting and getting settings from a file */
+    private Properties settings;
+
+    public String getProperty(String key) {
+        return this.settings.getProperty(key);
+    }
+
+    public String getProperty(String key, String defaultValue) {
+        return this.settings.getProperty(key, defaultValue);
+    }
+
+    public void setProperty(String key, String value) {
+        this.settings.setProperty(key, value);
+        storeProperties();
+    }
+
+    private void storeProperties() {
+        try {
+            this.settings.storeToXML(new FileOutputStream("settings.xml"), "");
+        } catch (IOException e) {
+            System.out.println("Failed to save settings to file");
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void loadProperties() {
+        try {
+            this.settings.loadFromXML(new FileInputStream("settings.xml"));
+        } catch (IOException e) {
+            System.out.println("Failed to load settings from settings.xml");
+            System.out.println("Likely, the file does not exist yet. It will be created when you set a setting");
+            System.out.println(e);
+        }
     }
 }

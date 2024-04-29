@@ -31,13 +31,6 @@ public class StateControllerTest {
     }
 
     @Test
-    public void endGameTest() {
-        StateController controller = new StateController();
-        controller.endGame();
-        Assertions.assertEquals(Screen.afterGame, controller.getCurrentScreen());
-    }
-
-    @Test
     public void showRulesTest() {
         StateController controller = new StateController();
         controller.showRules();

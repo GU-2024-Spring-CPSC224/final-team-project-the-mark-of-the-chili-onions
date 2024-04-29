@@ -40,7 +40,7 @@ public class GameplayScreen extends JPanel {
     private TurnHistoryView turnHistoryView;
     private PlayerLabel attackerLabel;
     private PlayerLabel defenderLabel;
-    private JLabel victoryLabel;
+    private ThemeLabel victoryLabel;
 
     public GameplayScreen(StateController stateController) {
         super();
@@ -80,6 +80,9 @@ public class GameplayScreen extends JPanel {
         // Update side panel visibility every time the focus mode changes
         stateController.addFocusModeListener(event -> updateSidePanelsVisibility());
 
+        // Update highlighting when the highlighting mode changes
+        stateController.addHighlightingModeListener(event -> boardView.setHighlighting(event));
+
         Theme.setBackgroundFor(this, ThemeComponent.background);
 
         addComponentListener(componentListener);
@@ -114,7 +117,7 @@ public class GameplayScreen extends JPanel {
         Theme.setBackgroundFor(defenderLabel, ThemeComponent.background2);
         topPanel.add(defenderLabel);
 
-        victoryLabel = new JLabel("");
+        victoryLabel = new ThemeLabel("");
         topPanel.add(victoryLabel);
 
         handleTeamSwitch();
@@ -140,13 +143,25 @@ public class GameplayScreen extends JPanel {
         bottomPanel.setSize(bottomPanel.getWidth(), GameplayScreen.BAR_HEIGHT);
         add(bottomPanel, BorderLayout.SOUTH);
 
+        ThemeButton endGameButton = new ThemeButton("End Game", label -> {
+            stateController.showWelcomeScreen();
+        });
+
         // End game button
-        bottomPanel.add(
-                new ThemeButton("End Game", label -> {
-                    afterGameDialog.displayEndGameDialog();
-                }),
-                FlowLayout.LEFT
-        );
+
+        bottomPanel.add(endGameButton, FlowLayout.LEFT);
+
+        stateController.gameManager.onVictory(event -> {
+            endGameButton.button.setText("Start New Game");
+        });
+
+        stateController.onScreenChange(event -> {
+            Screen state = stateController.getCurrentScreen();
+            Screen prev = stateController.getPreviousScreen();
+            if (state.equals(Screen.gameplay) && !prev.equals(Screen.gameplay)) {
+                endGameButton.button.setText("End Game");
+            }
+        });
 
         // Deselect pieces button
         bottomPanel.add(
@@ -218,7 +233,7 @@ public class GameplayScreen extends JPanel {
             winnerName = game.getAttacker().name;
         }
 
-        victoryLabel.setText("Winner: " + winnerName);
+        victoryLabel.label.setText("Winner: " + winnerName);
         boardView.deselectPieces();
     }
 
@@ -230,7 +245,7 @@ public class GameplayScreen extends JPanel {
      */
     private void checkResetWinState() {
         int turnCount = game.getTurnHistory().size();
-        if (turnCount == 0) victoryLabel.setText("");
+        if (turnCount == 0) victoryLabel.label.setText("");
     }
 
     /** Handles changes to the window sie */

@@ -59,6 +59,10 @@ public class SettingsScreen extends JPanel {
         this.add(focusModeCheckBox(stateController), gbc);
         gbc.gridy++;
 
+        // Highlighting Mode
+        this.add(highlightingModeCheckBox(stateController), gbc);
+        gbc.gridy++;
+
         // Start new game
         ThemeButton startNewGame = new ThemeButton("Start New Game", event -> stateController.showWelcomeScreen());
         this.add(startNewGame, gbc);
@@ -89,13 +93,7 @@ public class SettingsScreen extends JPanel {
         // Set up action event
         themeComboBox.addActionListener(actionEvent -> {
             String selected = themeStringOptions.get(themeComboBox.getSelectedIndex());
-            stateController.settings.setProperty("theme", selected);
-            try {
-                stateController.settings.storeToXML(new FileOutputStream("settings.xml"), "");
-            } catch (Exception e) {
-                System.out.println(e);
-                System.out.println("Error in saving file to settings.xml");
-            }
+            stateController.setProperty("theme", selected);
             Theme.setTheme(Theme.from(selected));
         });
 
@@ -122,5 +120,21 @@ public class SettingsScreen extends JPanel {
         Theme.setForegroundFor(focusModeCheckBox, ThemeComponent.text);
         Theme.setBackgroundFor(focusModeCheckBox, ThemeComponent.background);
         return focusModeCheckBox;
+    }
+
+    JCheckBox highlightingModeCheckBox(StateController stateController) {
+        JCheckBox highlightingModeCheckBox = new JCheckBox("Highlight Possible Moves");
+        highlightingModeCheckBox.setSelected(stateController.getHighlightingMode());
+        highlightingModeCheckBox.addActionListener(actionEvent -> {
+            stateController.setHighlightingMode(highlightingModeCheckBox.isSelected());
+        });
+
+        highlightingModeCheckBox.setOpaque(false);
+        highlightingModeCheckBox.setFocusPainted(false);
+        highlightingModeCheckBox.setBorderPainted(false);
+        highlightingModeCheckBox.setContentAreaFilled(false);
+        Theme.setForegroundFor(highlightingModeCheckBox, ThemeComponent.text);
+        Theme.setBackgroundFor(highlightingModeCheckBox, ThemeComponent.background);
+        return highlightingModeCheckBox;
     }
 }
