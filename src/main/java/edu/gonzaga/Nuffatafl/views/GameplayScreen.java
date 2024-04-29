@@ -47,10 +47,6 @@ public class GameplayScreen extends JPanel {
         this.stateController.onScreenChange(event -> {
             if (event.getNewValue() == Screen.gameplay && boardView == null) {
                 setupBoardView();
-
-                // Update highlighting when the highlighting mode changes
-                // Only do this once the boardView is initialized
-                stateController.addHighlightingModeListener(otherEvent -> boardView.setHighlighting(otherEvent));
             }
         });
 
@@ -171,6 +167,10 @@ public class GameplayScreen extends JPanel {
         add(boardView, BorderLayout.CENTER);
         
         Theme.setBackgroundFor(boardView, ThemeComponent.background);
+
+
+        // Update highlighting when the highlighting mode changes
+        stateController.addHighlightingModeListener(otherEvent -> boardView.setHighlighting(otherEvent));
     }
 
     private void setupCapturedPiecesView() {
