@@ -37,10 +37,23 @@ public class Theme {
     }
 
 
-    /** Default theme (light) */
-    public static Theme defaultTheme = new Theme("Default", themeKey -> {
+    public static Theme midnightTheme = new Theme("Midnight", themeKey -> {
         return switch (themeKey) {
-            case accent         -> new Color(104, 204, 227);
+            case accent         -> new Color(181, 58, 79);
+            case accent2        -> new Color(135, 16, 36);
+            case accent3        -> new Color(117, 8, 27);
+            case background     -> new Color(29, 33, 41);
+            case background2    -> new Color(45, 55, 69);
+            case checkerOff     -> new Color(43, 50, 61);
+            case checkerOn      -> new Color(63, 74, 89);
+            case text           -> Color.white;
+            case text2          -> new Color(196, 209, 204);
+        };
+    });
+
+    public static Theme imaducklolTheme = new Theme("imaducklol", themeKey -> {
+        return switch (themeKey) {
+            case accent         -> new Color(252, 118, 61);
             case accent2        -> new Color(255, 240, 145);
             case accent3        -> new Color(225, 210, 115);
             case background     -> Color.white;
@@ -52,18 +65,31 @@ public class Theme {
         };
     });
 
-    /** Midnight theme (dark) */
-    public static Theme midnightTheme = new Theme("Midnight", themeKey -> {
+    public static Theme cashTheme = new Theme("Cash", themeKey -> {
         return switch (themeKey) {
-            case accent         -> new Color(214, 154, 191);
-            case accent2        -> new Color(108, 171, 128);
-            case accent3        -> new Color(74, 128, 109);
-            case background     -> new Color(29, 33, 41);
-            case background2    -> new Color(45, 55, 69);
-            case checkerOff     -> new Color(29, 33, 41);
-            case checkerOn      -> new Color(17, 22, 33);
-            case text           -> Color.white;
-            case text2          -> new Color(196, 209, 204);
+            case accent         -> new Color(255, 221, 97);
+            case accent2        -> new Color(250, 240, 135);
+            case accent3        -> new Color(255, 248, 166);
+            case background     -> new Color(101, 128, 106);
+            case background2    -> new Color(165, 184, 169);
+            case checkerOff     -> new Color(139, 166, 145);
+            case checkerOn      -> new Color(204, 224, 208);
+            case text           -> Color.black;
+            case text2          -> new Color(61, 68, 69);
+        };
+    });
+
+    public static Theme breezyBluesTheme = new Theme("Breezy Blues", themeKey -> {
+        return switch (themeKey) {
+            case accent         -> new Color(90, 173, 191);
+            case accent2        -> new Color(135, 212, 230);
+            case accent3        -> new Color(161, 223, 237);
+            case background     -> new Color(184, 215, 222);
+            case background2    -> new Color(223, 237, 240);
+            case checkerOff     -> Color.white;
+            case checkerOn      -> new Color(223, 237, 240);
+            case text           -> Color.black;
+            case text2          -> new Color(61, 68, 69);
         };
     });
         
@@ -75,11 +101,11 @@ public class Theme {
             }
         }
         System.out.println("Theme not found with name \"" + name + "\", using default theme");
-        return Theme.defaultTheme;
+        return Theme.midnightTheme;
     }
     
     /** Keeps track of the current theme and notifies observers when it changes */
-    private static Theme current = defaultTheme;
+    private static Theme current = midnightTheme;
     
     /** Observers to change the background color of when the theme changes */
     private static ArrayList<ThemeObserver> backgroundColorObservers = new ArrayList<ThemeObserver>();
