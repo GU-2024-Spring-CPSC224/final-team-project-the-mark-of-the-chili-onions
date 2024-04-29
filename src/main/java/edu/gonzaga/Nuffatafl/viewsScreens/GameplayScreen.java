@@ -259,9 +259,9 @@ public class GameplayScreen extends JPanel {
             int width = getWidth();
 
             if (stateController.isAutoFocusModeEnabled) {
-                if (width < 750) {
+                if (width < 800) {
                     stateController.setFocusMode(true);
-                } else if (width > 800) {
+                } else if (width > 850) {
                     stateController.setFocusMode(false);
                 }
             }
