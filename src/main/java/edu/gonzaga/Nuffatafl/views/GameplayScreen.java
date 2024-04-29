@@ -47,6 +47,10 @@ public class GameplayScreen extends JPanel {
         this.stateController.onScreenChange(event -> {
             if (event.getNewValue() == Screen.gameplay && boardView == null) {
                 setupBoardView();
+
+                // Update highlighting when the highlighting mode changes
+                // Only do this once the boardView is initialized
+                stateController.addHighlightingModeListener(otherEvent -> boardView.setHighlighting(otherEvent));
             }
         });
 
@@ -76,9 +80,6 @@ public class GameplayScreen extends JPanel {
 
         // Update side panel visibility every time the focus mode changes
         stateController.addFocusModeListener(event -> updateSidePanelsVisibility());
-
-        // Update highlighting when the highlighting mode changes
-        stateController.addHighlightingModeListener(event -> boardView.setHighlighting(event));
 
         Theme.setBackgroundFor(this, ThemeComponent.background);
 

@@ -40,6 +40,7 @@ public class StateController {
         Theme.setTheme(Theme.from(getProperty("theme", "Default")));
         setFocusMode(Boolean.parseBoolean(getProperty("focusMode", "false")));
         isAutoFocusModeEnabled = !focusMode; // Autofocus should be off at the start if focus mode is already selected, and on if it's not
+        setHighlightingMode(Boolean.parseBoolean(getProperty("highlightingMode", "true")));
     }
 
     /** The GameManager that handles game logic, included here to keep everything together */

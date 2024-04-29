@@ -129,6 +129,7 @@ public class SettingsScreen extends JPanel {
         JCheckBox highlightingModeCheckBox = new JCheckBox("Highlight Possible Moves");
         highlightingModeCheckBox.setSelected(stateController.getHighlightingMode());
         highlightingModeCheckBox.addActionListener(actionEvent -> {
+            stateController.setProperty("highlightingMode", String.valueOf(highlightingModeCheckBox.isSelected()));
             stateController.setHighlightingMode(highlightingModeCheckBox.isSelected());
         });
 
