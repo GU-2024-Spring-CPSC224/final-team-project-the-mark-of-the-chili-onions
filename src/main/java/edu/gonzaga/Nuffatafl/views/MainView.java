@@ -37,7 +37,7 @@ public class MainView extends JFrame {
 
         // Keeps the user from making this program too small - it's for their own good
         // I tested smaller sizes and this is the smallest size I would recommend (any smaller and things break)
-        setMinimumSize(new Dimension(480, 480));
+        setMinimumSize(new Dimension(700, 700));
 
         setTitle("Nuffatafl");
         setVisible(true);

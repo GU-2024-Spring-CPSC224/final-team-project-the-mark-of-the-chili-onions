@@ -57,7 +57,7 @@ public class RulesScreen extends JPanel {
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-        textArea.setSize(500, 500);
+        textArea.setSize(670, 500);
         textArea.setText("Movement of pieces\n" +
                 "\n" +
                 "Each player can move with one piece per move. The king, his guards and mercenaries move in the same way " +
