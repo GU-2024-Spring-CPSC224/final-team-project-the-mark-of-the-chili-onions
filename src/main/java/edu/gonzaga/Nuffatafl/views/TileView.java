@@ -4,23 +4,24 @@
  * Final Project
  * No sources to cite.
  *
- * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @author Mark Reggiardo, Cash Hilstad
+ * @version v1.0.0 03/28/2024
  */
 
 package edu.gonzaga.Nuffatafl.views;
 
-import edu.gonzaga.Nuffatafl.backend.*;
+import edu.gonzaga.Nuffatafl.backend.GameManager;
+import edu.gonzaga.Nuffatafl.backend.Position;
 import edu.gonzaga.Nuffatafl.viewHelpers.EventCallback;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 
 import javax.swing.*;
 
-/** View for a single tile on the gameboard */
+/** View for a single tile on the game board */
 public class TileView extends JPanel {
-    private GameManager game;
-    private Position position;
+    private final GameManager game;
+    private final Position position;
     private PieceImages pieceImages;
 
     /** Displays the piece on this tile, if any */
@@ -43,7 +44,7 @@ public class TileView extends JPanel {
         setupButtonAndXLabel();
     }
 
-    /** Gets resied images and updates the piece and x image */
+    /** Gets resized images and updates the piece and x image */
     public void resizeImage(PieceImages newImages) {
         pieceImages = newImages;
         updatePieceImage();
@@ -56,7 +57,7 @@ public class TileView extends JPanel {
         });
     }
 
-    /** Updates the background color when the boardVIew's source or destination positions are changed */
+    /** Updates the background color when the boardView's source or destination positions are changed */
     public void updateSelected(Position source, Position destination) {
         if (position.equals(source)) {
             Theme.setBackgroundFor(this, ThemeComponent.accent);
@@ -69,6 +70,7 @@ public class TileView extends JPanel {
 
     /**
      * Highlights with accent2 if position matches. If it doesn't, do nothing.
+     *
      * @param destination The destination to highlight.
      */
     public void highlight(Position destination) {
@@ -107,7 +109,7 @@ public class TileView extends JPanel {
         button.setFocusPainted(false);
         button.setSize(getSize());
         button.setContentAreaFilled(false);
-        
+
         xLabel = new JLabel();
         add(button);
         add(xLabel);
@@ -118,13 +120,15 @@ public class TileView extends JPanel {
     /** Updates the image for the piece and x from the current image assets */
     private void updatePieceImage() {
         button.setIcon(pieceImages.imageFor(game.getBoard().getPieceAtPosition(position)));
-        if (isCornerPiece()) { xLabel.setIcon(pieceImages.getXTile()); }
+        if (isCornerPiece()) {
+            xLabel.setIcon(pieceImages.getXTile());
+        }
     }
 
     private boolean isCornerPiece() {
         int x = position.getX();
         int y = position.getY();
         int size = game.getBoard().getSize() - 1;
-        return (x == 0 && y ==  0) || (x == 0 && y == size) || (x == size && y ==  0) || (x == size && y == size);
+        return (x == 0 && y == 0) || (x == 0 && y == size) || (x == size && y == 0) || (x == size && y == size);
     }
 }

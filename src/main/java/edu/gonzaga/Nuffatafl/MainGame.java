@@ -4,12 +4,11 @@
  * Final Project
  * No sources to cite.
  *
- * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @author Mark Reggiardo, Cash Hilstad, Orion Hess
+ * @version v1.0.0 03/28/2024
  */
-package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.Nuffatafl.views.MainView;
+package edu.gonzaga.Nuffatafl;
 
 /** Class that contains the main entry point for program */
 public class MainGame {
@@ -27,6 +26,6 @@ public class MainGame {
         javax.swing.SwingUtilities.invokeLater(() -> {
             mainView = new MainView();
             mainView.showGUI();
-       });
+        });
     }
 }

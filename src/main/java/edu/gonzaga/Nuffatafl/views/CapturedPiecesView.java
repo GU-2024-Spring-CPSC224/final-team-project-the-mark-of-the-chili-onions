@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Soldier;
@@ -6,6 +16,7 @@ import edu.gonzaga.Nuffatafl.backend.Turn;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -13,16 +24,36 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
-/** Displays the captured pieces */
+/** Displays the captured pieces, used inside of gameplay screen */
 public class CapturedPiecesView extends JPanel {
-    private StateController stateController;
-    private PieceImages images;
-    private JPanel attackerPieces;
-    private JPanel defenderPieces;
-    private int scaledImagePadding = 4;
-
     /** Maximum size for each bar or row in this view */
     private static final Dimension MAX_BAR_SIZE = new Dimension(300, 20);
+    private final StateController stateController;
+    private final PieceImages images;
+    private final JPanel attackerPieces;
+    private final JPanel defenderPieces;
+    private int scaledImagePadding = 4;
+
+    private final ComponentListener componentListener = new ComponentListener() {
+        @Override
+        public void componentResized(ComponentEvent event) {
+            images.resize(getPieceImageSize());
+            updatePieces();
+        }
+
+        // Unused
+        @Override
+        public void componentMoved(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentShown(ComponentEvent e) {
+        }
+
+        @Override
+        public void componentHidden(ComponentEvent e) {
+        }
+    };
 
     public CapturedPiecesView(StateController stateController) {
         super();
@@ -83,8 +114,8 @@ public class CapturedPiecesView extends JPanel {
             }
         }
 
-        updateCollumn(attackerPieces, Team.DEFENDER, stateController.gameManager.getAttacker().name, capturedDefenders);
-        updateCollumn(defenderPieces, Team.ATTACKER, stateController.gameManager.getDefender().name, capturedAttackers);
+        updateColumn(attackerPieces, Team.DEFENDER, stateController.gameManager.getAttacker().name, capturedDefenders);
+        updateColumn(defenderPieces, Team.ATTACKER, stateController.gameManager.getDefender().name, capturedAttackers);
 
         setPreferredSize(new Dimension(148, getHeight()));
 
@@ -92,7 +123,7 @@ public class CapturedPiecesView extends JPanel {
         repaint();
     }
 
-    private void updateCollumn(JPanel panel, Team team, String name, int count) {
+    private void updateColumn(JPanel panel, Team team, String name, int count) {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.PAGE_START;
         gbc.weighty = 0;
@@ -127,22 +158,13 @@ public class CapturedPiecesView extends JPanel {
         gbc.gridy++;
         gbc.weighty = 1;
 
+        /*
+         * Used for moving all the pieces to the top of the view, this one is weighted heavier.
+         * Evidently mark was not happy with it
+         */
         JPanel bitchPanel = new JPanel();
         bitchPanel.setOpaque(false);
 
         panel.add(bitchPanel, gbc);
     }
-
-    private final ComponentListener componentListener =  new ComponentListener() {
-        @Override
-        public void componentResized(ComponentEvent event) {
-            images.resize(getPieceImageSize());
-            updatePieces();
-        }
-
-        // Unused
-        @Override public void componentMoved(ComponentEvent e) {}
-        @Override public void componentShown(ComponentEvent e) {}
-        @Override public void componentHidden(ComponentEvent e) {}
-    };
 }

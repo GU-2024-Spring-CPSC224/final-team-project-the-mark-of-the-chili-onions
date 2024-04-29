@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Orion Hess, Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.views;
 
 import javax.swing.*;
@@ -5,11 +15,15 @@ import java.awt.*;
 
 /** Class for loading and scaling images */
 public class ImageLoading {
+    /** Keep track of the resource path */
+    public static String resourcesPath = "./src/main/resources/";
+
     /**
      * Function for loading and scaling a function from a given path
+     *
      * @param imagePath path to load image from, relative to working directory
-     * @param scaleX x scale, in pixels
-     * @param scaleY y scale, in pixels
+     * @param scaleX    x scale, in pixels
+     * @param scaleY    y scale, in pixels
      * @return ImageIcon: the loaded image, scaled as given
      */
     public static ImageIcon getImage(String imagePath, int scaleX, int scaleY) {
@@ -23,9 +37,6 @@ public class ImageLoading {
         image = image.getScaledInstance(scaleX, scaleY, Image.SCALE_SMOOTH);
         return new ImageIcon(image);
     }
-
-    /** Keep track of the resource path */
-    public static String resourcesPath = "./src/main/resources/";
 
     public static ImageIcon settingsIcon(int size) {
         return getImage(resourcesPath + "settings.png", size, size);

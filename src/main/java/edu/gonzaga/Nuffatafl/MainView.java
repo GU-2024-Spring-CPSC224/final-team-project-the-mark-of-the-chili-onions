@@ -5,23 +5,35 @@
  * No sources to cite.
  *
  * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @version v1.0.0 03/28/2024
  */
 
-package edu.gonzaga.Nuffatafl.views;
+package edu.gonzaga.Nuffatafl;
 
-import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewNavigation.Screen;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+import edu.gonzaga.Nuffatafl.viewsScreens.GameplayScreen;
+import edu.gonzaga.Nuffatafl.viewsScreens.RulesScreen;
+import edu.gonzaga.Nuffatafl.viewsScreens.SettingsScreen;
+import edu.gonzaga.Nuffatafl.viewsScreens.WelcomeScreen;
 
 import javax.swing.*;
-import javax.tools.Tool;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /** The main view for the program UI */
 public class MainView extends JFrame {
+    /** Controls the state of which screen should be shown */
+    private final StateController stateController;
+    /** Subclassed JPanel that displays UI content for the welcome screen */
+    private final WelcomeScreen welcomeScreen;
+    /** Subclassed JPanel that displays UI content for the gameplay screen */
+    private final GameplayScreen gameplayScreen;
+    /** Subclassed JPanel that displays UI content for the rules screen */
+    private final RulesScreen rulesScreen;
+    /** Subclassed JPanel that displays UI content for the settings screen */
+    private final SettingsScreen settingsScreen;
+
     /**
      * Creates a 1000 x 1000 window titled "Nuffatafl" and makes it visible,
      * initializes sub-views and property change listening for StateController
@@ -32,7 +44,7 @@ public class MainView extends JFrame {
         stateController.onScreenChange(event -> handleScreenChange(event));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Sets the size to the available screen size cause we're greedy and we want all them pixels
+        // Sets the size to the available screen size because we're greedy and we want all them pixels
         setSize(Toolkit.getDefaultToolkit().getScreenSize());
 
         // Keeps the user from making this program too small - it's for their own good
@@ -55,23 +67,9 @@ public class MainView extends JFrame {
         this.stateController.showWelcomeScreen();
     }
 
-    /** Controls the state of which screen should be shown */
-    private final StateController stateController;
-
-    /** Subclassed JPanel that displays UI content for the welcome screen */
-    private final WelcomeScreen welcomeScreen;
-
-    /** Subclassed JPanel that displays UI content for the gameplay screen */
-    private final GameplayScreen gameplayScreen;
-
-    /** Subclassed JPanel that displays UI content for the rules screen */
-    private final RulesScreen rulesScreen;
-
-    /** Subclassed JPanel that displays UI content for the settings screen */
-    private final SettingsScreen settingsScreen;
-
     /**
      * Handles displaying the correct view when the StateController state changes
+     *
      * @param event the object containing the old and new state
      */
     private void handleScreenChange(PropertyChangeEvent event) {
@@ -91,20 +89,22 @@ public class MainView extends JFrame {
 
     /**
      * Gets the screen that should be displayed for a given ProgramState
+     *
      * @param state the program state to find a corresponding screen for
      * @return Screen that corresponds to the state
      */
     private JPanel screenForState(Screen state) {
         return switch (state) {
-            case gameplay   -> gameplayScreen;
-            case rules      -> rulesScreen;
-            case settings   -> settingsScreen;
-            default         -> welcomeScreen;
+            case gameplay -> gameplayScreen;
+            case rules -> rulesScreen;
+            case settings -> settingsScreen;
+            default -> welcomeScreen;
         };
     }
 
     /**
      * Displays the given JPanel in the main view
+     *
      * @param screen the JPanel to show
      */
     private void showScreen(JPanel screen) {
@@ -114,6 +114,7 @@ public class MainView extends JFrame {
 
     /**
      * Hides the given JPanel from the main view
+     *
      * @param screen the JPanel to hide
      */
     private void hideScreen(JPanel screen) {

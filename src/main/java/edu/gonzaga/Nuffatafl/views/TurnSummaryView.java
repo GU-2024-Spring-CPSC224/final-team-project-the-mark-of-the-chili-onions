@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Team;
@@ -11,11 +21,11 @@ import java.awt.*;
 
 /** Shows information for a single turn */
 public class TurnSummaryView extends JPanel {
-    private Turn turn;
-    private int number;
-    private boolean isAttacker;
+    private final Turn turn;
+    private final int number;
+    private final boolean isAttacker;
+    private final int alignment;
     private JPanel centerPanel;
-    private int alignment;
 
     public TurnSummaryView(Turn turn, int number) {
         this.turn = turn;

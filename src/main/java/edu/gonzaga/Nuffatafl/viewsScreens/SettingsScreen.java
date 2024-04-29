@@ -4,23 +4,22 @@
  * Final Project
  * No sources to cite.
  *
- * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @author Orion Hess
+ * @version v1.0.0 03/28/2024
  */
 
-package edu.gonzaga.Nuffatafl.views;
+package edu.gonzaga.Nuffatafl.viewsScreens;
 
 
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+import edu.gonzaga.Nuffatafl.views.ThemeButton;
+import edu.gonzaga.Nuffatafl.views.ThemeLabel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileOutputStream;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /** JPanel that contains the UI for the Settings screen */
@@ -31,8 +30,6 @@ public class SettingsScreen extends JPanel {
         super(new GridBagLayout());
         this.stateController = stateController;
 
-        /*BoxLayout layout = new BoxLayout(this, BoxLayout.Y_AXIS);
-        this.setLayout(layout);*/
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -77,6 +74,7 @@ public class SettingsScreen extends JPanel {
         Theme.setBackgroundFor(this, ThemeComponent.background);
     }
 
+    /** Returns a combo box of theme options that handles saving and setting of the themes */
     JComboBox<String> themeComboBox() {
         // String array for getting indexes of string names
         ArrayList<String> themeStringOptions = new ArrayList<>();
@@ -107,6 +105,7 @@ public class SettingsScreen extends JPanel {
         return themeComboBox;
     }
 
+    /** Checkbox for changing focus mode state */
     JCheckBox focusModeCheckBox(StateController stateController) {
         JCheckBox focusModeCheckBox = new JCheckBox("Focus Mode");
         focusModeCheckBox.addActionListener(actionEvent -> {

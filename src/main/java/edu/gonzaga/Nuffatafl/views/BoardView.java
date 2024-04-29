@@ -5,7 +5,7 @@
  * No sources to cite.
  *
  * @author Mark Reggiardo
- * @version v0.1.0 03/28/2024
+ * @version v1.0.0 03/28/2024
  */
 
 package edu.gonzaga.Nuffatafl.views;
@@ -16,37 +16,36 @@ import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.KeyCode;
-import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+
 
 import javax.swing.*;
-import javax.swing.plaf.nimbus.State;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
+import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
+/** Board JPanel that goes inside the gameplay screen */
 public class BoardView extends JPanel {
-    private GameManager game;
+    private final GameManager game;
+    private final PropertyChangeSupport sourcePositionChangeSupport;
+    private final PropertyChangeSupport destinationPositionChangeSupport;
+    private final PropertyChangeSupport validSpotHighlightChangeSupport;
     private ArrayList<TileView> tileViews;
-
     /** Keeps images for each type of piece */
     private PieceImages pieceImages;
     private PropertyChangeSupport pieceImagesChange;
-
     /** Keeps track of the position of the piece to move */
     private Position sourcePosition;
-    private PropertyChangeSupport sourcePositionChangeSupport;
-
     /** Keeps track of the position to move the moveFrom piece to */
     private Position destinationPosition;
-    private PropertyChangeSupport destinationPositionChangeSupport;
-
     /**
      * Keeps track of where to highlight for possible movement.
      */
     private Position highlightPosition;
-    private PropertyChangeSupport validSpotHighlightChangeSupport;
 
     /** Keeps track of wether or not we will be highlighting */
     private boolean highlighting = true;
@@ -74,22 +73,40 @@ public class BoardView extends JPanel {
 
         // Handle relevant key presses
         setKeyBindings();
-        
+
         Theme.setBackgroundFor(this, ThemeComponent.background);
     }
-    
+
     public Position getSourcePosition() {
         return sourcePosition;
     }
-    
+
+    /** Sets the sourcePosition if input position is valid and game is not over, updates observers */
+    public void setSourcePosition(Position position) {
+        Position old = sourcePosition;
+        sourcePosition = position;
+        sourcePositionChangeSupport.firePropertyChange("primarySelection", old, position);
+    }
+
     public Position getDestinationPosition() {
         return destinationPosition;
     }
 
+    /** Sets the destinationPosition if input position is valid and game is not over, updates observers */
+    public void setDestinationPosition(Position position) {
+        Position old = destinationPosition;
+        destinationPosition = position;
+        destinationPositionChangeSupport.firePropertyChange("secondarySelection", old, position);
+    }
+
     /** Moves piece from sourcePosition to destinationPosition if that is a valid move */
     public void attemptMove() {
-        if (!game.getWinner().equals(Team.NONE)) { return; }
-        if (sourcePosition.isNone() || destinationPosition.isNone()) { return; }
+        if (!game.getWinner().equals(Team.NONE)) {
+            return;
+        }
+        if (sourcePosition.isNone() || destinationPosition.isNone()) {
+            return;
+        }
 
         if (game.canAttemptMove(sourcePosition) && game.getBoard().canMove(sourcePosition, destinationPosition)) {
             game.movePiece(sourcePosition, destinationPosition);
@@ -133,11 +150,11 @@ public class BoardView extends JPanel {
                 pieceImagesChange.addPropertyChangeListener(event -> {
                     tileView.resizeImage((PieceImages) event.getNewValue());
                 });
-                
+
                 sourcePositionChangeSupport.addPropertyChangeListener(event -> {
                     tileView.updateSelected(sourcePosition, destinationPosition);
                 });
-                
+
                 destinationPositionChangeSupport.addPropertyChangeListener(event -> {
                     tileView.updateSelected(sourcePosition, destinationPosition);
                 });
@@ -155,22 +172,9 @@ public class BoardView extends JPanel {
         }
     }
 
-    /** Sets the sourcePosition if input position is valid and game is not over, updates observers */
-    public void setSourcePosition(Position position) {
-        Position old = sourcePosition;
-        sourcePosition = position;
-        sourcePositionChangeSupport.firePropertyChange("primarySelection", old, position);
-    }
-
-    /** Sets the destinationPosition if input position is valid and game is not over, updates observers */
-    public void setDestinationPosition(Position position) {
-        Position old = destinationPosition;
-        destinationPosition = position;
-        destinationPositionChangeSupport.firePropertyChange("secondarySelection", old, position);
-    }
-
     /**
      * Highlights all valid move positions on the board.
+     *
      * @param position The position to move from.
      */
     public void highlightValidPositions(Position position) {
@@ -188,11 +192,10 @@ public class BoardView extends JPanel {
         // If sourcePosition == position, deselect it
         // If there is a sourcePosition but no destinationPosition, set the destinationPosition to position
         // If destinationPosition == position, deselect it
-                
-        if (!game.getWinner().equals(Team.NONE) || !game.getBoard().isPositionOnBoard(position)) { 
-            return; 
+
+        if (!game.getWinner().equals(Team.NONE) || !game.getBoard().isPositionOnBoard(position)) {
         } else if (sourcePosition.isNone()) {
-            if (game.canAttemptMove(position)) { 
+            if (game.canAttemptMove(position)) {
                 setSourcePosition(position);
                 highlightValidPositions(position);
             }
@@ -223,7 +226,7 @@ public class BoardView extends JPanel {
     }
 
     /** Sets up a key binding (helper function for setKeyBindings) */
-    private void mapActionsToKeys(ActionMap actionMap, InputMap inputMap, KeyCode keyCode, int ... vals) {
+    private void mapActionsToKeys(ActionMap actionMap, InputMap inputMap, KeyCode keyCode, int... vals) {
         for (int val : vals) {
             inputMap.put(KeyStroke.getKeyStroke(val, 0), keyCode);
         }
@@ -253,27 +256,33 @@ public class BoardView extends JPanel {
                 return;
             }
 
-            if (sourcePosition.isNone() || !game.canAttemptMove(sourcePosition)) { return; }
-            
+            if (sourcePosition.isNone() || !game.canAttemptMove(sourcePosition)) {
+                return;
+            }
+
             Position newDestinationPosition = destinationPosition;
-            if (newDestinationPosition.isNone()) { 
-                newDestinationPosition = sourcePosition; }
-            
+            if (newDestinationPosition.isNone()) {
+                newDestinationPosition = sourcePosition;
+            }
+
             switch (keyCode) {
                 case up -> newDestinationPosition = newDestinationPosition.add(0, -1);
                 case down -> newDestinationPosition = newDestinationPosition.add(0, 1);
                 case left -> newDestinationPosition = newDestinationPosition.add(-1, 0);
                 case right -> newDestinationPosition = newDestinationPosition.add(1, 0);
-                default -> { return; }
+                default -> {
+                    return;
+                }
             }
 
             if (sourcePosition.equals(newDestinationPosition)) {
                 setDestinationPosition(Position.none);
             } else if (game.getBoard().canMove(sourcePosition, newDestinationPosition)) {
                 setDestinationPosition(newDestinationPosition);
-            }            
+            }
         }
     }
+
 
     public void setHighlighting(PropertyChangeEvent event) {
         this.highlighting = (boolean)event.getNewValue();

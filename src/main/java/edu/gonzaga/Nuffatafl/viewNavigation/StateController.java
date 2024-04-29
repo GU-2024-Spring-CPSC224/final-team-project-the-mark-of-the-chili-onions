@@ -5,7 +5,7 @@
  * No sources to cite.
  *
  * @author Mark Reggiardo
- * @version v0.1.0 04/06/2024
+ * @version v1.0.0 04/06/2024
  */
 
 package edu.gonzaga.Nuffatafl.viewNavigation;
@@ -26,6 +26,17 @@ import java.util.Properties;
  * Contains a MainView and GameManager to keep all relevant objects in one place
  */
 public class StateController {
+    /** Handles updating observers when new value change is published for screen */
+    private final PropertyChangeSupport screenChangeManager;
+    /** Handles updating observers when new value change is published for focus mode */
+    private final PropertyChangeSupport focusModeObservable;
+    /** The GameManager that handles game logic, included here to keep everything together */
+    public GameManager gameManager;
+    /** Current screen the program's UI should show */
+    private Screen screen;
+    /** Previous screen that was displayed, used to go back to previous screen */
+    private Screen previousScreen;
+
     /** Initializes with screen state of none, creates MainView and PropertyManager, sets up property change support */
     public StateController() {
         super();
@@ -40,18 +51,6 @@ public class StateController {
         loadProperties();
         Theme.setTheme(Theme.from(getProperty("theme")));
     }
-
-    /** The GameManager that handles game logic, included here to keep everything together */
-    public GameManager gameManager;
-
-    /** Current screen the program's UI should show */
-    private Screen screen;
-
-    /** Previous screen that was displayed, used to go back to previous screen */
-    private Screen previousScreen;
-
-    /** Handles updating observers when new value change is published for screen */
-    private final PropertyChangeSupport screenChangeManager;
 
     /** Changes program state to cause UI to show welcome screen */
     public void showWelcomeScreen() {
@@ -90,6 +89,7 @@ public class StateController {
 
     /**
      * Adds an observer to be notified when the current screen is changed
+     *
      * @param listener Code to execute when current screen changes
      */
     public void onScreenChange(PropertyChangeListener listener) {
@@ -108,6 +108,7 @@ public class StateController {
 
     /**
      * Changes the currently displayed screen and publishes the change to observers
+     *
      * @param newScreen the new screen to display
      */
     private void changeState(Screen newScreen) {
@@ -120,11 +121,9 @@ public class StateController {
     /** Boolean for storing focus mode state */
     private boolean focusMode;
 
-    /** Handles updating observers when new value change is published for focus mode */
-    private final PropertyChangeSupport focusModeObservable;
-
     /**
      * Adds an observer to be notified when focus mode is changed
+     *
      * @param listener Code to execute when focus mode changes
      */
     public void addFocusModeListener(PropertyChangeListener listener) {
@@ -133,6 +132,7 @@ public class StateController {
 
     /**
      * Changes the current focus mode and publishes the change to observers
+     *
      * @param focusMode the new focus mode boolean
      */
     public void setFocusMode(boolean focusMode) {
@@ -141,7 +141,7 @@ public class StateController {
         this.focusModeObservable.firePropertyChange("focusMode", previousMode, this.focusMode);
     }
 
-    /** True if focus mdoe is enabled, false otherwise */
+    /** True if focus mode is enabled, false otherwise */
     public boolean getFocusMode() {
         return focusMode;
     }

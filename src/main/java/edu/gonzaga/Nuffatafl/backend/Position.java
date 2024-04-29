@@ -1,10 +1,19 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Cash Hilstad, Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.backend;
 
-/**
- * @author Cash Hilstad
- * A class that represents a two-dimensional position.
- */
+/** A class that represents a two-dimensional position. */
 public class Position {
+    /** A piece with x and y = -1 to use in place of null for PropertyChangeSupport */
+    public static Position none = new Position(-1, -1);
     private int x, y;
 
     public Position(int x, int y) {
@@ -24,14 +33,8 @@ public class Position {
     }
 
     /**
-     * @return The position's y value.
-     */
-    public int getY() {
-        return y;
-    }
-
-    /**
      * Sets x to the passed value.
+     *
      * @param x The value to set x to.
      */
     public void setX(int x) {
@@ -39,7 +42,15 @@ public class Position {
     }
 
     /**
+     * @return The position's y value.
+     */
+    public int getY() {
+        return y;
+    }
+
+    /**
      * Sets y to the passed value.
+     *
      * @param y The value to set y to.
      */
     public void setY(int y) {
@@ -48,6 +59,7 @@ public class Position {
 
     /**
      * Copies the value of another Position.
+     *
      * @param pos The Position to copy from.
      */
     public void setEqualTo(Position pos) {
@@ -57,6 +69,7 @@ public class Position {
 
     /**
      * Adds pos and the current position together.
+     *
      * @param pos The position to add.
      * @return A new position that is the sum.
      */
@@ -66,7 +79,7 @@ public class Position {
 
     /**
      * Adds pos and the current position together.
-
+     *
      * @param x The x offset to add.
      * @param y The y offset to add.
      * @return A new position that is the sum.
@@ -110,7 +123,4 @@ public class Position {
     public boolean isNone() {
         return equals(Position.none);
     }
-
-    /** A piece with x and y = -1 to use in place of null for PropertyChangeSupport */
-    public static Position none = new Position(-1, -1);
 }

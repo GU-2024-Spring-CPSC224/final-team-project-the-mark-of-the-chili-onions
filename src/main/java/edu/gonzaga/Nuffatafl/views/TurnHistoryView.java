@@ -1,9 +1,20 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Turn;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.plaf.basic.BasicScrollBarUI;
@@ -12,8 +23,8 @@ import java.util.ArrayList;
 
 /** Displays the turn history for the game :) */
 public class TurnHistoryView extends JPanel {
-    private StateController stateController;
-    private JPanel turnsView;
+    private final StateController stateController;
+    private final JPanel turnsView;
 
     public TurnHistoryView(StateController stateController) {
         this.stateController = stateController;

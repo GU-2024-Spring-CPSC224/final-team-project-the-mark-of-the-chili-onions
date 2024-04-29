@@ -4,31 +4,33 @@
  * Final Project
  * No sources to cite.
  *
- * @author Mark Reggiardo, Orion Hess
- * @version v0.1.0 03/28/2024
+ * @author Orion Hess, Mark Reggiardo
+ * @version v1.0.0 03/28/2024
  */
 
-package edu.gonzaga.Nuffatafl.views;
+package edu.gonzaga.Nuffatafl.viewsScreens;
 
 import edu.gonzaga.Nuffatafl.backend.Player;
 import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
+import edu.gonzaga.Nuffatafl.views.ImageLoading;
+import edu.gonzaga.Nuffatafl.views.PlayerCustomizationPanel;
+import edu.gonzaga.Nuffatafl.views.ThemeButton;
+import edu.gonzaga.Nuffatafl.views.ThemeLabel;
+
 import javax.swing.*;
 import java.awt.*;
 
 /** JPanel that contains the UI for the Welcome screen */
 public class WelcomeScreen extends JPanel {
-
     private final StateController stateController;
-
     /** The view to customize the color, emoji, and name for Player 1 */
-    private PlayerCustomizationPanel player1Panel;
-
+    private final PlayerCustomizationPanel player1Panel;
     /** The view to customize the color, emoji, and name for Player 2 */
-    private PlayerCustomizationPanel player2Panel;
-
+    private final PlayerCustomizationPanel player2Panel;
+    /** Keeps track of which player is going first */
     private boolean player1FirstBool;
 
     public WelcomeScreen(StateController stateController) {

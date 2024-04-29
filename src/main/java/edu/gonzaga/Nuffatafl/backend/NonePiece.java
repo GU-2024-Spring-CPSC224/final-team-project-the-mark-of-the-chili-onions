@@ -1,5 +1,16 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Cash Hilstad
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.backend;
 
+/** None piece for empty spots and null values */
 public class NonePiece extends Piece {
     NonePiece() {
         team = Team.NONE;

@@ -1,23 +1,45 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.viewHelpers;
 
-import java.awt.Color;
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Objects;
-import javax.swing.JComponent;
 
 /** Keeps track of colors in a theme and handles theme changes for you so colors will update when the theme is changed */
 public class Theme {
-    /** Name of the theme to display to the user */
-    private String name;
-    
-    /** The lamda expression that returns the right color for each ThemeComponent in this theme */
-    private ThemeColorKey colorKey;
-
+    /** Padding to use for empty borders when you want more space */
+    public static final int PADDING_L = 13;
+    /** Padding to use for empty borders when you want the standard amount of space */
+    public static final int PADDING_M = 10;
+    /** Padding to use for empty borders when you want less space */
+    public static final int PADDING_S = 8;
+    /** The default size for icons */
+    public static final int ICON_SIZE = 20;
+    /** Observers for when the current theme is changed */
+    private static final ArrayList<EventCallback<Theme>> themeChangeObservers = new ArrayList<>();
+    /** Observers to change the background color of when the theme changes */
+    private static final ArrayList<ThemeObserver> backgroundColorObservers = new ArrayList<ThemeObserver>();
+    /** Observers to change the foreground color of when the theme changes */
+    private static final ArrayList<ThemeObserver> foregroundColorObservers = new ArrayList<ThemeObserver>();
     /** The available themes to choose from */
     public static ArrayList<Theme> themes = new ArrayList<Theme>();
+    /** Name of the theme to display to the user */
+    private final String name;
+    /** The lambda expression that returns the right color for each ThemeComponent in this theme */
+    private final ThemeColorKey colorKey;
 
-    /** 
-     * Creates a theme with a name and a lamda expression that returns the right color for each ThemeComponent.
+    /**
+     * Creates a theme with a name and a lambda expression that returns the right color for each ThemeComponent.
      * Adds the theme to Theme.themes
      */
     public Theme(String name, ThemeColorKey colorKey) {
@@ -25,6 +47,7 @@ public class Theme {
         this.colorKey = colorKey;
         Theme.themes.add(this);
     }
+
 
     /** Returns the name of the theme to display to the user */
     public String getName() {
@@ -103,15 +126,10 @@ public class Theme {
         System.out.println("Theme not found with name \"" + name + "\", using default theme");
         return Theme.midnightTheme;
     }
+
     
     /** Keeps track of the current theme and notifies observers when it changes */
     private static Theme current = midnightTheme;
-    
-    /** Observers to change the background color of when the theme changes */
-    private static ArrayList<ThemeObserver> backgroundColorObservers = new ArrayList<ThemeObserver>();
-    
-    /** Observers to change the foreground color of when the theme changes */
-    private static ArrayList<ThemeObserver> foregroundColorObservers = new ArrayList<ThemeObserver>();
     
     /** Set the current theme to be a new theme */
     public static void setTheme(Theme theme) {
@@ -141,8 +159,9 @@ public class Theme {
 
     /**
      * Sets the background color for a JComponent and updates it when the theme changes
+     *
      * @param component The JComponent (JPanel, JButton, etc.) to set and change the background color of
-     * @param themeKey Specifies which color to set for each theme (background, text, etc.)
+     * @param themeKey  Specifies which color to set for each theme (background, text, etc.)
      */
     public static void setBackgroundFor(JComponent component, ThemeComponent themeKey) {
         // Set the background color
@@ -152,11 +171,11 @@ public class Theme {
         // Set up a new observer
         backgroundColorObservers.add(new ThemeObserver(component, themeKey));
     }
-    
+
     /**
      * Sets the foreground color for a JComponent and updates it when the theme
      * changes
-     * 
+     *
      * @param component The JComponent (JPanel, JButton, etc.) to set and change the
      *                  foreground color of
      * @param themeKey  Specifies which color to set for each theme (foreground,
@@ -171,23 +190,8 @@ public class Theme {
         foregroundColorObservers.add(new ThemeObserver(component, themeKey));
     }
 
-    /** Observers for when the current theme is changed */
-    private static final ArrayList<EventCallback<Theme>> themeChangeObservers = new ArrayList<>();
-
     /** Adds an observer to be called when the current theme is changed */
     public static void onChange(EventCallback<Theme> observer) {
         themeChangeObservers.add(observer);
     }
-
-    /** Padding to use for empty borders when you want more space */
-    public static final int PADDING_L = 13;
-
-    /** Padding to use for empty borders when you want the standard amount of space */
-    public static final int PADDING_M = 10;
-
-    /** Padding to use for empty borders when you want less space */
-    public static final int PADDING_S = 8;
-
-    /** The default size for icons */
-    public static final int ICON_SIZE = 20;
 }

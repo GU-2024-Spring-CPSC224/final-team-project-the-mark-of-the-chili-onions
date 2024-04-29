@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Cash Hilstad, Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.backend;
 
 import java.awt.*;
@@ -7,30 +17,22 @@ import java.util.ArrayList;
 
 /** Manages the information for the gameplay */
 public class GameManager {
+    private static final Team DEFAULT_STARTING_TEAM = Team.ATTACKER;
+    private final ArrayList<Turn> turnHistory = new ArrayList<Turn>();
     private Board board;
     private Team currentTeam;
-
     private Player attacker = new Player("Player 1", "🥸", Color.red, Team.ATTACKER);
     private Player defender = new Player("Player 2", "🥺", Color.blue, Team.DEFENDER);
-
     private PropertyChangeSupport attackerChange;
     private PropertyChangeSupport defenderChange;
-
-    private ArrayList<Turn> turnHistory = new ArrayList<Turn>();
-
     /** Tracks which team has won the game, necessary for PropertyChangeSupport to notify UI of victory */
     private Team winner = Team.NONE;
-
     /** Handles updating observers when the board changes (i.e. when a piece is moved) */
     private PropertyChangeSupport boardChangeManager;
-
     /** Handles updating observers when the current team changes */
     private PropertyChangeSupport currentTeamChangeManager;
-
     /** Handles updating observers when a team wins the game */
     private PropertyChangeSupport winnerChangeManager;
-
-    private static final Team DEFAULT_STARTING_TEAM = Team.ATTACKER;
 
     public GameManager(int size) {
         board = new Board(size);
@@ -66,6 +68,7 @@ public class GameManager {
 
     /**
      * Checks if a piece is on the current team and can therefore attempt a move.
+     *
      * @param pos The position of the piece to check.
      * @return True if the piece can be moved.
      */
@@ -75,6 +78,7 @@ public class GameManager {
 
     /**
      * Takes a position and returns an ArrayList holding all valid move spots.
+     *
      * @param pos The position to check from.
      * @return An ArrayList of valid spots.
      */
@@ -94,9 +98,10 @@ public class GameManager {
     }
 
     /**
-     *  Attempts to move a piece and returns if successful or not.
+     * Attempts to move a piece and returns if successful or not.
+     *
      * @param from Position to move from.
-     * @param to Position to move to.
+     * @param to   Position to move to.
      * @return The number of pieces captured, -1 if move was invalid.
      */
     public Integer movePiece(Position from, Position to) {
@@ -105,13 +110,21 @@ public class GameManager {
 
         Integer result = board.movePiece(from, to, currentTeam);
 
-        if (result < 0) { return -1; }
+        if (result < 0) {
+            return -1;
+        }
         storeTurn(currentTeam, from, to, result);
         switchCurrentTeam();
 
-        if (defenderWinFromPieceCount()) {this.handleWin(Team.DEFENDER); }
-        if (board.isDefenderWin(to)) { this.handleWin(Team.DEFENDER); }
-        if (board.isAttackerWin()) { this.handleWin(Team.ATTACKER); }
+        if (defenderWinFromPieceCount()) {
+            this.handleWin(Team.DEFENDER);
+        }
+        if (board.isDefenderWin(to)) {
+            this.handleWin(Team.DEFENDER);
+        }
+        if (board.isAttackerWin()) {
+            this.handleWin(Team.ATTACKER);
+        }
 
         // Publishes that the board was changed to observers of the board
         // new value is not the same type as old value so that the property change will always fire
@@ -119,6 +132,15 @@ public class GameManager {
         return result;
     }
 
+    /**
+     * Handles storing turns with their data into turnHistory
+     *
+     * @param team         Team to store
+     * @param from         Where they moved from
+     * @param to           Where they moved to
+     * @param captureCount How many pieces they captured with the move
+     * @return Unused
+     */
     private boolean storeTurn(Team team, Position from, Position to, Integer captureCount) {
         Player player = switch (team) {
             case ATTACKER -> attacker;
@@ -126,16 +148,16 @@ public class GameManager {
             default -> null;
         };
 
-        if (player == null) { return false; }
+        if (player == null) {
+            return false;
+        }
 
         Turn turn = new Turn(player, from, to, captureCount);
         turnHistory.add(0, turn);
         return false;
     }
 
-    /**
-     * Flips the current team.
-     */
+    /** Flips the current team. */
     private void switchCurrentTeam() {
         Team oldTeam = this.currentTeam;
 
@@ -149,6 +171,7 @@ public class GameManager {
         this.currentTeamChangeManager.firePropertyChange("currentTeam", oldTeam, this.currentTeam);
     }
 
+    /** Handles the publishing of a win state */
     public void handleWin(Team team) {
         this.winner = team;
 
@@ -160,12 +183,17 @@ public class GameManager {
         return winner;
     }
 
-    public Board getBoard() {return board;}
+    public Board getBoard() {
+        return board;
+    }
 
-    public Team getCurrentTeam() {return currentTeam;}
+    public Team getCurrentTeam() {
+        return currentTeam;
+    }
 
     /**
      * Adds an observer to be notified when the board is changed
+     *
      * @param listener Code to execute when board changes
      */
     public void onBoardChange(PropertyChangeListener listener) {
@@ -174,6 +202,7 @@ public class GameManager {
 
     /**
      * Adds an observer to be notified when the current team is changed
+     *
      * @param listener Code to execute when current team changes
      */
     public void onTeamSwitch(PropertyChangeListener listener) {
@@ -182,10 +211,15 @@ public class GameManager {
 
     /**
      * Adds an observer to be notified when a team wins the game
+     *
      * @param listener Code to execute when a team wins the game
      */
     public void onVictory(PropertyChangeListener listener) {
         winnerChangeManager.addPropertyChangeListener(listener);
+    }
+
+    public Player getAttacker() {
+        return attacker;
     }
 
     public void setAttacker(Player player) {
@@ -193,21 +227,17 @@ public class GameManager {
         attackerChange.firePropertyChange("attacker", attacker, 1);
     }
 
-    public Player getAttacker() {
-        return attacker;
-    }
-
     public void onAttackerChange(PropertyChangeListener listener) {
         attackerChange.addPropertyChangeListener(listener);
+    }
+
+    public Player getDefender() {
+        return defender;
     }
 
     public void setDefender(Player player) {
         defender = player;
         defenderChange.firePropertyChange("defender", defender, 1);
-    }
-
-    public Player getDefender() {
-        return defender;
     }
 
     public void onDefenderChange(PropertyChangeListener listener) {
@@ -218,6 +248,10 @@ public class GameManager {
         return turnHistory;
     }
 
+    /**
+     * Checks if the defender wins due to capturing all the attacker's pieces
+     * @return boolean of whether the defender won
+     */
     private boolean defenderWinFromPieceCount() {
         ArrayList<Turn> turns = getTurnHistory();
 

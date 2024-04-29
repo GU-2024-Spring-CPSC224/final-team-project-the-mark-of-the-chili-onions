@@ -5,17 +5,15 @@
  * No sources to cite.
  *
  * @author Orion Hess
- * @version v0.1.0 04/22/2024
+ * @version v1.0.0 04/22/2024
  */
 
 package edu.gonzaga.Nuffatafl.views;
 
+import javax.swing.*;
 import java.awt.*;
-import javax.swing.JComponent;
 
-/**
- * Small Class to just draw a colored square
- */
+/** Small Class to just draw a colored square */
 public class ColorSquare extends JComponent {
     private Color color;
     private int squareSize = 20; // Default square size
@@ -40,7 +38,8 @@ public class ColorSquare extends JComponent {
         repaint();
     }
 
-    /** This is where the magic happens,
+    /**
+     * This is where the magic happens,
      * overriding the JComponent method paintComponent lets us paint whatever we want
      */
     @Override

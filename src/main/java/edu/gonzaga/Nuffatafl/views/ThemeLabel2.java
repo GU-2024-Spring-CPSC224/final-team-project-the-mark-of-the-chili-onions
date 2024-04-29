@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
@@ -18,7 +28,7 @@ public class ThemeLabel2 extends JPanel {
     /**
      * Create a label with a text label
      *
-     * @param text    Text to display on label
+     * @param text Text to display on label
      */
     public ThemeLabel2(String text) {
         this(text, null);
@@ -27,7 +37,7 @@ public class ThemeLabel2 extends JPanel {
     /**
      * Create a label with an image icon
      *
-     * @param icon    The image to display on the label
+     * @param icon The image to display on the label
      */
     public ThemeLabel2(ImageIcon icon) {
         this(null, icon);
@@ -36,15 +46,19 @@ public class ThemeLabel2 extends JPanel {
     /**
      * Create a label with a text label and an image icon
      *
-     * @param text    Text to display on label
-     * @param icon    The image to display on the label
+     * @param text Text to display on label
+     * @param icon The image to display on the label
      */
     public ThemeLabel2(String text, ImageIcon icon) {
         super();
         label = new JLabel();
         label.setOpaque(false);
-        if (text != null) { label.setText(text); }
-        if (icon != null) { label.setIcon(icon); }
+        if (text != null) {
+            label.setText(text);
+        }
+        if (icon != null) {
+            label.setIcon(icon);
+        }
         add(label);
         Theme.setForegroundFor(label, ThemeComponent.text2);
         Theme.setBackgroundFor(this, ThemeComponent.background2);

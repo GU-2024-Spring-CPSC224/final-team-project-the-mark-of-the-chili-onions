@@ -1,3 +1,13 @@
+/**
+ * Nuffatafl
+ * CPSC 224, Spring 2024
+ * Final Project
+ * No sources to cite.
+ *
+ * @author Mark Reggiardo
+ * @version v1.0.0 04/28/2024
+ */
+
 package edu.gonzaga.Nuffatafl.views;
 
 import edu.gonzaga.Nuffatafl.backend.Player;
@@ -7,9 +17,10 @@ import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import javax.swing.*;
 import java.awt.*;
 
+/** JPanel for player customization used in the welcome screen */
 public class PlayerCustomizationPanel extends JPanel {
-    private Player player;
-    private JTextField nameField;
+    private final Player player;
+    private final JTextField nameField;
 
     public PlayerCustomizationPanel(Player player, int playerNumber) {
         super();
@@ -51,14 +62,14 @@ public class PlayerCustomizationPanel extends JPanel {
 
         // Emoji Picker
         String[] emojis = {
-            // Faces
-            "😀", "🙃", "😆", "😅", "😂",  "🥺", "😳", "😈", "😇",  "😡", "🤬", "😱", "😛", "😘", "😎", "🤓", "🥸",
-            // Weird stuff
-            "👾", "👻", "🤡", "💩", "💀", "👽", "😻", "😼",
-            // Animals
-            "🐶", "🙈", "🐣", "🦄", "🐛", "🐙", "🐋",
-            // Hearts
-            "🩷", "❤️", "🧡", "💛", "💚", "🩵", "💙", "💜", "🖤", "🩶", "🤍", "🤎"
+                // Faces
+                "😀", "🙃", "😆", "😅", "😂", "🥺", "😳", "😈", "😇", "😡", "🤬", "😱", "😛", "😘", "😎", "🤓", "🥸",
+                // Weird stuff
+                "👾", "👻", "🤡", "💩", "💀", "👽", "😻", "😼",
+                // Animals
+                "🐶", "🙈", "🐣", "🦄", "🐛", "🐙", "🐋",
+                // Hearts
+                "🩷", "❤️", "🧡", "💛", "💚", "🩵", "💙", "💜", "🖤", "🩶", "🤍", "🤎"
         };
         JComboBox<String> emojiComboBox = new JComboBox<>(emojis);
         emojiComboBox.setSelectedIndex(0);
