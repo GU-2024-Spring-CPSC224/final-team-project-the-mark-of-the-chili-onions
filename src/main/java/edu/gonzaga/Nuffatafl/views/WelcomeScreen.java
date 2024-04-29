@@ -10,6 +10,8 @@
 
 package edu.gonzaga.Nuffatafl.views;
 
+import edu.gonzaga.Nuffatafl.backend.Player;
+import edu.gonzaga.Nuffatafl.backend.Team;
 import edu.gonzaga.Nuffatafl.viewHelpers.Theme;
 import edu.gonzaga.Nuffatafl.viewHelpers.ThemeComponent;
 import edu.gonzaga.Nuffatafl.viewNavigation.StateController;
@@ -121,13 +123,23 @@ public class WelcomeScreen extends JPanel {
         ThemeButton showGameplayScreenButton = new ThemeButton("Start Game", event -> {
             stateController.startGame();
             if (player1FirstBool) {
-                System.out.println("Player 1 goes first");
-                stateController.gameManager.setAttacker(player1Panel.getPlayer());
-                stateController.gameManager.setDefender(player2Panel.getPlayer());
+                Player player1 = player1Panel.getPlayer();
+                player1.team = Team.ATTACKER;
+
+                Player player2 = player2Panel.getPlayer();
+                player2.team = Team.DEFENDER;
+
+                stateController.gameManager.setAttacker(player1);
+                stateController.gameManager.setDefender(player2);
             } else {
-                System.out.println("Player 2 goes first");
-                stateController.gameManager.setAttacker(player2Panel.getPlayer());
-                stateController.gameManager.setDefender(player1Panel.getPlayer());
+                Player player1 = player1Panel.getPlayer();
+                player1.team = Team.DEFENDER;
+
+                Player player2 = player2Panel.getPlayer();
+                player2.team = Team.ATTACKER;
+
+                stateController.gameManager.setAttacker(player2);
+                stateController.gameManager.setDefender(player1);
             }
         });
         middlePanel.add(showGameplayScreenButton, gbc);
