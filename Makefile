@@ -1,6 +1,8 @@
 # Really simple wrapper on Maven's command to build, test, & run your project
 # Maven is a package builder and runner tool for Java
 #  https://maven.apache.org/
+clean:
+	rm -rf ./target/
 
 build:
 	@echo "Building Game package - results in target/ directory"
